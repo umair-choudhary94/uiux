@@ -1,0 +1,40 @@
+.phistory h5{
+    font-weight: bold;
+    font-size: 25px;
+    margin-bottom: 20px;
+}
+
+
+.phistory-header ul li{
+    border: 0;
+    padding: 20px 25px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.phistory-body ul {
+    height: 35px;
+}
+
+
+.phistory-body ul li.phistory{
+    border: 0;
+    width: 220px;
+}
+
+.phistory-body ul li.phistory-list{
+    border: 0;
+    width: 310px;
+}
+
+/* .........................pagination css .....................  */
+
+.page-item{
+    border: 1px solid rgb(199, 198, 198);
+    border-radius: 2px;
+    margin: 1px;
+}
+.page-item.active{
+   border: 1px solid  rgb(37, 166, 240);
+
+}

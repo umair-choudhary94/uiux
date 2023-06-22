@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Font Awesome -->
+    <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.css"
+    rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bookmarks.css' %}">
+    <link rel="stylesheet" href="{% static 'css/likedpost.css' %}">
+    <link rel="stylesheet" href="{% static 'css/notification.css' %}">
+    <link rel="stylesheet" href="{% static 'css/subscription.css' %}">
+    <link rel="stylesheet" href="{% static 'css/wallet.css' %}">
+    <link rel="stylesheet" href="{% static 'css/paymenthistory.css' %}">
+    <link rel="stylesheet" href="{% static 'css/income.css' %}">
+    <link rel="stylesheet" href="{% static 'css/customersupport.css' %}">
+    <link rel="stylesheet" href="{% static 'css/terms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/blockeduser.css' %}">
+    <link rel="stylesheet" href="{% static 'css/paymentinfo1.css' %}">
+    <link rel="stylesheet" href="{% static 'css/newpost.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/editprofile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/chat.css' %}">
+</head>
+<body>
+  <nav class="navbarr" id="navbarr">
+    <a href="/"  class="navbar-brand navbar-logo" id="logo">Logo</a>
+      <div class="navbar-options text-center">
+        {% comment %} <a href="/">Home</a>
+        <div class="dropdown">
+          <a href="/services" class="dropbtn">Services</a>
+          <div class="dropdown-content">
+            {% for cat in categories %}
+            <a href="/services/category/{{cat.title}}/">{{cat.title}}</a>
+            {% endfor %}
+            
+          </div>
+        </div>
+        <a href="/gallery">Gallery</a>
+        <a href="/faq">FAQ</a>
+        <a href="/contact">Contact</a> {% endcomment %}
+      </div>
+      {% comment %} <a href="/" class="navbar-buttons app-btn btn btn-warning">Book Now</a> {% endcomment %}
+      {% if request.user.is_authenticated %}
+      <div class="navbar-buttons dropdown">
+        <button
+          class="btn btn-warning btn-floating dropdown-toggle hidden-arrow "
+          type="button"
+          id="dropdownMenuButton2"
+          data-mdb-toggle="dropdown"
+          aria-expanded="false"
+        >
+        <i class="fas fa-user-alt text-white "></i>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+          <li><a class="dropdown-item" href="/profile"> <i class="fas fa-user-alt pe-2"></i>My Profile</a></li>
+          {% comment %} <li><a class="dropdown-item" href="#"> <i class="fas fa-cog pe-2"></i>Settings</a></li> {% endcomment %}
+          <li><a class="dropdown-item" href="/logout"> <i class="fas fa-door-open pe-2"></i>Logout</a></li>
+        </ul>
+      </div>
+      {% else %}
+      <div class="navbar-buttons">
+        <a href="/" class="me-1 i-text"><i class="fas fa-house"></i> Home</a>
+        <a href="/chat" class="me-1 i-text"><i class="fas fa-comment"></i> Chat</a>
+        <a href="/" class="me-1 i-text"> <i class="fas fa-door-open"></i> Sign Out</a>
+      </div>
+      {% endif %}
+      <div class="navbar-hamburger text-dark">&#9776;</div>
+    </nav>
+    
+    <div class="sidebar">
+      <div class="sidebar-close text-end">&times;</div>
+      <ul class="sidebar-menu">
+        <li>
+          <h5>
+            Favorites
+          </h5>
+          
+          <ul>
+            <li>
+              <a href="/bookmarks" class="nav-link">
+                <i class="far fa-bookmark me-2"></i>Bookmarks
+              </a>
+            </li>
+            <li>
+              <a href="/likedpost" class="nav-link">
+                <i class="far fa-heart me-2"></i>Liked Posts
+              </a>
+            </li>
+            <li>
+              <a href="/notifications" class="nav-link">
+                <i class="far fa-bell me-2"></i>Notification
+              </a>
+            </li>
+            
+          </ul>
+        </li>
+        <hr>
+        <li>
+          <h5>
+            Payments
+          </h5>
+          <ul>
+            <li>
+              <a href="/payment-information-card" class="nav-link">
+                <i class="far fa-credit-card me-2"></i>Payments Information
+              </a>
+            </li>
+            <li>
+              <a href="/subscription" class="nav-link">
+                <i class="fas fa-tag me-2"></i>Subscriptions
+              </a>
+            </li>
+            <li>
+              <a href="/wallet" class="nav-link">
+                <i class="fas fa-wallet me-2"></i>Wallet
+              </a>
+            </li>
+            <li>
+              <a href="/income" class="nav-link">
+                <i class="fa-solid fa-comment-dollar me-2"></i>Income
+              </a>
+            </li>
+            <li>
+              <a href="/payment-history" class="nav-link">
+                <i class="far fa-clipboard me-2"></i>Payment History
+              </a>
+            </li>
+          </ul>
+        </li>
+        <hr>
+        <li>
+          <h5>Users</h5>
+          <ul>
+            <li>
+              <a href="/my-profile" class="nav-link">
+                <i class="far fa-user me-2"></i>Profile
+              </a>
+            </li>
+            <li><i class="fa-solid fa-building-columns me-2"></i>Bank Details</li>
+            
+          </ul>
+        </li>
+        <hr>
+        <li>
+          <h5>Support</h5>
+          <ul>
+            <li>
+              <a href="/customer-support" class="nav-link">
+                <i class="far fa-circle-question me-2"></i>Customer Support
+              </a> 
+            </li>
+            <li>
+              <a href="/terms-and-conditions" class="nav-link">
+                <i class="fas fa-book me-2"></i>Terms & Conditions
+              </a>
+            </li>
+            <li>
+              <a href="/blocked-user" class="nav-link">
+                <i class="fas fa-circle-xmark me-2"></i>Blocked User
+              </a>
+            </li>
+           
+          </ul>
+        </li>
+        <hr>
+        <a href="/create-new-post" class=" sub-btn btn  mt-3 px-5 button">Create a new post</a>
+    </ul>
+
+        
+      
+    </div>
+  </div>
+      
+
+      <div class="row mt-4">
+        <div class="col-3  sidebarr d-md-block d-none">
+            <ul class="sidebar-menu">
+                <li>
+                  <h5>
+                    Favorites
+                  </h5>
+                  
+                  <ul>
+                    <li>
+                      <a href="/bookmarks" class="nav-link">
+                        <i class="far fa-bookmark me-2"></i>Bookmarks
+                      </a>
+                    </li>
+                    <li>
+                      <a href="/likedpost" class="nav-link">
+                        <i class="far fa-heart me-2"></i>Liked Posts
+                      </a>
+                    </li>
+                    <li>
+                      <a href="/notifications" class="nav-link">
+                        <i class="far fa-bell me-2"></i>Notification
+                      </a>
+                    </li>
+                    
+                  </ul>
+                </li>
+                <hr>
+                <li>
+                  <h5>
+                    Payments
+                  </h5>
+                  <ul>
+                    <li>
+                      <a href="/payment-information-card" class="nav-link">
+                        <i class="far fa-credit-card me-2"></i>Payments Information
+                      </a>
+                    </li>
+                    <li>
+                      <a href="/subscription" class="nav-link">
+                        <i class="fas fa-tag me-2"></i>Subscriptions
+                      </a>
+                    </li>
+                    <li>
+                      <a href="/wallet" class="nav-link">
+                        <i class="fas fa-wallet me-2"></i>Wallet
+                      </a>
+                    </li>
+                    <li>
+                      <a href="/income" class="nav-link">
+                        <i class="fa-solid fa-comment-dollar me-2"></i>Income
+                      </a>
+                    </li>
+                    <li>
+                      <a href="/payment-history" class="nav-link">
+                        <i class="far fa-clipboard me-2"></i>Payment History
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <hr>
+                <li>
+                  <h5>Users</h5>
+                  <ul>
+                    <li>
+                      <a href="/my-profile" class="nav-link">
+                        <i class="far fa-user me-2"></i>Profile
+                      </a>
+                    </li>
+                    <li><i class="fa-solid fa-building-columns me-2"></i>Bank Details</li>
+                    
+                  </ul>
+                </li>
+                <hr>
+                <li>
+                  <h5>Support</h5>
+                  <ul>
+                    <li>
+                      <a href="/customer-support" class="nav-link">
+                        <i class="far fa-circle-question me-2"></i>Customer Support
+                      </a> 
+                    </li>
+                    <li>
+                      <a href="/terms-and-conditions" class="nav-link">
+                        <i class="fas fa-book me-2"></i>Terms & Conditions
+                      </a>
+                    </li>
+                    <li>
+                      <a href="/blocked-user" class="nav-link">
+                        <i class="fas fa-circle-xmark me-2"></i>Blocked User
+                      </a>
+                    </li>
+                   
+                  </ul>
+                </li>
+                <hr>
+                <a href="/create-new-post" class=" sub-btn btn  mt-3 px-5 button">Create a new post</a>
+            </ul>
+
+
+
+        </div>
+        <div class="col-md-6 px-md-5 px-2">{% block content %}{% endblock content %}</div>
+        <div class="col-3 d-md-block d-none suggest">
+          <h5>Suggestions</h5>
+          <div class="container">
+          <div class="row mt-2">
+            <div class="col-6 ">
+              <div class="card-sug">
+                <img class="" src="https://source.unsplash.com/user/erondu/150x105" alt="image" >
+              </div>
+              
+            </div>
+            <div class="col-6">
+              <div class="card-sug">
+                <img class="" src="https://source.unsplash.com/user/erondu/150x105" alt="image" >
+              </div>
+              
+            </div>
+            
+          </div>
+          <div class="row mt-2">
+            <div class="col-6 ">
+              <div class="card-sug">
+              </div>
+              </div>
+            <div class="col-6 ">
+              <div class="card-sug">
+              </div>
+              
+            </div>
+            
+          </div>
+
+          <h5 class="mt-3">Most Popular</h5>
+          <div class="row mt-2">
+            <div class="col-6 ">
+              <div class="card-sug">
+                <img class="" src="https://source.unsplash.com/user/erondu/150x105" alt="image" >
+              </div>
+              
+            </div>
+            <div class="col-6">
+              <div class="card-sug">
+                <img class="" src="https://source.unsplash.com/user/erondu/150x105" alt="image" >
+              </div>
+              
+            </div>
+            
+          </div>
+          <div class="row mt-2">
+            <div class="col-6 ">
+              <div class="card-sug">
+              </div>
+              </div>
+            <div class="col-6 ">
+              <div class="card-sug">
+              </div>
+              
+            </div>
+            
+          </div>
+
+          <h5 class="mt-3">Explore New Content</h5>
+          <div class="row mt-2">
+            <div class="col-6 ">
+              <div class="card-sug">
+                <img class="" src="https://source.unsplash.com/user/erondu/150x105" alt="image" >
+              </div>
+              
+            </div>
+            <div class="col-6">
+              <div class="card-sug">
+                <img class="" src="https://source.unsplash.com/user/erondu/150x105" alt="image" >
+              </div>
+              
+            </div>
+            
+          </div>
+          <div class="row mt-2">
+            <div class="col-6 ">
+              <div class="card-sug">
+              </div>
+              </div>
+            <div class="col-6 ">
+              <div class="card-sug">
+              </div>
+              
+            </div>
+            
+          </div>
+        </div>
+        </div>
+      </div>
+      
+
+    
+        <!-- MDB -->
+    <script src="https://use.fontawesome.com/47c6d34241.js"></script>
+    <script
+    type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.js"
+    ></script>
+    <script src="{% static 'js/chat.js' %}"></script>
+    <script>
+      // Toggle sidebar on hamburger click
+    var navbarHamburger = document.querySelector('.navbar-hamburger');
+    var sidebar = document.querySelector('.sidebar');
+    var sidebarClose = document.querySelector('.sidebar-close');
+    
+    navbarHamburger.addEventListener('click', function() {
+    sidebar.classList.toggle('show');
+    });
+    
+    sidebarClose.addEventListener('click', function() {
+    sidebar.classList.remove('show');
+    });
+    
+    // Hide sidebar when clicking outside
+    document.addEventListener('click', function(event) {
+    var target = event.target;
+    if (!target.closest('.navbarr') && !target.closest('.sidebar')) {
+        sidebar.classList.remove('show');
+    }
+    });
+    
+   
+    
+    
+    </script>
+</body>
+</html>

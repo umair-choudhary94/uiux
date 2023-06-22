@@ -1,0 +1,186 @@
+{% extends 'uiapp/base.html' %}
+{% block content %}
+<div class="container">
+
+<div class="paymentinfo">
+    <h5 class=><i class="far fa-credit-card me-2 mb-2"></i>Payment Information</h5>
+
+    <div class="paymentinfo-header mt-4">
+        <h4 class="mb-3">Saved Payment Information</h4>
+        <div class="card border shadow-0">
+            <div class="row py-2">
+
+                <div class="col-1 mt-3 ">
+                    <div id="checkbox">
+                        <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="" aria-label="..." />
+                    </div>
+                </div>
+                <div class="col-8 mt-2 info">
+                    <h4>Visa***1234</h4>
+                    <p>kelly hoffman</p>
+                </div>
+                <div class="col-3 mt-3">
+                    <p>Expires 12/25</p>
+                </div>
+            </div>
+            <hr >
+            <div class="row py-2">
+
+                <div class="col-1 mt-3 ">
+                    <div id="checkbox">
+                        <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="" aria-label="..." />
+                    </div>
+                </div>
+                <div class="col-8 mt-2 info">
+                    <h4>MasterCard***5678</h4>
+                    <p>kelly hoffman</p>
+                </div>
+                <div class="col-3 mt-3">
+                    <p>Expires 12/25</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- icons  -->
+        <div class="row mt-2">
+            <div class=" offset-md-9 col-1  ">
+                   <a href="#" class="nav-link">
+                    <i class="fa-solid fa-plus fs-5 ms-5 "></i>
+                   </a>
+            </div>
+            <div class="col-1  ">
+                <a href="#" class="nav-link">
+                    <i class="fa-solid fa-trash-can fs-5 ms-5"></i>
+                </a>
+                
+            </div>
+        </div>    
+
+    </div>
+
+    <div class="paymentinfo-body mt-5">
+        <h4 class="mb-4">Add Payment Information</h4>
+        <p class="mt-2 mb-2">Contact information</p>
+
+        <!-- search bar  -->
+        <div class="input-group rounded">
+            <span class="input-group-text py-4 px-3" id="search-addon">
+                <i class="fa-solid fa-envelope fs-4"></i>
+            </span>
+            <input type="search" class="form-control search rounded py-4" id="search" placeholder="Email"  />
+        </div>
+        
+        <p class="mt-5 mb-2">Add payment method</p>
+        <div class="row">
+            <div class="col-4">
+                <a href="/payment-information-card" class="nav-link" id="link">
+                    <div class="input-group">
+                        <div id="search-autocomplete" class="form-outline">
+                            <input type="search" id="form1" class="form-control py-2" placeholder="Card"/>
+                            <!-- <label class="form-label" for="form1">Card</label> -->
+                            <i class="fa-solid fa-credit-card fs-5 ms-5" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);"></i>
+                        </div>
+                    </div>
+                    
+                </a>
+            </div>
+
+            <div class="col-4">
+                <a href="/payment-information-paypal" class="nav-link" id="link">
+                    <div class="input-group">
+                        <div id="search-autocomplete" class="form-outline">
+                            <input type="search" id="form1" class="form-control py-2" placeholder="Paypal" />
+                            <!-- <label class="form-label" for="form1">Paypal</label> -->
+                            <i class="fa-brands fa-paypal ms-5 fs-4" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);"></i>
+                        </div>
+                    </div>
+                </a>
+                
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="paymentinfo-footer mt-5">
+        <h4 class="mb-3">Card information</h4>
+        <div class="row">
+            <div class="col-12">
+                <div class="input-group">
+                    <div class="form-outline">
+                      <input id="search-input" type="search" id="form1" class="form-control py-2" placeholder="1234 1234 1234"/>
+                      <!-- <label class="form-label" for="form1">Search</label> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row ">
+            <div class="col-4 ">
+                <div class="input-group">
+                    <div class="form-outline">
+                        <input id="search-input1" type="search" class="form-control py-2" placeholder="MM/JJ" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-4 custom-input-group ">
+                <div class="input-group ">
+                    <div class="form-outline">
+                        <input id="search-input2" type="search" class="form-control py-2" placeholder="CVC" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h4 class="mb-3 mt-5">Name of card owner</h4>
+        <div class="row">
+            <div class="col-12">
+                <div class="input-group">
+                    <div class="form-outline">
+                      <input id="search-input" type="search" id="form1" class="form-control py-2" placeholder="1234 1234 1234"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h4 class="mb-3 mt-5">Billing address</h4>
+        <div class="row">
+            <div class="col-4">
+                <div class="input-group">
+                    <div class="form-outline d-flex align-items-center">
+                        <input id="search-input" type="search" id="form1" class="form-control py-2 pr-5" placeholder="United States" />
+                        <a class="nav-link py-2 " data-mdb-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            <i class="fa-solid fa-angle-left fa-rotate-270 fa-xs ms-1 me-2"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="collapse card shadow-0 border mt-3 px-3" id="collapseExample">
+                    <div>Switzerland</div>
+                    <div>Pakistan</div>
+                    <div>Germany</div>
+                    <div>Canada</div>
+                    <div>United States</div>
+                    <div>Sweden</div>
+                    <div>Japan</div>
+                    <div>Australia</div>
+                    <div>United Kingdom</div>
+                </div>
+            </div>
+            <div class="col-8 ">
+                <div class="input-group">
+                    <div class="form-outline">
+                      <input id="search-input" type="search" id="form1" class="form-control py-2" placeholder="1234 1234 1234"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+   
+    <button type="button" id="btnns" class="btn  btn-lg shadow-0 mt-5 mb-5">Save</button>
+
+
+</div>
+    
+</div>
+
+{% endblock content %}

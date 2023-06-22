@@ -1,0 +1,113 @@
+body{
+    margin:0;
+    padding:0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.activate{
+    color:rgb(37, 166, 240);
+}
+.nav-item .nav-link:hover{
+    color:rgb(37, 166, 240);
+}
+.sidebar-menu{
+    list-style: none;
+}
+.sidebar-menu li ul{
+    list-style: none;
+}
+.sidebar-menu li ul li{
+    cursor: pointer;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+.sidebar-menu li ul li:hover{
+    color: rgb(37, 166, 240);
+}
+.sidebar-menu h5{
+    font-weight: bold;
+}
+
+.below-search{
+    width: 70%;
+    margin: auto;
+    margin-top: 14px;
+    /* border: 1px solid green; */
+    color: black;
+}
+.below-search div div:hover{
+    color: rgb(37, 166, 240);
+    cursor: pointer;
+}
+.searchbar{
+    padding: 4px;
+    width: 100%;
+    border:2px solid black;
+    border-radius: 15px;
+}
+.searchbar input{
+    padding: 3px;
+    border: none;
+    outline: none;
+    width: 100%;
+}
+
+.post-card{
+    /* border:1px solid black; */
+    padding: 7px;
+    margin-top: 5px;
+}
+.post-img{
+    border-radius: 5px;
+}
+.post-img img{
+    width: 100%;
+    border-radius: 10px;
+    
+}
+.post-footer{
+    padding: 10px;;
+}
+.sub-btn{
+    color: white;
+    background-color: rgb(37, 166, 240);
+}
+.user-icon{
+    border-radius: 50%;
+}
+/* ...........................................................suggestions side............ */
+.suggest h5{
+    font-weight: bold;
+    
+}
+
+.card-sug{
+    background-color:grey;
+    height:100px;
+    border-radius: 5px;
+}
+.card-sug img{
+    width: 100%;
+    
+}
+.i-text{
+    font-size: 16px;
+}
+@media (max-width: 768px) {
+    .below-search{
+      width:95%;
+      padding: 5px;
+    }
+    .searchbar{
+        width: 90%;
+        margin: auto;
+    }
+    .post-card{
+        padding: 20px;;
+    }
+    .i-text{
+        font-size: 11px;
+    }
+  }
+
+ 

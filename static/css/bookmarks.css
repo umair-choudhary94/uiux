@@ -1,0 +1,45 @@
+.bookmarks h5{
+    font-weight: bold;
+}
+.bookmarks-header{
+    /* border: 1px solid red; */
+    width: 40%;
+    margin: auto;
+}
+.tabs {
+    display: flex;
+  }
+
+  .tab {
+    padding: 10px 20px;
+    /* background-color: #f9f9f9; */
+    /* border: 1px solid #ccc; */
+    cursor: pointer;
+  }
+
+  .tab.active {
+    color: rgb(37, 166, 240);
+    font-weight: bold;
+  }
+
+  .content {
+    display: none;
+    margin-top: 10px;
+    padding: 20px;
+    /* background-color: #f9f9f9; */
+    /* border: 1px solid #ccc; */
+  }
+
+  .content.active {
+    display: block;
+  }
+
+  
+.book-card-img img{
+    width: 100%;
+    border-radius: 8px;
+    height: 30vh;
+  }
+.b-card-footer{
+    padding: 10px;
+}

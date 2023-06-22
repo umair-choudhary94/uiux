@@ -1,0 +1,28 @@
+.blockuser h5{
+    font-weight: bold;
+    font-size: 25px;
+}
+
+
+.blockuser-header ul li{
+    border: 0;
+    padding: 20px 25px;
+    font-weight: bold;
+    font-size: 15px;
+
+}
+
+.blockuser-header ul li.model{
+  
+    width: 600px;
+
+}
+
+.blockuser-body ul {
+    height: 37px;
+}
+
+.blockuser-body ul li.blockuser-list{
+    width: 600px;
+}
+

@@ -1,0 +1,168 @@
+{% extends "uiapp/base.html" %}
+{% block content %}
+<div class="container">
+
+<div class="bookmarks">
+<h5 class=><i class="fa-solid fa-bookmark me-2"></i>Bookmarks</h5>
+    <div class="bookmarks-header ">
+        <div class="tabs">
+            <div class="tab active" onclick="showContent(1)"><i class="fa-solid fa-image me-2"></i>Photos</div>
+            <div class="tab" onclick="showContent(2)"><i class="fa-solid fa-person-dress me-2"></i>Models</div>
+            {% comment %} <div class="tab" onclick="showContent(3)">Tab 3</div> {% endcomment %}
+        </div>
+    </div>
+    <div class="bookmarks-body">
+        <div class="content active" id="content1">
+            <div class="row">
+                <div class="col-6">
+                    <div class="bookmark-card">
+                        <div class="book-card-img">
+                            <img src="https://placeimg.com/150/150/ai" alt="" >
+                        </div>
+                        <div class="b-card-footer">
+                            <i class="fa-solid fa-arrow-up-from-bracket me-2"></i>
+                            <i class="fa-regular fa-bookmark"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="bookmark-card">
+                        <div class="book-card-img">
+                            <img src="https://placeimg.com/150/150/ai" alt="" >
+                        </div>
+                        <div class="b-card-footer">
+                            <i class="fa-solid fa-arrow-up-from-bracket me-2"></i>
+                            <i class="fa-regular fa-bookmark"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="bookmark-card">
+                        <div class="book-card-img">
+                            <img src="https://placeimg.com/150/150/ai" alt="" >
+                        </div>
+                        <div class="b-card-footer">
+                            <i class="fa-solid fa-arrow-up-from-bracket me-2"></i>
+                            <i class="fa-regular fa-bookmark"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="bookmark-card">
+                        <div class="book-card-img">
+                            <img src="https://placeimg.com/150/150/ai" alt="" >
+                        </div>
+                        <div class="b-card-footer">
+                            <i class="fa-solid fa-arrow-up-from-bracket me-2"></i>
+                            <i class="fa-regular fa-bookmark"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="bookmark-card">
+                        <div class="book-card-img">
+                            <img src="https://placeimg.com/150/150/ai" alt="" >
+                        </div>
+                        <div class="b-card-footer">
+                            <i class="fa-solid fa-arrow-up-from-bracket me-2"></i>
+                            <i class="fa-regular fa-bookmark"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+          </div>
+          <div class="content" id="content2">
+            
+            <div class="row">
+                <div class="col-6">
+                    <div class="bookmark-card">
+                        <div class="book-card-img">
+                            <img src="https://placeimg.com/150/150/ai" alt="" >
+                        </div>
+                        <div class="b-card-footer">
+                            <i class="fa-solid fa-arrow-up-from-bracket me-2"></i>
+                            <i class="fa-regular fa-bookmark"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="bookmark-card">
+                        <div class="book-card-img">
+                            <img src="https://placeimg.com/150/150/ai" alt="" >
+                        </div>
+                        <div class="b-card-footer">
+                            <i class="fa-solid fa-arrow-up-from-bracket me-2"></i>
+                            <i class="fa-regular fa-bookmark"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="bookmark-card">
+                        <div class="book-card-img">
+                            <img src="https://placeimg.com/150/150/ai" alt="" >
+                        </div>
+                        <div class="b-card-footer">
+                            <i class="fa-solid fa-arrow-up-from-bracket me-2"></i>
+                            <i class="fa-regular fa-bookmark"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="bookmark-card">
+                        <div class="book-card-img">
+                            <img src="https://placeimg.com/150/150/ai" alt="" >
+                        </div>
+                        <div class="b-card-footer">
+                            <i class="fa-solid fa-arrow-up-from-bracket me-2"></i>
+                            <i class="fa-regular fa-bookmark"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="bookmark-card">
+                        <div class="book-card-img">
+                            <img src="https://placeimg.com/150/150/ai" alt="" >
+                        </div>
+                        <div class="b-card-footer">
+                            <i class="fa-solid fa-arrow-up-from-bracket me-2"></i>
+                            <i class="fa-regular fa-bookmark"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+          </div>
+          
+    </div>
+
+</div>
+    
+</div>
+<script>
+    function showContent(tabNumber) {
+      // Hide all content elements
+      const contents = document.querySelectorAll('.content');
+      contents.forEach(content => {
+        content.classList.remove('active');
+      });
+
+      // Show the selected content
+      const selectedContent = document.getElementById(`content${tabNumber}`);
+      selectedContent.classList.add('active');
+
+      // Remove the active class from all tabs
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(tab => {
+        tab.classList.remove('active');
+      });
+
+      // Add the active class to the selected tab
+      const selectedTab = document.querySelector(`.tab:nth-child(${tabNumber})`);
+      selectedTab.classList.add('active');
+    }
+  </script>
+
+{% endblock content %}

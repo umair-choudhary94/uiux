@@ -1,0 +1,146 @@
+{% extends 'uiapp/base.html' %}
+{% block content %}
+<div class="container">
+
+<div class="editprofile">
+    <h5 class=> <i class="fa-regular fa-pen-to-square me-2"></i>Edit your profile</h5>
+
+    <div class="editprofile-header mt-4">
+        <h4 class="mb-3">Edit your profile:</h4>
+       
+        <div class="row mt-4 ">
+            <div class="col-4 name" >
+                <p >Username</p>
+                <div class="input-group rounded">
+                    <!-- <span class="input-group-text py-4 px-3" style="background-color: rgb(214, 209, 209); color: black; border: 1px solid rgb(27, 27, 27);" id="search-addon">
+                        <i class="fa-solid fa-camera-retro fs-4"></i>
+                    </span> -->
+                    <input type="search" class="form-control search rounded py-4" placeholder="Lisa_Merry02" style="border: 1px solid rgb(27, 27, 27);" />
+                </div>
+            </div>
+            <div class="col-4 name">
+                <p>Name</p>
+                <div class="input-group rounded">
+                    <input type="search" class="form-control search rounded py-4" placeholder="Lisa Merrylow" style="border: 1px solid rgb(27, 27, 27);" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="editprofile-des mt-5">
+        <h4 class="mb-3">Description</h4>
+        <div class="row mt-1 ">
+            <div class="col-12">
+                <div class="form-outline mb-4" style="border: 1px solid rgb(20, 20, 20); border-radius: 5px;">
+                    <textarea class="form-control"   id="" rows="4"></textarea>
+                    <label class="form-label" for="">Welcome to my profile...</label>
+                </div>
+
+            </div>
+        </div>
+  
+        <div class="row">
+            <div class="col-4">
+                <div class="d-flex">
+                    <h4 class="mb-3 mt-3">Sex</h4> <i class="fa-solid fa-venus mt-3 ms-2"></i>
+                </div>
+                <div class="input-group">
+                    <div class="form-outline d-flex align-items-center">
+                        <input id="search-input" type="search" id="form1" class="form-control py-2 pr-5" placeholder="Female" />
+                        <a class="nav-link py-2 " data-mdb-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            <i class="fa-solid fa-angle-left fa-rotate-270 fa-xs ms-1 me-2"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="collapse card shadow-0 border mt-3 px-3" id="collapseExample">
+                    <div>Female</div>
+                    <div>Male</div>
+                </div>
+            </div>
+            <div class="col-4 ">
+                <div class="d-flex">
+                    <h4 class="mb-3 mt-3">Location</h4><i class="fa-solid fa-location-dot mt-3 ms-2"></i>
+                </div>
+                <div class="input-group">
+                    <div class="form-outline">
+                      <input id="search-input" type="search" id="form1" class="form-control py-2" placeholder="Germeny, Berlin"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="d-flex">
+                    <h4 class="mb-3 mt-3">Ethnicity</h4><i class="fa-solid fa-person mt-3 ms-2"></i>
+                </div>
+                <div class="input-group">
+                    <div class="form-outline d-flex align-items-center">
+                        <input id="search-input" type="search" id="form1" class="form-control py-2 pr-5" placeholder="White" />
+                        <a class="nav-link py-2 " data-mdb-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            <i class="fa-solid fa-angle-left fa-rotate-270 fa-xs ms-1 me-2"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="collapse card shadow-0 border mt-3 px-3" id="collapseExample1">
+                    <div>White</div>
+                    <div>Black</div>
+                </div>
+            </div>
+        </div>
+           
+        <div class="row mt-5">
+            <div class="col-6 ">
+            <h4 class="mb-3">Upload Profile Picture</h4>
+                <div class="card shadow-0  ">
+                    <input type="file" name="" class="file" >
+
+                </div>
+            </div>
+            <div class="col-6">
+                <h4 class="mb-3">Upload Banner Picture</h4>
+                    <div class="card shadow-0  ">
+                        <input type="file" name="" class="file" >
+    
+                    </div>
+                </div>
+        </div>
+
+        <div class="mt-5">
+            <h4 class="mb-3" >Your Pricing</h4>
+
+            <div class="form-check form-check-inline " id="radio">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
+                <label class="form-check-label" for="inlineRadio1">Free Model</label>
+            </div>
+              
+            <div class="form-check form-check-inline" id="radio">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" />
+                <label class="form-check-label" for="inlineRadio2">Premium Model</label>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-4">
+                <div class="input-group">
+                    <div class="form-outline d-flex align-items-center">
+                        <input id="search-input" type="search" id="form1" class="form-control py-2 pr-5" placeholder="$3.99 per month" />
+                        <a class="nav-link py-2 " data-mdb-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            <i class="fa-solid fa-angle-left fa-rotate-270 fa-xs ms-1 me-2"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="collapse card shadow-0 border mt-3 px-3" id="collapseExample">
+                    <div>something</div>
+                    <div>something</div>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    <button type="submit"  class="btn btn-primary shadow-0 mb-5" id="butonn">Submit</button>
+    <a href="#"  class="btn btn-primary shadow-0 mb-5" id="butonn">Cancel</a>
+
+
+</div>
+    
+</div>
+
+{% endblock content %}

@@ -1,0 +1,45 @@
+.csupport h5{
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.csupport-header h4{
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.csupport-header p{
+    line-height: 18px;
+}
+
+.csupport-body h4{
+    font-weight: bold;
+    font-size: 21px;
+}
+
+#font-arrow{
+    width: 50px;
+    border-radius: 0;
+    height: 58px;
+    padding-left: 5px;
+    
+}
+.card{
+    border-radius: 0;
+}
+#faq ul li{
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.csupport-footer h4{
+    font-weight: bold;
+    font-size: 18px;
+}
+#btnns{
+    background-color:  rgb(214, 209, 209);
+    width: 210px;
+    margin-top: 10px;
+    color:rgb(20, 20, 20) ;
+    font-weight: bold;
+  }

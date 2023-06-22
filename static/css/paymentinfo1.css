@@ -1,0 +1,71 @@
+.paymentinfo h5{
+    font-weight: bold;
+    font-size: 28px;
+}
+
+.paymentinfo-header h4{
+    font-weight: bold;
+    font-size: 18px;
+}
+#checkbox{
+    margin-left: 15px;
+
+}
+#checkbox .form-check-input{
+    background-color: rgb(218, 210, 210);
+    /* color: black; */
+}
+
+.info{
+    line-height: 4px;
+}
+
+.paymentinfo-body h4{
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.paymentinfo-body p{
+    font-weight: bold;
+    font-size: 17px;
+}
+
+.paymentinfo-body div span{
+    background-color: rgb(214, 209, 209); 
+    color: black;
+    border: 1px solid rgb(10, 10, 10);
+}
+
+#search{
+    border: 1px solid rgb(10, 10, 10);
+}
+
+#search-autocomplete {
+    border: 1px solid rgb(10, 10, 10);
+    border-radius: 5px;
+}
+
+.paymentinfo-footer h4{
+    font-weight: bold;
+    font-size: 18px;
+    /* color: rgb(26, 25, 25); */
+}
+.form-outline{
+    border: 1px solid rgb(10, 10, 10);
+    border-radius: 5px;
+}
+.col-4 {
+    padding-right: 0;
+    margin-top: 2px;
+}
+.custom-input-group{
+    padding-left: 1px;
+    border-radius: 0;
+}
+
+#link:hover{
+    color: rgb(37, 166, 240);
+    border:1px solid  rgb(37, 166, 240);
+    border-radius: 6px;
+}
+

@@ -1,0 +1,63 @@
+.income h5{
+    font-weight: bold;
+    font-size: 27px;
+    margin-bottom: 20px;
+    /* margin-left: 20px; */
+}
+
+.available-income{
+    background-color: rgb(214, 209, 209);
+    padding: 30px;
+    margin:15px 2px ;
+    border-radius: 15px;
+
+    
+}
+
+.available-income h4{
+    font-weight: bold;
+    color: black;
+    margin-bottom: 15px;
+    font-size: 30px;
+}
+
+.available-income p{
+    font-weight: bold;
+    color: rgb(26, 25, 25);
+    margin-bottom: 2px;
+    font-size: 16px;
+}
+
+.income-header ul li{
+    border: 0;
+    padding: 20px 25px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.income-body ul {
+    height: 35px;
+}
+
+
+.income-body ul li.income{
+    border: 0;
+    width: 220px;
+}
+
+.income-body ul li.income-list{
+    border: 0;
+    width: 310px;
+}
+
+/* .........................pagination css .....................  */
+
+.page-item{
+    border: 1px solid rgb(199, 198, 198);
+    border-radius: 2px;
+    margin: 1px;
+}
+.page-item.active{
+   border: 1px solid  rgb(37, 166, 240);
+
+}

@@ -1,0 +1,81 @@
+{% extends 'uiapp/base.html' %}
+{% block content %}
+<div class="container">
+
+<div class="phistory">
+    <h5 class=> <i class="far fa-clipboard me-2"></i>Payment History</h5>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="phistory">1FAB9CAY</td>
+                <td class="phistory-list">Monthly Subscription</td>
+                <td class="phistory">$6.99</td>
+                <td class="phistory">26/08/2022</td>
+            </tr>
+            <tr>
+                <td class="phistory">2FAB9BAD</td>
+                <td class="phistory-list">Monthly Subscription</td>
+                <td class="phistory">$8.99</td>
+                <td class="phistory">26/08/2023</td>
+            </tr>
+            <tr>
+                <td class="phistory">1MAB7CAZ</td>
+                <td class="phistory-list">Free Subscription</td>
+                <td class="phistory">$60.99</td>
+                <td class="phistory">10/08/2022</td>
+            </tr>
+            <tr>
+                <td class="phistory">6GTD5GYB</td>
+                <td class="phistory-list">Wallet Deposit</td>
+                <td class="phistory">$6.99</td>
+                <td class="phistory">26/05/2022</td>
+            </tr>
+            <tr>
+                <td class="phistory">1FAB9CAY</td>
+                <td class="phistory-list">Tips</td>
+                <td class="phistory">$6.99</td>
+                <td class="phistory">26/08/2022</td>
+            </tr>
+            <tr>
+                <td class="phistory">1BA7CAY</td>
+                <td class="phistory-list">Tips</td>
+                <td class="phistory">$6.99</td>
+                <td class="phistory">26/08/2022</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+    
+    <nav >
+        <ul class="pagination justify-content-end">
+          <li class="page-item ">
+            <a class="page-link"><i class="fa-solid fa-angle-left"></i></a>
+          </li>
+          <li class="page-item active"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item"><a class="page-link" href="#">4</a></li>
+          <li class="page-item"><a class="page-link" href="#">5</a></li>
+          <li class="page-item"><a class="page-link" href="#">6</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#"><i class="fa-solid fa-angle-right"></i></a>
+          </li>
+        </ul>
+    </nav>
+
+
+
+</div>
+    
+</div>
+
+{% endblock content %}

@@ -1,0 +1,61 @@
+{% extends 'uiapp/base.html' %}
+
+{% block content %}
+<div class="wallet mx-2">
+    <h5 class=><i class="fas fa-wallet me-2"></i>Wallet</h5>
+    <div class="wallet-header ">
+        <div class="tabs ">
+            <a href="/wallet" class="tab active"><i class="fa-solid fa-arrow-right-to-bracket fa-rotate-270 "></i>Deposit</a>
+            <a href="/withdraw" class="tab nav-link " ><i class="fa-solid fa-arrow-right-to-bracket fa-rotate-90 me-2"></i>Withdraw</a>
+        </div>
+    </div>
+
+    <div class="available-income">
+        <h4>$0.00</h4>
+        <p>Your available income. You can always deposit more money.</p>
+    </div>
+
+    <div class="wallet-body">
+
+        <p class="mt-5 mb-3" style=" font-weight: bold; font-size: 20px; color: rgb(20, 20, 20);">Proceed with deposit</p>
+
+        <!-- search bar  -->
+        <div class="input-group rounded">
+            <span class="input-group-text py-4 px-3" style="background-color: rgb(214, 209, 209); color: black; border: 1px solid rgb(10, 10, 10);" id="search-addon">
+                <i class="fa-solid fa-camera-retro fs-4"></i>
+            </span>
+            <input type="search" class="form-control search rounded py-4" placeholder="Amount ($5 min, $500 max)" style="border: 1px solid rgb(10, 10, 10);" />
+        </div>
+
+        <!-- radio  -->
+        <div class="wallet-radio mt-4">
+            <div class="form-check ">
+                <input class="form-check-input"  type="radio" name="flexRadioDefault" id="flexRadioDefault1"/>
+                <label class="form-check-label" for="flexRadioDefault1">Paypal </label>
+            </div>
+            
+    
+            <div class="form-check mt-3">
+                <input class="form-check-input"  type="radio" name="flexRadioDefault" id="flexRadioDefault2" />
+                <label class="form-check-label" for="flexRadioDefault2">Stripe </label>
+            </div>
+    
+            <div class="form-check mt-3">
+                <input class="form-check-input"  type="radio" name="flexRadioDefault" id="flexRadioDefault2" />
+                <label class="form-check-label" for="flexRadioDefault2">Coinbase </label>
+            </div>
+    
+            <div class="form-check mt-3">
+                <input class="form-check-input" style="color:black;" type="radio" name="flexRadioDefault" id="flexRadioDefault2" />
+                <label class="form-check-label" for="flexRadioDefault2">Bank Transfer</label>
+            </div>
+
+        </div>
+
+        <!-- button  -->
+        <button type="button" class="btn  btn-lg shadow-0">Add Funds</button>
+    </div>
+    
+
+</div>
+{% endblock content %}

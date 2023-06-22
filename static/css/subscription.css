@@ -1,0 +1,48 @@
+.subscription h5{
+    font-weight: bold;
+    font-size: 25px;
+}
+
+
+.subscription-header ul li{
+    border: 0;
+    padding: 20px 25px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.subscription-body ul {
+    height: 37px;
+}
+
+.subscription-body ul li{
+    width: 230px;
+}
+
+/* .subscr-img p{
+    text-decoration: none;
+    border-bottom: none;
+} */
+
+.subscription-body ul li.subscr{
+    /* margin-left: 48px; */
+    border: 0;
+    /* padding:18px 35px; */
+}
+
+.subscription-body ul li.subscr-list{
+    /* margin-left: 54px; */
+    border: 0;
+    /* padding: 18px 24px; */
+}
+
+/* .........................pagination css ...........  */
+
+.page-item{
+    border: 1px solid rgb(199, 198, 198);
+    border-radius: 2px;
+}
+.page-item.active{
+   border: 1px solid  rgb(37, 166, 240);
+
+}

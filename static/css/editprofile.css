@@ -1,0 +1,30 @@
+.editprofile h5{
+    font-weight: bold;
+    font-size: 27px;
+}
+
+.editprofile-header h4{
+    font-weight: bold;
+    font-size: 18px;
+}
+.name p{
+    font-weight: bold;
+}
+.editprofile-des h4{
+    font-weight: bold;
+    font-size: 18px;
+}
+#radio{
+    margin-right: 18px;
+}
+#radio label{
+    font-size: 16px;
+    margin-left: 5px;
+}
+#butonn{
+    background-color:  rgb(214, 209, 209);
+    color:rgb(20, 20, 20) ;
+    font-weight: bold;
+    width: 150px;
+    margin-top: 30px;
+}

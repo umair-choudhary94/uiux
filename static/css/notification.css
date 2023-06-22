@@ -1,0 +1,53 @@
+
+.notification h5{
+    font-weight: bold;
+    font-size: 25px;
+}
+ 
+  .notification-header {
+    width: 80%;
+    margin: auto;
+    text-align: center; 
+  }
+  
+  .tabs {
+    display: inline-flex; 
+    justify-content: center; 
+  }
+
+  .tabb {
+    /* flex: 1; */
+    display: flex; 
+    align-items: center;
+    padding: 21px 5px;
+    cursor: pointer;
+    width: 133px;
+  }
+
+  .tabb.active {
+    color: rgb(37, 166, 240);
+    font-weight: bold;
+  }
+  
+
+
+
+.notification-body{
+  height: 200px;
+}
+.noti-card{
+    width: 580px;
+}
+.noti-img{
+  width: 70%;
+}
+.noti-img img{
+    border-radius: 50%;
+    width: 100%;
+}
+.card-title{
+    margin-bottom: 4px;
+}
+.card-text{
+    font-weight: bold;
+}
