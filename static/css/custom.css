@@ -93,6 +93,9 @@ body{
 .i-text{
     font-size: 16px;
 }
+.h-text{
+    font-size: 16px;
+}
 @media (max-width: 768px) {
     .below-search{
       width:95%;
@@ -107,6 +110,12 @@ body{
     }
     .i-text{
         font-size: 11px;
+    }
+    .h-text{
+        font-size: 14px;
+    }
+    .navbar-buttons{
+        width: 100%;
     }
   }
 
