@@ -12,3 +12,5 @@ pycparser==2.21
 sqlparse==0.4.4
 tzdata==2023.3
 verify-email==2.4.3
+gunicorn
+whitenoise
