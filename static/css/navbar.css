@@ -91,12 +91,14 @@
     background-color: white;
     z-index: 1000;
     color: black;
-    height: 100vh;
+    /* height: 100vh; */
     position: fixed;
     top: 0;
     left: -250px;
     transition: left 0.3s;
     padding: 20px;
+    overflow:scroll;
+    overflow-y:hidden;
   }
   
   .sidebar a {
