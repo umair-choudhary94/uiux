@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,7 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "uiapp.apps.UiappConfig"
+    "uiapp.apps.UiappConfig",
+    'user',
+    'payments',
+    'favorites',
+    'support',
 ]
 
 MIDDLEWARE = [
@@ -69,6 +74,12 @@ TEMPLATES = [
     },
 ]
 
+# LOGIN_REDIRECT_URL = '/'
+# LOGOUT_REDIRECT_URL = '/'
+# SESSION_EXPIRE_AT_BROWSER_CLOSE = True     # opional, as this will log you out when browser is closed
+# SESSION_COOKIE_AGE = 3600                   # 0r 5 * 60, same thing
+# SESSION_SAVE_EVERY_REQUEST = True          # Will prrevent from logging you out after 300 seconds
+
 WSGI_APPLICATION = 'uisample.wsgi.application'
 
 
@@ -81,7 +92,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
+AUTH_USER_MODEL = 'user.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -125,9 +136,47 @@ MEDIA_URL = "/media/"
 STATICFILES_DIRS = [BASE_DIR / "static"]  
 MEDIA_ROOT = BASE_DIR / 'media'
 STATIC_ROOT = BASE_DIR/'staticfiles'
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+# AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+# AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+# AWS_DEFAULT_ACL = 'public-read'
+# AWS_QUERYSTRING_AUTH = False
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+
+
+# STRIPE_PUBLIC_KEY = 'pk_test_51MlG5zD7ckcfOxep8Y8kwJvQUXIrKWiEWYzyAAbGkF3nxcQNl2AkqMFCYbbBpwu16Bq5obsCzGgZcWPSHDEHnG2W002OGfcI7r'
+# STRIPE_PRIVATE_KEY = 'sk_test_51MlG5zD7ckcfOxepymYyvrlSpKSrVmrdzdVdu2EmnBCrcQX0KhgLJKGqJ80xw3LPHZsaP3yLaTOmtssAeMIqnVZr00dCpUJpuz'
+
+# # Please install stripe cli first
+# STRIPE_ENDPOINT_SECRET = 'whsec_LRkxSySWIaIjBNNgl1IZxlzJk6XHUHZx'
+#
+# # Paypal payments starts
+# SANDBOX_CLIENT_ID = 'AXnZG6SliiwDvGfbRfG809zV_83jPBKP3Aqc_szwQKwjZuVxw8Fy7Vl-XSSlY_D_PsKMeceOXWfwx9yB'
+# SANDBOX_CLIENT_SECRET = 'EAVM9AICiCirrsR9OZ0GIioJtLtVFFS4GLdb96lAB86ec8Yi2VZ8vEraYvcZowl8_Xld1SIr8U2zjABC'
+# PAYPAL_RECEIVER_EMAIL = 'sb-1fc7b25393978@business.example.com'
+# PAYPAL_TEST = True
+# # EMAIL STUFF
+# # EMAIL_HOST = os.environ.get('EMAIL_HOST')
+# EMAIL_HOST = 'smtp.gmail.com'
+# # EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+# EMAIL_HOST_USER = 'victorkipronokirui2@gmail.com'
+# EMAIL_USE_TLS = True
+# # DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER')
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# EMAIL_PORT = 587
+# # EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+# EMAIL_HOST_PASSWORD = 'zakeywjgslopxlgk'
+#
+# # AWS_ACCESS_KEY = 'AKIATNIKH2DCOY4M6CNF'
+# # AWS_SECRET_KEY = '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'

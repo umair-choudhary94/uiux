@@ -19,7 +19,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("",include("uiapp.urls"))
+    path("",include("uiapp.urls")),
+    path("user/", include("user.urls")),
+    # path("payments/", include("payments.urls")),
+    # path("favorites/", include("favorites.urls")),
+    # path("support/", include("support.urls")),
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL,document_root = settings.STATIC_ROOT)
