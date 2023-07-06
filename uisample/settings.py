@@ -43,6 +43,11 @@ INSTALLED_APPS = [
     'payments',
     'favorites',
     'support',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
 ]
 
 MIDDLEWARE = [
@@ -57,6 +62,15 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'uisample.urls'
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            "profile",
+            "email",
+        ],
+        "AUTH_PARAMS":{"access_type":"online"}
+    },
+}
 
 TEMPLATES = [
     {

@@ -1,0 +1,123 @@
+{% for model in queryset %}
+          <div class="col">
+            <!-- Profile card starts  -->
+            {% if model.is_premium %}
+              {% if request.user.is_authenticated %}
+              {% if model.is_subscribed or model.owner == user.profile %}
+                <div>
+                  <a href="{% url 'model_detail' model.username%}">
+                  <div class="card hovercard" id="profile_card">
+                    <div class="cardheader" style="
+                            background-image: url('{{model.placeholder.url}}');"></div>
+                    <div class="d-flex">
+                      <div class="avatar ms-2">
+                        <img
+                          alt=""
+                          src="{{model.image.url}}"
+                        />
+                      </div>
+                      <div class="info text-white">
+                        <div class="title">
+                          {{model.name}}
+                        </div>
+                        <div class="desc">@{{model.username}}</div>
+                        <!-- <div class="desc">Curious developer</div>
+                        <div class="desc">Tech geek</div> -->
+                      </div>
+                    </div>
+                    <div class="d-flex px-2" id="premium">
+                      <span><i class="fas fa-medal" style="font-size:25px;"></i></span>
+                    </div>
+                  </div>
+                  </a>
+                </div>
+              {% else %}
+                <div 
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                    style="cursor: pointer;"
+                    onclick="modalHandler('{{model.content_id}}')"
+                >
+                  <div class="card hovercard" id="profile_card">
+                    <div class="cardheader" style="
+                            background-image: url('{{model.placeholder.url}}');"></div>
+                    <div class="d-flex">
+                      <div class="avatar ms-2">
+                        <img
+                          alt=""
+                          src="{{model.image.url}}"
+                        />
+                      </div>
+                      <div class="info text-white">
+                        <div class="title">
+                          {{model.name}}
+                        </div>
+                        <div class="desc">@{{model.username}}</div>
+                        <!-- <div class="desc">Curious developer</div>
+                        <div class="desc">Tech geek</div> -->
+                      </div>
+                    </div>
+                    <div class="d-flex px-2" id="premium">
+                      <span><i class='fas fa-medal' aria-hidden="true" style="font-size:25px;"></i></span>
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
+              {% else %}
+              <div>
+                <a href="{% url 'login' %}">
+                <div class="card hovercard" id="profile_card">
+                  <div class="cardheader" style="
+                          background-image: url('{{model.placeholder.url}}');"></div>
+                  <div class="d-flex">
+                    <div class="avatar ms-2">
+                      <img
+                        alt=""
+                        src="{{model.image.url}}"
+                      />
+                    </div>
+                    <div class="info text-white">
+                      <div class="title">
+                        {{model.name}}
+                      </div>
+                      <div class="desc">@{{model.username}}</div>
+                      <!-- <div class="desc">Curious developer</div>
+                      <div class="desc">Tech geek</div> -->
+                    </div>
+                  </div>
+                  <div class="d-flex px-2" id="premium">
+                      <span><i class='fas fa-medal' aria-hidden="true" style="font-size:25px;"></i></span>
+                  </div>
+                </div>
+                </a>
+              </div>
+              {% endif %}
+            {% else %}
+              <div>
+              <a href="{% url 'model_detail' model.username%}">
+              <div class="card hovercard" id="profile_card">
+                <div class="cardheader" style="
+                        background-image: url('{{model.placeholder.url}}');"></div>
+                <div class="d-flex">
+                  <div class="avatar ms-2">
+                    <img
+                      alt=""
+                      src="{{model.image.url}}"
+                    />
+                  </div>
+                  <div class="info text-white">
+                    <div class="title">
+                      {{model.name}}
+                    </div>
+                    <div class="desc">@{{model.username}}</div>
+                    <!-- <div class="desc">Curious developer</div>
+                    <div class="desc">Tech geek</div> -->
+                  </div>
+                </div>
+              </div>
+              </a>
+            </div>
+            {% endif %}
+            <!-- Profile card ends  -->
+          </div>
+          {% endfor %}

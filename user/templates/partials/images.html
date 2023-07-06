@@ -1,0 +1,66 @@
+<div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <div class="row" id="card-row">
+          <!-- Dynamically generated cards will be added here -->
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+  <script>
+    // Define an empty array to store the card data
+var cardData = [];
+
+// Loop through the Django queryset and populate the card data array
+{% for image in content.modelcontentimage_set.all %}
+  cardData.push({ title: "Hello", content: "This is the carousel", imageUrl: "{{image.image.url}}" });
+{% endfor %}
+console.log(cardData)
+
+// Loop through the card data and generate the cards
+for (var i = 0; i < cardData.length; i++) {
+  // Create a new card element
+  var card = $("<div>", { class: "col-md-3" }).append(
+    $("<div>", { class: "card" }).append(
+        $("<img>", { class: "card-img-top", src: cardData[i].imageUrl, alt: "Image" }),
+        //$("<div>", { class: "card-body" }).append(
+            //$("<h5>", { class: "card-title" }).text(cardData[i].title),
+            //$("<p>", { class: "card-text" }).text(cardData[i].content)
+        //)
+    )
+  );
+
+  // Add the card to the card row
+  $("#card-row").append(card);
+}
+
+// Initialize the carousel and add event listeners to handle the sliding
+$("#myCarousel").carousel({ interval: false });
+
+$(".carousel-control-prev").click(function () {
+  $("#myCarousel").carousel("prev");
+});
+
+$(".carousel-control-next").click(function () {
+  // Get the active item index
+  var activeItemIndex = $(".carousel-item.active").index();
+
+  // Calculate the index of the next item to show
+  var nextItemIndex = activeItemIndex + 1;
+  if (nextItemIndex >= $(".carousel-item").length) {
+    nextItemIndex = 0;
+  }
+
+  // Set the next item as active
+  $("#myCarousel").carousel(nextItemIndex);
+});
+
+  </script>

@@ -1,0 +1,123 @@
+<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">
+        All Images
+    </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
+        Recently Shared
+    </button>
+    </li>
+    
+  </ul>
+  <div class="tab-content" id="pills-tabContent">
+    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+        <section class="me-4">
+            <div class="me-4">
+              {% for content in content %}
+              <div class="border mb-3 rounded">
+                <div class="d-flex justify-content-between px-2">
+                  <p><small>{{content.title}}</small></p>
+                  {% if content.model.is_premium == True %}
+                  <div class="d-flex" id="premium">
+                    <span><i class="fas fa-medal"></i></span>
+                    <!-- <span><i class="fa fa-diamond" aria-hidden="true"></i></span> -->
+                    <p >Premium</p>
+                  </div>
+                  {% endif %}
+                </div>
+                <div class="px-2 mb-2">
+                  <div class="row row-cols-3 row-cols-md-6 g-1">
+                    {% for image in content.modelcontentimage_set.all|slice:":6" %}
+                      {% if content.model.is_premium %}
+                        {% if request.user.is_authenticated %}
+                            {% if content.is_subscribed or content.model.owner == user.profile%}
+                              <div class="col">
+                                <a href="{% url 'model_content' content.content_id %}">
+                                  <img
+                                    src="{{ image.image.url }}"
+                                    class="card-img-top rounded"
+                                    alt="image"
+                                    style="height:80px; width:100%;"
+                                  />
+                                </a>
+                              </div>
+                              {% else %}
+                              <div class="col">
+                                <div
+                                  onclick="modalHandler('{{content.model.content_id}}')"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#exampleModal"
+                                >
+                                  <img
+                                    src="{{ image.image.url }}"
+                                    class="card-img-top rounded"
+                                    alt="image"
+                                    style="height:80px;width:100%;cursor: pointer;"
+                                  />
+                              </div>
+                              </div>
+                            {% endif %}
+                          {% else %}
+                            <div class="col">
+                              <a href="{% url 'login' %}">
+                                <img
+                                  src="{{ image.image.url }}"
+                                  class="card-img-top rounded"
+                                  alt="image"
+                                  style="height:80px;width:100%;"
+                                />
+                              </a>
+                            </div>
+                        {% endif %}
+                        {% else %}
+                        <div class="col">
+                          <a href="{% url 'model_content' content.content_id %}">
+                            <img
+                              src="{{ image.image.url }}"
+                              class="card-img-top rounded"
+                              alt="image"
+                              style="height:80px; width:100%;"
+                            />
+                          </a>
+                        </div>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+              {% empty %}
+              <section>
+                <div class="m-4">
+                  <div style="background-color: #d6336c; cursor:pointer;" class="text-white rounded">
+                    <div class="p-2">
+                      <p>No recent posts currently</p>
+                    </div>
+                    
+                  </div>
+                </div>
+              </section>
+              {% endfor %}
+            </div>
+        </section>
+    </div>
+    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
+        <section>
+            <div class="px-2 mb-2">
+                <div class="row row-cols-2 row-cols-md-4 g-1">
+                    {% for image in images %}
+                        <div class="col">
+                            <img
+                            class="rounded"
+                            src="{{image.image.url}}"
+                            alt="Image"
+                            style="height:100px; width:100%;"
+                            />
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </div>
+  </div>

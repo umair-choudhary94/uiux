@@ -1,0 +1,80 @@
+<!-- Modal -->
+<style>
+  #cancel-button{
+    font-family: Arial, Helvetica, sans-serif; 
+    color: #ffffff;
+    background-color: #000000;
+  }
+  #cancel-button:hover{
+    background-color: #ef0078;
+  }
+  #button-id{
+    font-family: Arial, Helvetica, sans-serif;
+    color: #ffffff; 
+    background-color: #ef0078;
+  }
+  #button-id:hover{
+    background-color: #000000;
+  }
+</style>
+<div
+  class="modal fade text-white"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog rounded" style="background-color: #343a40">
+    <div class="modal-content" style="background-color: #343a40">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Unlock this package</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p>To unlock this premium package you have to purchase it first</p>
+        <div class="bg-white rounded">
+          <p class="p-2 text-dark">Billing Payment Details</p>
+        </div>
+        <div class="py-2">
+          <h6>Payment Summary</h6>
+          <section>
+            <div class="d-flex justify-content-between">
+              <p>Subtotal:</p>
+              <p>$<span id="subtotal">20</span></p>
+            </div>
+            <div class="d-flex justify-content-between">
+              <p>Taxes:</p>
+              <p>$<span id="taxes">20</span></p>
+            </div>
+            <div class="d-flex justify-content-between">
+              <p>Website Fee (15% Incl.)</p>
+              <p>$<span id="website_fee">20</span></p>
+            </div>
+            <div class="d-flex justify-content-between">
+              <strong>Total:</strong>
+              <strong>$<span id="total">20</span></strong>
+            </div>
+          </section>
+        </div>
+        <small>
+          Note: After clicking on the button, you will be directed to a secure
+          gateway of payment. After completing the payment process, you will be
+          directed back to the website.
+        </small>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id = "cancel-button" class="btn" data-bs-dismiss="modal">
+          Cancel
+        </button>
+        <button id = "button-id" type="button" class="btn">
+            Subscribe
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

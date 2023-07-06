@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %} User Profile{% endblock title %}
+{% block content %}
+        {% include 'partials/center.html' %}
+        <!-- Middle section starts  -->
+        <div class="grid col-span-2 gap-4">
+          <section
+            id="default-sidebar"
+            class="z-40 h-auto max-w-full transition-transform -translate-x-full sm:translate-x-0"
+            aria-label="Sidebar"
+          >
+            <div
+              class="h-auto px-3 py-4 space-y-2 overflow-y-auto text-gray-300 bg-gray-800 dark:bg-gray-800"
+            >
+              <div>
+                <!-- Tailwind card starts  -->
+                <div
+                  class="font-sans leading-tight h-auto max-w-full bg-grey-lighter"
+                >
+                  <div class="mx-auto overflow-hidden">
+                    <div
+                      class="bg-cover h-36"
+                      style="
+                        background-image: url('{{user.profile.placeholder.url}}');
+                      "
+                    ></div>
+                    <div class=" px-4">
+                      <div class="text-center sm:text-left sm:flex mb-4">
+                        <img
+                          class="h-24 w-24 rounded-full border-4 border-white -mt-12 mr-4"
+                          src="{{user.profile.avatar.url}}"
+                          alt=""
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Tailwind card ends  -->
+                <div class="border-b px-3">
+                  <h3>{{user.first_name}} {{user.last_name}}</h3>
+                  <h3>@{{user.username}}</h3>
+                  <p class="mt-2">{{user.profile.about}}</p>
+                  <div class="flex space-x-10 mb-2">
+                    <p><span class="font-bold">Joined:</span> {{user.profile.created}}</p>
+                    <p><span class="font-bold">Sexuality:</span> {{user.profile.sex}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+        <!-- Middle section ends  -->
+{% endblock %}

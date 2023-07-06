@@ -1,0 +1,91 @@
+<section>
+      <div class="px-2 border">
+        <h5 class="mt-2">Settings</h5>
+        <h6>Manage your account</h6>
+      </div>
+      <section>
+        <div class="w-100">
+          <div class="d-flex flex-column flex-shrink-0 p-3 text-white">
+            <ul class="nav nav-pills flex-column mb-auto">
+              <li class="nav-item">
+                <a 
+                    href="{% url 'edit-profile' %}" 
+                    {% if request.path == '/profile/edit-profile' %}
+                    class="nav-link active"
+                    {% endif %}
+                    class="nav-link"
+                >
+                <i class="fa fa-user" aria-hidden="true" style="font-size:25px;"></i>
+                  Edit Profile
+                </a>
+              </li>
+              {% comment %} <li>
+                <a 
+                    href="{% url 'wallet' %}" 
+                    {% if request.path == '/wallet/' %}
+                    class="nav-link active"
+                    {% endif %}
+                    class="nav-link"
+                >
+                  <i
+                    class="fa fa-home"
+                    aria-hidden="true"
+                    width="16"
+                    height="16"
+                  ></i>
+                  Wallet
+                </a>
+              </li> {% endcomment %}
+              <li>
+                <a 
+                    href="{% url 'payments' %}" 
+                    {% if request.path == '/payments/' %}
+                    class="nav-link active"
+                    {% endif %}
+                    class="nav-link"
+                >
+                <i class="fa fa-money" aria-hidden="true" style="font-size:25px;"></i>
+                  Payments
+                </a>
+              </li>
+              <li>
+                <a 
+                    href="{% url 'subscriptions' %}" 
+                    {% if request.path == '/subscriptions/' %}
+                    class="nav-link active"
+                    {% endif %}
+                    class="nav-link"
+                >
+                  <i class="fa fa-book" aria-hidden="true" style="font-size:25px;"></i>
+                  Subscriptions
+                </a>
+              </li>
+              <li>
+                <a 
+                    href="{% url 'privacy' %}" 
+                    {% if request.path == '/privacy/' %}
+                    class="nav-link active"
+                    {% endif %}
+                    class="nav-link"
+                >
+                  <i class="fa fa-cogs" aria-hidden="true" style="font-size:25px;"></i>
+                  Privacy
+                </a>
+              </li>
+              {% comment %} <li>
+                <a 
+                    href="{% url 'account-settings' %}" 
+                    {% if request.path == '/account-settings/' %}
+                    class="nav-link active"
+                    {% endif %}
+                    class="nav-link"
+                >
+                  <i class="fa fa-wrench" aria-hidden="true" style="font-size:25px;"></i>
+                  Account Settings
+                </a>
+              </li> {% endcomment %}
+            </ul>
+          </div>
+        </div>
+      </section>
+    </section>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+    {% load socialaccount %}
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>EevEe - Select user type</title>
+        <!-- favicon -->
+        <link rel="shortcut icon" href="{% static 'constant/logo.ico' %}">
+        <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
+            />
+    </head>
+
+    <body class="">
+        <div class="flex items-center min-h-screen bg-gray-900">
+            <div class="flex-1 h-full max-w-4xl mx-auto bg-gray-600 rounded-lg shadow-xl">
+                <div class="flex flex-col md:flex-row">
+                    <div class="flex items-center justify-center p-4 sm:p-12 md:w-1/2">
+                        <div class="w-full">
+                            <div class="flex justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-20 h-20 text-blue-600" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path d="M12 14l9-5-9-5-9 5 9 5z" />
+                                    <path
+                                        d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
+                                </svg>
+                            </div>
+                            <h1 class="mb-4 text-2xl font-bold text-center text-gray-100">
+                                Sign Up As
+                            </h1>
+                        
+                            <div class="flex justify-between space-x-2">
+                                <style>
+                                    #link_button{
+                                        font-family: Arial, Helvetica, sans-serif; 
+                                        background-color: #ef0078;
+                                    }
+                                    #link_button:hover{
+                                        background-color: #ef66ab;
+                                    }
+                                </style>
+                                <a href="{% url 'viewer_signup' %}">
+                                    <button
+                                        id="link_button"
+                                        type="submit"
+                                        class="text-white w-full font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                                        >
+                                        Sign Up as Viewer
+                                    </button>
+                                </a>
+                                <a href="{% url 'creator_signup' %}">
+                                    <button
+                                        id="link_button"
+                                        type="submit"
+                                        class="w-full text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                                        >
+                                        Sign Up as Creator
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="h-40 md:h-auto md:w-1/2">
+                        <img class="object-cover w-full h-full" src="https://source.unsplash.com/user/erondu/1600x900"
+                            alt="img" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

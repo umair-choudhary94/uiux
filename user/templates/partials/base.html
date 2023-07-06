@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title> 
+      EevEe - {% block title %}{% endblock title %}
+    </title>
+    <!-- favicon -->
+    <link rel="shortcut icon" href="{% static 'constant/logo.ico' %}">
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <!-- Font awesome  -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      integrity="sha512-..."
+      crossorigin="anonymous"
+    />
+    <!-- Jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{%static 'styles/style.css' %}" />
+    <link rel="stylesheet" href="{%static 'styles/category.css' %}" />
+    <!-- <link
+      href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
+      rel="stylesheet"
+    /> -->
+    <!-- CSS -->
+    <!-- <link rel="stylesheet" href="{%static 'styles/profile.css' %}" /> -->
+    <link rel="stylesheet" href="{%static 'styles/models.css' %}" />
+    <!-- Stripe script  -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <!-- Replace "test" with your own sandbox Business account app client ID -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AXnZG6SliiwDvGfbRfG809zV_83jPBKP3Aqc_szwQKwjZuVxw8Fy7Vl-XSSlY_D_PsKMeceOXWfwx9yB&currency=USD"></script>
+  </head>
+  <body style="background-color: #212529">
+    <main class="mt-4">
+      <section class="px-4">
+        <div class="mb-2 d-md-none">
+          <button class="bg-transparent" onclick="navbarToggle()">
+            <i class="fa fa-bars" style="color:white;"></i>
+          </button>
+        </div>
+        <!-- Gallery -->
+        <div class="row">
+          <div
+            class="col-lg-3 col-md-12 mb-4 mb-lg-0 d-none d-lg-block" 
+            id = "navigation"
+          >
+            <div class="w-100" style="background-color: #343a40">
+              <div class="d-flex flex-column flex-shrink-0 p-3 text-white">
+                <div class="mx-auto">
+                  {% if request.user.is_authenticated %}
+                  <div
+                    class="d-flex align-items-center text-white text-decoration-none"
+                  >
+                    <a href="{% url 'profile' %}">
+                      <img
+                        src="{{user.profile.avatar.url}}"
+                        alt=""
+                        width="32"
+                        height="32"
+                        class="rounded-circle me-2"
+                      />
+                    </a>
+                    <div>
+                      <strong>{{user.first_name}} {{user.last_name}}</strong>
+                      <small style="display: block;">@{{user.username}}</small>
+                    </div>
+                  </div>
+                  {% endif %}
+                </div>
+                <hr />
+                <ul class="nav nav-pills flex-column mb-auto">
+                  <li class="nav-item">
+                    <a href="/" 
+                      {% if request.path == '/' %}
+                      class="nav-link active"
+                      {% endif %}
+                      class="nav-link"
+                      >
+                      <i
+                        class="fa fa-home"
+                        aria-hidden="true"
+                        style="font-size:25px;"
+                      ></i>
+                      Home
+                    </a>
+                  </li>
+                  {% if request.user.is_authenticated %}
+                  <li>
+                    <a 
+                      href="{% url 'bookmarks' %}"
+                      {% if request.path == '/bookmarks/' %}
+                      class="nav-link active"
+                      {% endif %}
+                      class="nav-link">
+                      <i
+                        class="fa fa-bookmark"
+                        aria-hidden="true"
+                        style="font-size:25px;"
+                      ></i>
+                      Bookmarks
+                    </a>
+                  </li>
+                  <li>
+                    <a 
+                      href="{% url 'notifications' %}" 
+                      {% if request.path == '/notifications/' %}
+                      class="nav-link active"
+                      {% endif %}
+                      class="nav-link">
+                      <i class="fa fa-bell" aria-hidden="true" style="font-size:25px;"></i>
+                      Notifications
+                    </a>
+                  </li>
+                  <li>
+                    <a 
+                      href="{% url 'messages' %}" 
+                      {% if request.path == '/messages/' %}
+                      class="nav-link active"
+                      {% endif %}
+                      class="nav-link">
+                      <i
+                        class="fa fa-commenting"
+                        aria-hidden="true"
+                        style="font-size:25px;"
+                      ></i>
+                      Messages
+                    </a>
+                  </li>
+                  <!-- <li>
+                    <a 
+                      href="{% url 'credits' %}" 
+                      {% if request.path == '/credits/' %}
+                      class="nav-link active"
+                      {% endif %}
+                      class="nav-link">
+                      <i
+                        class="fa fa-home"
+                        aria-hidden="true"
+                        width="16"
+                        height="16"
+                      ></i>
+                      Credits
+                    </a>
+                  </li> -->
+                  <li>
+                    <a 
+                      href="{% url 'subscriptions' %}" 
+                      {% if request.path == '/subscriptions/' %}
+                      class="nav-link active"
+                      {% endif %}
+                      class="nav-link">
+                      <i class="fa fa-book" aria-hidden="true" style="font-size:25px;"></i>
+                      Subscriptions
+                    </a>
+                  </li>
+                  <li>
+                    <a 
+                      href="{% url 'profile' %}" 
+                      {% if request.path == '/profile/' %}
+                      class="nav-link active"
+                      {% endif %}
+                      class="nav-link">
+                      <i class="fa fa-user-circle" aria-hidden="true" style="font-size:25px;"></i>
+                      My Profile
+                    </a>
+                  </li>
+                  {% endif %}
+                  {% if request.user.is_staff %}
+                  <li class="mx-2 mb-1">
+                    <a href="{% url 'admin:index' %}">
+                      <div
+                        id="create_models"
+                        class="text-center p-2 text-base font-normal text-white rounded-pill"
+                      >
+                        <span class="flex-1 ms-3 whitespace-nowrap"
+                          >Admin Page</span
+                        >
+                      </div>
+                    </a>
+                  </li>
+                  {% endif %}
+                  {% if user.is_creator or user.is_staff %}
+                  <li class="mx-2 mb-1">
+                  <a href="{% url 'created_models' %}">
+                    <div
+                      id="my_models"
+                      class="bg-black text-center p-2 text-base font-normal text-white rounded-pill"
+                    >
+                      <span class="flex-1 ml-3 whitespace-nowrap"
+                        >My Models</span
+                      >
+                    </div>
+                  </a>
+                </li>
+                <li class="mx-2 mb-1">
+                  <a href="{% url 'create-content' %}">
+                    <div
+                      id="create_models"
+                      class="text-center p-2 text-base font-normal text-white rounded-pill"
+                    >
+                      <span class="flex-1 ms-3 whitespace-nowrap"
+                        >Create Model</span
+                      >
+                    </div>
+                  </a>
+                </li>
+                {% endif %}
+                {% if request.user.is_authenticated %}
+                <li class="mx-2 mb-1">
+                  <a href="{% url 'logout' %}">
+                    <div
+                      id="create_models"
+                      class="text-center p-2 text-base font-normal text-white rounded-pill"
+                    >
+                      <span class="flex-1 ms-3 whitespace-nowrap"
+                        >Sign Out</span
+                      >
+                    </div>
+                  </a>
+                </li>
+                {% else %}
+                <li class="mx-2 mb-1">
+                  <a href="{% url 'login' %}">
+                    <div
+                      id="create_models"
+                      class="text-center p-2 text-base font-normal text-white rounded-pill"
+                    >
+                      <span class="flex-1 ms-3 whitespace-nowrap"
+                        >Sign In</span
+                      >
+                    </div>
+                  </a>
+                </li>
+                <li class="mx-2 mb-1">
+                  <a href="{% url 'signup' %}">
+                    <div
+                      id="create_models"
+                      class="text-center p-2 text-base font-normal text-white rounded-pill"
+                    >
+                      <span class="flex-1 ms-3 whitespace-nowrap"
+                        >Sign Up</span
+                      >
+                    </div>
+                  </a>
+                </li>
+                {% endif %}
+                {% if user.is_viewer %}
+                <li class="mx-2 mb-1">
+                  <a href="{% url 'creator_signup' %}">
+                    <div
+                      id="create_models"
+                      class="text-center p-2 text-base font-normal text-white rounded-pill"
+                    >
+                      <span class="flex-1 ms-3 whitespace-nowrap"
+                        >Sign Up as Creator</span
+                      >
+                    </div>
+                  </a>
+                </li>
+                {% endif %}
+                </ul>
+                <hr />
+              </div>
+            </div>
+            <!-- Modal starts  -->
+            {% include 'bootstrap/partials/bootstrap_modal.html' %}
+            <!-- Modal ends  -->
+          </div>
+          {% block content %}
+
+          {% endblock %}
+        </div>
+        <!-- Gallery -->
+      </section>
+    </main>
+    <div class="container">
+      <footer
+        class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top"
+      >
+        <div class="col-md-4 d-flex align-items-center">
+          <a
+            href="/"
+            class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1"
+          >
+          <img
+            class="rounded-circle"
+            src="{% static 'constant/logo.png' %}"
+            alt="Rounded avatar"
+            style="width:50px; height:50px;"
+          />
+          </a>
+          <span class="text-muted">&copy; 2023 <a href="/" class="hover:underline">EevEe</a>.  All Rights
+            Reserved.</span>
+        </div>
+
+        <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+          <li class="ms-3">
+            <a href="#" id="premium">
+              <i class="fa fa-facebook-square" aria-hidden="true" style="font-size:25px;"></i>
+            </a>
+            
+          </li>
+          <li class="ms-3">
+            <a href="#" id="premium">
+              <i class="fa fa-instagram" aria-hidden="true" style="font-size:25px;"></i>
+            </a>
+          </li>
+          <li class="ms-3">
+            <a href="#" id="premium">
+              <i class="fa fa-twitter-square" aria-hidden="true" style="font-size:25px;"></i>
+            </a>
+          </li>
+        </ul>
+      </footer>
+    </div>
+    <script src="{% static 'js/bootstrap_modal.js' %}"></script>
+    <script src="{% static 'js/navbar.js' %}"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+      integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+      integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

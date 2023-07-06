@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      EevEe - Sign Up As Content Creator 
+    </title>
+    <!-- favicon -->
+    <link rel="shortcut icon" href="{% static 'constant/logo.ico' %}">
+    <link
+      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
+        <!-- Flowbite css  -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
+        <style>
+      a:link {
+        font-family: Arial, Helvetica, sans-serif; 
+        color: #ef0078;
+        background-color: transparent;
+        text-decoration: none;
+      }
+      a:visited {
+        font-family: Arial, Helvetica, sans-serif; 
+        color: #ef0078;
+        background-color: transparent;
+        text-decoration: none;
+      }
+      a:hover {
+        color: #ffffff;
+        background-color: transparent;
+        text-decoration: underline;
+      }
+      input{
+        font-family: Arial, Helvetica, sans-serif; 
+        color: #b4aeb6;
+        background-color: #ffffff;
+      }
+      input:focus{
+        background-color: #e6f0ff;
+      }
+      #eye, #eye-slash{
+        color: #495564;
+      }
+      #link_button{
+        font-family: Arial, Helvetica, sans-serif; 
+        background-color: #ef0078;
+      }
+      #link_button:hover{
+        background-color: #ef66ab;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="flex items-center min-h-screen bg-gray-800">
+      <div
+        class="flex-1 h-full max-w-6xl mx-auto rounded-lg shadow-xl"
+      >
+        <div class="flex flex-col md:flex-row">
+          <div class="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
+            <div class="w-full">
+              <section>
+                <div
+                    class="w-full bg-gray-700 rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
+                  >
+                  <div class="pt-6 pl-12">
+                    <a href="/" class="flex items-center text-2xl font-semibold text-gray-400 dark:text-white">
+                        <img class="w-8 h-8 mr-2 rounded-full" src="{% static 'constant/logo.png' %}" alt="logo">
+                        EevEe    
+                    </a>
+                  </div>
+                    <div class="space-y-2 md:space-y-2 sm:p-8">
+                      <div class="text-xl font-semibold text-gray-400">
+                        <h1>Sign Up To Create Content</h1>
+                      </div>
+                      {% include 'bootstrap/partials/flowbite_signup_alerts.html' %}
+                      <form class="space-y-4 md:space-y-4" method="post">
+                        {% csrf_token %}
+                        <!-- Name starts -->
+                        <div class="flex space-x-1">
+                          <div>
+                            <div>
+                              <label
+                                for="username"
+                                class="block mb-2 text-sm font-medium text-gray-400 dark:text-white"
+                                >First Name</label
+                              >
+                              <input
+                                type="text"
+                                name="first_name"
+                                id="first_name"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-600 sm:text-sm rounded-md block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="John"
+                                required
+                              />
+                              
+                            </div>
+                          </div>
+                          <div>
+                            <div>
+                              <label
+                                for="username"
+                                class="block mb-2 text-sm font-medium text-gray-400 dark:text-white"
+                                >Last Name</label
+                              >
+                              <input
+                                type="text"
+                                name="last_name"
+                                id="last_name"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-600 sm:text-sm rounded-md block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="Doe"
+                                required
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <!-- Name ends  -->
+                        <div>
+                          <label
+                            for="username"
+                            class="block mb-2 text-sm font-medium text-gray-400 dark:text-white"
+                            >Your Username</label
+                          >
+                          <input
+                            type="username"
+                            name="username"
+                            id="email"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-md focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            {% if errors.username %}
+                            class="border border-red-500 text-gray-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-red-100 dark:border-red-400"
+                            {% endif %}
+                            value="{{ request.POST.username }}"
+                            placeholder="username"
+                            required=""
+                          />
+                           <!-- {% if errors.username %}
+                                <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ errors.username }}</p>
+                            {% endif %} -->
+                        </div>
+                        <div>
+                          <label
+                            for="email"
+                            class="block mb-2 text-sm font-medium text-gray-400 dark:text-white"
+                            >Your email</label
+                          >
+                          <input
+                            type="email"
+                            name="email"
+                            id="email"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-md focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            {% if errors.email %}
+                            class="border border-red-500 text-gray-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-red-100 dark:border-red-400"
+                            {% endif %}
+                            value="{{ request.POST.email }}"
+                            placeholder="name@company.com"
+                            required=""
+                          />
+                            <!-- {% if errors.email %}
+                            <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ errors.email }}</p>
+                            {% endif %} -->
+                        </div>
+                        <div>
+                          <label
+                            for="password"
+                            class="block mb-2 text-sm font-medium text-gray-400 dark:text-white"
+                            >Password</label
+                          >
+                          <div class="flex">
+                              <input
+                                type="password"
+                                name="password"
+                                id="password"
+                                placeholder="••••••••"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 rounded-r-none sm:text-sm rounded-md focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                {% if errors.password %}
+                                class="border border-red-500 text-gray-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-red-100 dark:border-red-400"
+                                {% endif %}
+                                required=""
+                              />
+                                <div class="flex -mr-px">
+                                  <span
+                                    onclick="togglePasswordVisibility()"
+                                    class="flex items-center cursor-pointer leading-normal bg-white rounded rounded-md rounded-l-none border-0 px-3 whitespace-no-wrap text-gray-600"
+                                    >
+                                    <i class="fas fa-eye-slash" id="eye"></i>
+                                    <i class="fa fa-eye" id="eye-slash" aria-hidden="true"  style="display: none;"></i>
+                                  </span>
+                                </div>
+                          </div>
+                          <!-- {% if errors.password %}
+                            <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ errors.password }}</p>
+                          {% endif %} -->
+                        </div>
+                        <div>
+                          <label
+                            for="confirm-password"
+                            class="block mb-2 text-sm font-medium text-gray-400 dark:text-white"
+                            >Confirm password</label
+                          >
+                          <div class="flex">
+                              <input
+                                type="password"
+                                name="confirm-password"
+                                id="confirm-password"
+                                placeholder="••••••••"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 rounded-r-none sm:text-sm rounded-md focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                {% if errors.password %}
+                                class="border border-red-500 text-gray-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-red-100 dark:border-red-400"
+                                {% endif %}
+                                required=""
+                              />
+                                <div class="flex -mr-px">
+                                  <span
+                                    onclick="toggleConfirmPasswordVisibility()"
+                                    class="flex items-center cursor-pointer leading-normal bg-white rounded rounded-md rounded-l-none border-0 px-3 whitespace-no-wrap text-gray-600"
+                                    >
+                                    <i class="fas fa-eye-slash" id="confirm-eye"></i>
+                                    <i class="fa fa-eye" id="confirm-eye-slash" aria-hidden="true"  style="display: none;"></i>
+                                  </span>
+                                </div>
+                          </div>
+                          <!-- {% if errors.password %}
+                            <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ errors.password }}</p>
+                          {% endif %} -->
+                        </div>
+                        <div class="flex items-start">
+                          <div class="flex items-center h-5">
+                            <input
+                              id="terms"
+                              aria-describedby="terms"
+                              type="checkbox"
+                              class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
+                              required=""
+                            />
+                          </div>
+                          <div class="ml-3 text-sm">
+                            <label
+                              for="terms"
+                              class="font-light text-gray-400 dark:text-gray-300"
+                              >I accept the
+                              <a
+                                class="font-medium text-pink-600 hover:underline dark:text-primary-500"
+                                href="{% url 'terms_and_conditions' %}"
+                                >Terms and Conditions</a
+                              ></label
+                            >
+                          </div>
+                        </div>
+                        <button
+                          id="link_button"
+                          type="submit"
+                          class="w-full text-white bg-pink-600 hover:bg-pink-700 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                        >
+                          Create an account
+                        </button>
+                        <p
+                          class="text-sm font-light text-center text-gray-400 dark:text-gray-400"
+                        >
+                          Already have an account?
+                          <a
+                            href="{% url 'login' %}"
+                            class="font-medium text-pink-600 hover:underline dark:text-primary-500"
+                            >Login here</a
+                          >
+                        </p>
+                      </form>
+                    </div>
+                  </div>
+              </section>
+            </div>
+          </div>
+          <div class="h-32 md:h-auto md:w-1/2">
+            <img
+              class="object-cover w-full h-full"
+              src="https://source.unsplash.com/user/erondu/1600x900"
+              alt="img"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+<script>
+  function togglePasswordVisibility() {
+    var passwordField = document.getElementById("password");
+    var eye = document.getElementById("eye");
+    var eyeSlash = document.getElementById("eye-slash");
+    if (passwordField.type === "password") {
+      passwordField.type = "text";
+      eye.style.display = "inline";
+      eyeSlash.style.display = "none";
+    } else {
+      passwordField.type = "password";
+      eye.style.display = "none";
+      eyeSlash.style.display = "inline";
+    }
+  }
+
+  function toggleConfirmPasswordVisibility() {
+    var passwordField = document.getElementById("confirm-password");
+    var eye = document.getElementById("confirm-eye");
+    var eyeSlash = document.getElementById("confirm-eye-slash");
+    if (passwordField.type === "password") {
+      passwordField.type = "text";
+      eye.style.display = "inline";
+      eyeSlash.style.display = "none";
+    } else {
+      passwordField.type = "password";
+      eye.style.display = "none";
+      eyeSlash.style.display = "inline";
+    }
+  }
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
+  </body>
+</html>

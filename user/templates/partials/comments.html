@@ -1,0 +1,119 @@
+<style>
+    body {
+        background-color: #eee
+    }
+    .form-control {
+        height: 48px;
+        border-radius: 25px
+    }
+    
+    .form-control:focus {
+        color: #495057;
+        background-color: #fff;
+        border-color: #35b69f;
+        outline: 0;
+        box-shadow: none;
+        text-indent: 10px
+    }
+    
+    .c-badge {
+        background-color: #35b69f;
+        color: white;
+        height: 20px;
+        font-size: 11px;
+        width: 92px;
+        border-radius: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 2px
+    }
+    
+    .comment-text {
+        font-size: 13px;
+        color:gray;
+    }
+    
+    .wish {
+        color: #35b69f
+    }
+    
+    .user-feed {
+        font-size: 14px;
+        margin-top: 12px
+    }
+</style>
+<div class="container mt-1 mb-5">
+    <div class="row height d-flex">
+        <div class="col-md-12">
+            <div>
+                <div class="p-2">
+                    <h5>Comments ({{comments.count}})</h5>
+                </div>
+                <form action="{% url 'model_content' content.content_id %}" method="post">
+                    {% csrf_token %}
+                    <div class="mt-1 d-flex flex-row align-items-center form-color"> 
+                        {% if request.user.is_authenticated %}
+                        <img src="{{request.user.profile.avatar.url}}" width="50" height="50" class="rounded-circle me-2"> 
+                        {% endif %}
+                        <input type="text" name="comment"  id="comment" class="form-control" placeholder="Enter your comment..." required> 
+                        {% if request.user.is_authenticated %}
+                            <button type="submit" class="btn btn-primary mx-2 rounded-pill">Submit</button>
+                        {% else %}
+                            <a href="{% url 'login' %}" class="btn btn-primary mx-2 rounded-pill">
+                                Submit
+                            </a>
+                        {% endif %}
+                    </div>
+                </form>
+                <div class="mt-2">
+                    {% for comment in comments %}
+                    <div class="d-flex flex-row p-3"> <img src="{{comment.user.avatar.url}}" width="40" height="40" class="rounded-circle me-2">
+                        <div class="w-100">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex flex-row align-items-center"> <span class="me-1">{{comment.user.user.first_name}} {{comment.user.user.last_name}}</span></div> <small>12h ago</small>
+                            </div>
+                            <p class="text-justify comment-text mb-0">{{comment.comment}}</p>
+                            <style>
+                                #comments{
+                                    color:#d6336c;
+                                }
+                                #comments:hover{
+                                    color:white;
+                                }
+                            </style>
+                            {% if request.user.profile == comment.user %}
+                            <a href="{% url 'delete_comment' comment.comment_id %}" id="comments">
+                                <div class="d-flex flex-row user-feed"> 
+                                    <span class="ms-3">
+                                        <i class="fa fa-trash-o mr-2"></i> 
+                                        Delete
+                                    </span> 
+                                </div>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const gridContainer = document.querySelector(".images-container");
+      const commentContainer = document.querySelector(".comment-container");
+      document.getElementById("show-comments-button")
+        .addEventListener("click", function () {
+          commentContainer.classList.toggle("d-none");
+          if (commentContainer.classList.contains("d-none")) {
+            gridContainer.classList.remove("d-none");
+            document.getElementById("comments-hover").innerHTML = "Show Comments";
+          } else {
+            gridContainer.classList.add("d-none");
+            document.getElementById("comments-hover").innerHTML = "Hide Comments";
+          }
+        });
+    });
+  </script>
