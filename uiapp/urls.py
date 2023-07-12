@@ -1,8 +1,11 @@
-
+from django.conf.urls import url
 from django.urls import path
 from . import views
 urlpatterns = [
     path("",views.index),
+    path("create-new-post/", views.new_post),
+    path("bookmark/<int:post_id>/", views.isbookmark, name="bookmark"),
+    path("like/<int:post_id>/", views.islike,name="like"),
     path("bookmarks/",views.bookmarks),
     path("likedpost/",views.likedpost),
     path("notifications/",views.notifications),
@@ -11,13 +14,9 @@ urlpatterns = [
     path("withdraw/",views.withdraw),
     path("payment-history/",views.payment_history),
     path("income/", views.income),
-    path("customer-support/", views.customer_support),
-    path("terms-and-conditions/", views.terms_condition),
-    path("blocked-user/", views.blocked_user),
     path("payment-information-card/", views.payment_information1),
     path("payment-information-paypal/", views.payment_information2),
-    path("create-new-post/", views.new_post),
-    path("my-profile/", views.myprofile),
+    path("profile/", views.myprofile),
     path("edit-profile/", views.edit_profile),
     path("chat/", views.chat),
 ]

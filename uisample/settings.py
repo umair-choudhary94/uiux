@@ -97,6 +97,15 @@ TEMPLATES = [
 WSGI_APPLICATION = 'uisample.wsgi.application'
 
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+
+    # Put your context processors here
+
+    'django.core.context_processors.request',
+)
+
+
+
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 

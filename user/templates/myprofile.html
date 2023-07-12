@@ -6,13 +6,13 @@
             <div class="col">
                 <div class="card shadow-0">
                     <div class="rounded-top text-white d-flex flex-row" style="background-color: #131212; height:200px;">
-                        <!-- <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp" alt="Image description" class="img-fluid img-thumbnail mt-5 mb-2"> -->
-                        <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px">
+                        <img src="/media/{{profile.coverpic}}" alt="Image description" style="position: absolute;width:100%; height:35%; margin-top:0px !important" class="img-fluid img-thumbnail mt-5 mb-2">
+                        <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
                             <img
-                            src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                            src="/media/{{profile.profilepic}}"
                             alt="Generic placeholder image"
                             class="img-fluid img-thumbnail mt-5 mb-2"
-                            style="width: 150px; border-radius: 50%; z-index: 1"
+                            style="width: 150px; border-radius: 50%; z-index: 1;"
                             />
                         </div>
                     </div>
@@ -58,25 +58,24 @@
                             <div class="col-10">
                                 <div class="mb-3">
                                     <h5 style="font-weight: bold; line-height: 5px">
-                                    GAXIA LEXA
+                                    {{user.first_name}}
                                     </h5>
-                                    <p class="mb-1" style="font-weight: bold;font-size: 14px;">@UserGirlAi</p>
+                                    <p class="mb-1" style="font-weight: bold;font-size: 14px;">@{{user.username}}</p>
                                     <div>
                                         <p class="font-italic mb-1" style="font-size: 15px; line-height: 15px;">
-                                            In publishing and graphic design, Lorem ipsum is a
-                                            placeholder text commonly.
+                                            {{profile.about}}
                                         </p>
                                     </div>
                                 </div>
                                 <div class="row mt-4">
                                     <div class="col-4 d-flex i-text">
-                                        <i class="fa-solid fa-venus mt-1 me-1"></i><p>Female</p>
+                                        <i class="fa-solid fa-venus mt-1 me-1"></i><p>{{profile.sex}}</p>
                                     </div>
                                     <div class="col-4 d-flex i-text">
-                                        <i class="fa-solid fa-location-dot mt-1 me-1"></i><p >United Kingdom</p>
+                                        <i class="fa-solid fa-location-dot mt-1 me-1"></i><p >{{profile.created_at}}</p>
                                     </div>
                                     <div class="col-4 d-flex px-3 i-text">
-                                        <i class="fa-solid fa-person mt-1 me-1 ms-4"></i><p>White</p>
+                                        <i class="fa-solid fa-person mt-1 me-1 ms-4"></i><p>{{profile.ethnicity}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -122,92 +121,88 @@
 </div>
 <div class="row">
     <div class="col-12 ">
-            <div class="post-card">
-                <div class="post-header">
-                    <div class="row">
-                        <div class="col-1">
-                            <img class="user-icon" src="https://placeimg.com/30/30/person" alt="User Icon">
-                        </div>
-                        <div class="col-7">
-                            <p >Elon Musk
-                                <span class="d-block" style="font-size:12px;">1h ago</span>
-                            </p>
-                            
-                            
-                        </div>
-                        <div class="col-2">
-                        
-                                <div style="font-size:9px;">
-                                    10k+ Subscribers 
-                                </div>
-                                <button class="sub-btn btn btn-sm">Subscribed</button>
-                            
-                        </div>
-                    </div>
-                    <p>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquid, alias.
+
+
+{% for items in post %}
+<div class="mt-2">
+    <div class="post-card">
+        <div class="post-header">
+            <div class="row">
+                <div class="col-1">
+                    <img class="user-icon" src="/media/{{profile.profilepic}}" style="height:40px;width:40px"  alt="User Icon">
+                </div>
+                <div class="col-md-8 col-6 ">
+                    <p >{{user.first_name}}
+                        <span class="d-block" style="font-size:12px;">{{items.created_at}}</span>
                     </p>
-            
-                    <div class="post-img">
-                        <img class="user-icon" src="https://placeimg.com/700/300/ai" alt="image">
-                    </div>
-                    <div class="post-footer">
-                        <div class="row">
-                            <div class="col-6">
-                                <i class="fa-solid fs-4 me-2 text-danger fa-heart"></i>
-                                <i class="fa-regular me-2 fa-comment fs-4"></i>
-                                <i class="fa-solid fa-hand-holding-medical fs-4"></i> tip
-                            </div>
-                            <div class="col-6 text-center">
-                                5 Likes 4 Comments   <i class="fa-solid fa-bookmark  ms-2 mr-1"></i>
-                            </div>
+
+
+                </div>
+                <div class="col-md-2 col-5">
+
+                        <div style="font-size:9px;">
+                            10k+ Subscribers
                         </div>
+                        <button class="sub-btn btn btn-sm">Subscribed</button>
+
+                </div>
+            </div>
+            <p>
+                {{items.description}}
+            </p>
+
+            <div class="post-img">
+                <img class="user-icon" src="/media/{{ items.post_picture }}" alt="image">
+            </div>
+
+
+            <div class="post-footer">
+                <div class="row">
+                    <div class="col-6">
+                        {% if items.is_like %}
+                        <a href="{% url 'like' items.id %}" style="font-wight:bold">
+                        <i class="fa-solid fs-4 me-2 text-danger fa-heart"></i>
+                        </a>
+                        {% else %}
+                        <a href="{% url 'like' items.id %}" style="font-wight:bold">
+                        <i class="fa-solid fs-4 me-2 text-danger fa-heart"></i>
+                        </a>
+                        {% endif %}
+
+                        <a href="#">
+                        <i class="fa-regular me-2 fa-comment fs-4"></i>
+                        </a>
+
+                        <a href="#">
+                            <i class="fa-solid fa-hand-holding-medical fs-4"></i> <span class="i-text">Send</span>
+                        </a>
+
+                    </div>
+                    <div class="col-6 text-center">
+                       <span class="i-text">5 Likes</span>
+                        <span class="i-text">4 Comments</span>
+
+                        {% if items.is_bookmark %}
+                        <span><a href="{% url 'bookmark' items.id %}"> <i class="fa-solid fa-bookmark"></i></a></span>
+                        {% else %}
+                        <span><a style="color:black" href="{% url 'bookmark' items.id %}"> <i  class="fa-solid fa-bookmark"></i></a></span>
+                        {% endif %}
+
                     </div>
                 </div>
             </div>
-            <div class="post-card">
-                <div class="post-header">
-                    <div class="row">
-                        <div class="col-1">
-                            <img class="user-icon" src="https://placeimg.com/30/30/person" alt="User Icon">
-                        </div>
-                        <div class="col-7">
-                            <p >Elon Musk
-                                <span class="d-block" style="font-size:12px;">1h ago</span>
-                            </p>
-                            
-                            
-                        </div>
-                        <div class="col-2">
-                        
-                                <div style="font-size:9px;">
-                                    10k+ Subscribers 
-                                </div>
-                                <button class="sub-btn btn btn-sm">Subscribed</button>
-                            
-                        </div>
-                    </div>
-                    <p>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquid, alias.
-                    </p>
-            
-                    <div class="post-img">
-                        <img class="user-icon" src="https://placeimg.com/700/300/ai" alt="image">
-                    </div>
-                    <div class="post-footer">
-                        <div class="row">
-                            <div class="col-6">
-                                <i class="fa-solid fs-4 me-2 text-danger fa-heart"></i>
-                                <i class="fa-regular me-2 fa-comment fs-4"></i>
-                                <i class="fa-solid fa-hand-holding-medical fs-4"></i> Send tip
-                            </div>
-                            <div class="col-6 text-center">
-                                5 Likes 4 Comments   <i class="fa-solid fa-bookmark  ms-2 mr-1"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+
+
+
+        </div>
+    </div>
+
+
+
+</div>
+{% endfor %}
+
     </div>
 </div>
 

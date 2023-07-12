@@ -14,10 +14,12 @@
     <div class="bookmarks-body">
         <div class="content active" id="content1">
             <div class="row">
+
+                {% for items in post %}
                 <div class="col-6">
                     <div class="bookmark-card">
                         <div class="book-card-img">
-                            <img src="https://placeimg.com/150/150/ai" alt="" >
+                            <img src="/media/{{items.post_picture}}" alt="" >
                         </div>
                         <div class="b-card-footer">
                             <i class="fa-solid fa-arrow-up-from-bracket me-2"></i>
@@ -25,50 +27,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-6">
-                    <div class="bookmark-card">
-                        <div class="book-card-img">
-                            <img src="https://placeimg.com/150/150/ai" alt="" >
-                        </div>
-                        <div class="b-card-footer">
-                            <i class="fa-solid fa-arrow-up-from-bracket me-2"></i>
-                            <i class="fa-regular fa-bookmark"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="bookmark-card">
-                        <div class="book-card-img">
-                            <img src="https://placeimg.com/150/150/ai" alt="" >
-                        </div>
-                        <div class="b-card-footer">
-                            <i class="fa-solid fa-arrow-up-from-bracket me-2"></i>
-                            <i class="fa-regular fa-bookmark"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="bookmark-card">
-                        <div class="book-card-img">
-                            <img src="https://placeimg.com/150/150/ai" alt="" >
-                        </div>
-                        <div class="b-card-footer">
-                            <i class="fa-solid fa-arrow-up-from-bracket me-2"></i>
-                            <i class="fa-regular fa-bookmark"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="bookmark-card">
-                        <div class="book-card-img">
-                            <img src="https://placeimg.com/150/150/ai" alt="" >
-                        </div>
-                        <div class="b-card-footer">
-                            <i class="fa-solid fa-arrow-up-from-bracket me-2"></i>
-                            <i class="fa-regular fa-bookmark"></i>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
+
+
+
             </div>
 
 
@@ -77,10 +39,12 @@
           <div class="content" id="content2">
             
             <div class="row">
+
+                {% for items in post %}
                 <div class="col-6">
                     <div class="bookmark-card">
                         <div class="book-card-img">
-                            <img src="https://placeimg.com/150/150/ai" alt="" >
+                            <img src="/media/{{items.post_picture}}" alt="" >
                         </div>
                         <div class="b-card-footer">
                             <i class="fa-solid fa-arrow-up-from-bracket me-2"></i>
@@ -88,50 +52,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-6">
-                    <div class="bookmark-card">
-                        <div class="book-card-img">
-                            <img src="https://placeimg.com/150/150/ai" alt="" >
-                        </div>
-                        <div class="b-card-footer">
-                            <i class="fa-solid fa-arrow-up-from-bracket me-2"></i>
-                            <i class="fa-regular fa-bookmark"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="bookmark-card">
-                        <div class="book-card-img">
-                            <img src="https://placeimg.com/150/150/ai" alt="" >
-                        </div>
-                        <div class="b-card-footer">
-                            <i class="fa-solid fa-arrow-up-from-bracket me-2"></i>
-                            <i class="fa-regular fa-bookmark"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="bookmark-card">
-                        <div class="book-card-img">
-                            <img src="https://placeimg.com/150/150/ai" alt="" >
-                        </div>
-                        <div class="b-card-footer">
-                            <i class="fa-solid fa-arrow-up-from-bracket me-2"></i>
-                            <i class="fa-regular fa-bookmark"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="bookmark-card">
-                        <div class="book-card-img">
-                            <img src="https://placeimg.com/150/150/ai" alt="" >
-                        </div>
-                        <div class="b-card-footer">
-                            <i class="fa-solid fa-arrow-up-from-bracket me-2"></i>
-                            <i class="fa-regular fa-bookmark"></i>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
+
+
             </div>
 
           </div>

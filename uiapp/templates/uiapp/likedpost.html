@@ -5,185 +5,85 @@
 <div class="likedpost">
 <h5 class="mx-2"><i class="fa-sharp fa-solid fa-heart  me-2 mb-2"></i>Liked Posts</h5>
 
-<div class="post-card">
-    <div class="post-header">
-        <div class="row">
-            <div class="col-1">
-                <img class="user-icon" src="https://placeimg.com/30/30/person" alt="User Icon">
-            </div>
-            <div class="col-md-8 col-6 ">
-                <p >Elon Musk
-                    <span class="d-block" style="font-size:12px;">1h ago</span>
-                </p>
-                
-                
-            </div>
-            <div class="col-md-2 col-5">
-            
-                    <div style="font-size:9px;">
-                        10k+ Subscribers 
-                    </div>
-                    <button class="sub-btn btn btn-sm">Subscribed</button>
-                
-            </div>
-        </div>
-        <p>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquid, alias.
-        </p>
 
-        <div class="post-img">
-            <img class="user-icon" src="https://placeimg.com/700/300/ai" alt="image">
-        </div>
-        <div class="post-footer">
+{% for items in liked_posts %}
+<div class="mt-2">
+    <div class="post-card">
+        <div class="post-header">
             <div class="row">
-                <div class="col-6">
-                    <i class="fa-solid fs-4 me-2 text-danger fa-heart"></i>
-                    <i class="fa-regular me-2 fa-comment fs-4"></i>
-                    <i class="fa-solid fa-hand-holding-medical fs-4"></i> <span class="i-text">Send</span>
+                <div class="col-1">
+                    <img class="user-icon" src="/media/{{profile.profilepic}}" style="height:40px;width:40px"  alt="User Icon">
                 </div>
-                <div class="col-6 text-center">
-                   <span class="i-text">5 Likes</span> <span class="i-text">4 Comments</span><span> <i class="fa-solid fa-bookmark"></i></span>
+                <div class="col-md-8 col-6 ">
+                    <p >{{items.first_name}}
+                        <span class="d-block" style="font-size:12px;">{{items.date_joined}}</span>
+                    </p>
+
+
+                </div>
+                <div class="col-md-2 col-5">
+
+                        <div style="font-size:9px;">
+                            10k+ Subscribers
+                        </div>
+                        <button class="sub-btn btn btn-sm">Subscribed</button>
+
                 </div>
             </div>
+            <p>
+                {{items.description}}
+            </p>
+
+            <div class="post-img">
+                <img class="user-icon" src="/media/{{ items.post_picture }}" alt="image">
+            </div>
+
+            <div class="post-footer">
+                <div class="row">
+                    <div class="col-6">
+                        {% if items.is_like %}
+                        <a href="{% url 'like' items.id %}" style="font-wight:bolder; font-size:14px">
+                        <i class="fa-solid fs-4 me-2 text-danger fa-heart"></i>
+                        </a>
+                        {% else %}
+                        <a href="{% url 'like' items.id %}" style="font-wight:bold">
+                        <i class="fa-solid fs-4 me-2 text-danger fa-heart"></i>
+                        </a>
+                        {% endif %}
+
+                        <a href="#">
+                        <i class="fa-regular me-2 fa-comment fs-4"></i>
+                        </a>
+
+                        <a href="#">
+                            <i class="fa-solid fa-hand-holding-medical fs-4"></i> <span class="i-text">Send</span>
+                        </a>
+
+                    </div>
+                    <div class="col-6 text-center">
+                       <span class="i-text">5 Likes</span>
+                        <span class="i-text">4 Comments</span>
+
+                        {% if items.is_bookmark %}
+                        <span><a href="{% url 'bookmark' items.id %}"> <i class="fa-solid fa-bookmark"></i></a></span>
+                        {% else %}
+                        <span><a style="color:black" href="{% url 'bookmark' items.id %}"> <i  class="fa-solid fa-bookmark"></i></a></span>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+
+
+
         </div>
     </div>
+
+
+
 </div>
+{% endfor %}
 
-    <div class="post-card mb-3">
-        <div class="post-header">
-            <div class="row">
-                <div class="col-1">
-                    <img class="user-icon" src="https://placeimg.com/30/30/person" alt="User Icon">
-                </div>
-                <div class="col-md-8 col-6">
-                    <p >Elon Musk
-                        <span class="d-block" style="font-size:12px;">1h ago</span>
-                    </p>
-                    
-                    
-                </div>
-                <div class="col-md-2 col-5">
-                
-                        <div style="font-size:9px;">
-                            10k+ Subscribers 
-                        </div>
-                        <button class="sub-btn btn btn-sm">Subscribed</button>
-                    
-                </div>
-            </div>
-            <p>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquid, alias.
-            </p>
-    
-            <div class="post-img">
-                <div class="row">
-                    <div class="col-6">
-                        <img class="user-icon" src="https://placeimg.com/700/300/ai" alt="image">
-
-                    </div>
-                    <div class="col-6">
-                        <img class="user-icon" src="https://placeimg.com/700/300/ai" alt="image">
-
-                    </div>
-                </div>
-            </div>
-            <div class="post-footer">
-                <div class="row">
-                    <div class="col-6">
-                        <i class="fa-solid fs-4 me-2 text-danger fa-heart"></i>
-                        <i class="fa-regular me-2  fs-4 fa-square-plus"></i>
-                        <i class="fa-solid fa-hand-holding-medical fs-4"></i> <div class="i-text">Send</div>
-                    </div>
-                    <div class="col-6 text-center footer_left">
-                    <span class="i-text">5 Likes</span><span class="i-text">4 Comments </span><span class=""><i class="fa-solid fa-bookmark"></i></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="post-card mb-3">
-        <div class="post-header">
-            <div class="row">
-                <div class="col-1">
-                    <img class="user-icon" src="https://placeimg.com/30/30/person" alt="User Icon">
-                </div>
-                <div class="col-md-8 col-6">
-                    <p >Elon Musk
-                        <span class="d-block" style="font-size:12px;">1h ago</span>
-                    </p>
-                    
-                    
-                </div>
-                <div class="col-md-2 col-5">
-                
-                        <div style="font-size:9px;">
-                            10k+ Subscribers 
-                        </div>
-                        <button class="sub-btn btn btn-sm">Subscribed</button>
-                    
-                </div>
-            </div>
-            <p>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquid, alias.
-            </p>
-    
-            <div class="post-img">
-                <div class="row">
-                    <div class="col-3">
-                        <img class="user-icon" src="https://placeimg.com/400/300/ai" alt="image">
-
-                    </div>
-                    <div class="col-3">
-                        <img class="user-icon" src="https://placeimg.com/400/300/ai" alt="image">
-
-                    </div>
-                    <div class="col-3">
-                        <img class="user-icon" src="https://placeimg.com/400/300/ai" alt="image">
-
-                    </div>
-                    <div class="col-3">
-                        <img class="user-icon" src="https://placeimg.com/400/300/ai" alt="image">
-
-                    </div>
-                        
-                </div>
-                <!-- second row   -->
-                <div class="row mt-2">
-                    <div class="col-3">
-                        <img class="user-icon" src="https://placeimg.com/400/300/ai" alt="image">
-
-                    </div>
-                    <div class="col-3">
-                        <img class="user-icon" src="https://placeimg.com/400/300/ai" alt="image">
-
-                    </div>
-                    <div class="col-3">
-                        <img class="user-icon" src="https://placeimg.com/400/300/ai" alt="image">
-
-                    </div>
-                    <div class="col-3">
-                        <img class="user-icon" src="https://placeimg.com/400/300/ai" alt="image">
-
-                    </div>
-                        
-                </div>
-            </div>
-            <div class="post-footer">
-                <div class="row">
-                    <div class="col-6">
-                        <i class="fa-solid fs-4 me-2 text-danger fa-heart"></i>
-                        <i class="fa-regular me-2  fs-4 fa-square-plus"></i>
-                        <i class="fa-solid fa-hand-holding-medical fs-4"></i> Send tip
-                    </div>
-                    <div class="col-6 text-center footer_left">
-                        5 Likes 4 Comments   <i class="fa-solid fa-bookmark mx-3"></i>
-                    </div>
-                </div>
-            </div>    
-         
-        </div>
-    </div>
 </div>
 
 

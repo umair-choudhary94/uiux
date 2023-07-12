@@ -3,7 +3,7 @@ from django.contrib.auth import login, authenticate, update_session_auth_hash
 from django.shortcuts import render, redirect
 from django.db import IntegrityError
 from django.http import *
-from .models import *
+from uiapp.models import *
 from .forms import *
 from django.contrib import messages
 from django.contrib import auth
@@ -18,11 +18,25 @@ from django.core.mail import EmailMessage
 from django.urls import reverse
 from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth.decorators import login_required
+from django.db import connection
 
 # Create your views here.
+@login_required(login_url='/login')
 def index(request):
-
-    return render(request,"home.html")
+    sex = SEX_CHOICES
+    post = []
+    cursor = connection.cursor()
+    query = "SELECT c.id, c.first_name, c.username, c.date_joined, d.profilepic, s.description, s.post_picture, p.is_bookmark, p.is_like,p.post_id,p.user_id "\
+            "FROM user_user c LEFT JOIN user_profile d ON c.id = d.user_id LEFT JOIN uiapp_post s ON c.id = s.user_id LEFT JOIN uiapp_likebookmarkpost p "\
+            "ON s.id = p.post_id;"
+    cursor.execute(query)
+    col_names = [col[0] for col in cursor.description]
+    for row in cursor.fetchall():
+        row_dict = dict(zip(col_names, row))
+        post.append(row_dict)
+    user = request.user
+    context = {'user':user,'post':post, "sex": sex}
+    return render(request,"uiapp/home.html",context)
 
 
 def signup(request):
@@ -223,31 +237,61 @@ class ResetUserPassword(View):
 @login_required(login_url='/login')
 def userProfile(request):
     sex = SEX_CHOICES
-    context = {"sex": sex}
+    user = request.user
+    profile = Profile.objects.filter(id = user.id).first()
+    post = Post.objects.filter(user_id = user.id)
+    context = {'user':user, 'profile': profile,'post':post, "sex": sex}
     return render(request, 'myprofile.html', context)
     # return render(request, 'users/user_profile.html', context)
-
 
 @login_required(login_url='/login')
 def edit_profile(request):
     sex = SEX_CHOICES
-    user = request.user
-    profile = Profile.objects.get(user=user)
+    id = request.user.id
+    user = User.objects.get(id=id)
+    profile = Profile.objects.filter(user_id=id).first()
     if request.method == 'POST':
-        first_name = request.POST.get('first_name', user.first_name)
-        last_name = request.POST.get('last_name', user.last_name)
-        user.first_name = first_name
-        user.last_name = last_name
-        username = request.POST.get('username', user.username)
-        user.username = username
+        data = request.POST
+        user.first_name = data.get('name')
+        user.uerusername = data.get('username')
         user.save()
-        profile.avatar = request.FILES.get('avatar', profile.avatar)
-        profile.placeholder = request.FILES.get('placeholder', profile.placeholder)
-        profile.about = request.POST.get('about', profile.about)
-        profile.sex = request.POST.get('sex', profile.sex)
-        profile.is_premium = request.POST.get('is_premium', profile.is_premium)
-        profile.save()
-        return redirect('profile')
+        if profile:
+            profile.coverpic = request.FILES.get('coverpic',profile.coverpic)
+            profile.profilepic = request.FILES.get('profilepic',profile.profilepic)
+            profile.about = data.get('about')
+            profile.sex= data.get('sex')
+            profile.location = data.get('location')
+            profile.ethnicity = data.get('ethnicity')
+            if data.get('is_free') == 'option1':
+                profile.is_free = True
+            else:
+                profile.is_free = False
+            if data.get('is_premium') == 'option2':
+                profile.is_premium = True
+            else:
+                profile.is_premium = False
+            profile.save()
+        else:
+            profileModel = Profile()
+            profileModel.coverpic = request.FILES.get('coverpic')
+            profileModel.profilepic = request.FILES.get('profilepic')
+            profileModel.about = data.get('about')
+            profileModel.sex= data.get('sex')
+            profileModel.location = data.get('location')
+            profileModel.ethnicity = data.get('ethnicity')
+            if data.get('is_free') == 'option1':
+                profile.is_free = True
+            else:
+                profile.is_free = False
+            if data.get('is_premium') == 'option2':
+                profile.is_premium = True
+            else:
+                profile.is_premium = False
+            profileModel.user_id = id
+            profileModel.save()
+
+        context = {'user': user, 'profile': profile, "sex": sex}
+        return render(request, 'myprofile.html',context)
     context = {'user': user, 'profile': profile, "sex": sex}
     return render(request, 'editprofile.html', context)
     # return render(request, 'users/edit-profile.html', context)

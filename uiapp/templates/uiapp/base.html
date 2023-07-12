@@ -150,7 +150,7 @@
           <h5>Users</h5>
           <ul>
             <li>
-              <a href="/my-profile" class="nav-link">
+              <a href="{% url 'profile' %}" class="nav-link">
                 <i class="far fa-user me-2"></i>Profile
               </a>
             </li>
@@ -161,24 +161,24 @@
         <hr>
         <li>
           <h5>Support</h5>
-          <ul>
-            <li>
-              <a href="/customer-support" class="nav-link">
-                <i class="far fa-circle-question me-2"></i>Customer Support
-              </a> 
-            </li>
-            <li>
-              <a href="/terms-and-conditions" class="nav-link">
-                <i class="fas fa-book me-2"></i>Terms & Conditions
-              </a>
-            </li>
-            <li>
-              <a href="/blocked-user" class="nav-link">
-                <i class="fas fa-circle-xmark me-2"></i>Blocked User
-              </a>
-            </li>
-           
-          </ul>
+                  <ul>
+                    <li>
+                      <a href="{% url 'customer-support' %}" class="nav-link">
+                        <i class="far fa-circle-question me-2"></i>Customer Support
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'terms-and-conditions' %}" class="nav-link">
+                        <i class="fas fa-book me-2"></i>Terms & Conditions
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'blocked-user' %}" class="nav-link">
+                        <i class="fas fa-circle-xmark me-2"></i>Blocked User
+                      </a>
+                    </li>
+
+                  </ul>
         </li>
         <hr>
         <a href="/create-new-post" class=" sub-btn btn mb-2  mt-3 px-5 button">Create a new post</a>
@@ -255,7 +255,7 @@
                   <h5>Users</h5>
                   <ul>
                     <li>
-                      <a href="/my-profile" class="nav-link">
+                      <a href="{% url 'profile' %}" class="nav-link">
                         <i class="far fa-user me-2"></i>Profile
                       </a>
                     </li>
@@ -268,17 +268,17 @@
                   <h5>Support</h5>
                   <ul>
                     <li>
-                      <a href="/customer-support" class="nav-link">
+                      <a href="{% url 'customer-support' %}" class="nav-link">
                         <i class="far fa-circle-question me-2"></i>Customer Support
                       </a> 
                     </li>
                     <li>
-                      <a href="/terms-and-conditions" class="nav-link">
+                      <a href="{% url 'terms-and-conditions' %}" class="nav-link">
                         <i class="fas fa-book me-2"></i>Terms & Conditions
                       </a>
                     </li>
                     <li>
-                      <a href="/blocked-user" class="nav-link">
+                      <a href="{% url 'blocked-user' %}" class="nav-link">
                         <i class="fas fa-circle-xmark me-2"></i>Blocked User
                       </a>
                     </li>
@@ -389,12 +389,42 @@
     
         <!-- MDB -->
     <script src="https://use.fontawesome.com/47c6d34241.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
     <script
     type="text/javascript"
     src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.js"
     ></script>
     <script src="{% static 'js/chat.js' %}"></script>
-    <script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script type="text/javascript">
+
+  const btnE1 = document.querySelector('.bookmark');
+  function postBookmark(){
+
+    $.ajax(
+    {
+        type:"POST",
+        url: {% url 'bookmark' user.id %},
+        data:{
+                 post_id: 1,
+                 csrfmiddlewaretoken: '{{ csrf_token }}' ,
+        },
+
+        success: function( data )
+        {
+            alert("hellooo");
+
+            $( '#like'+ catid ).remove();
+            $( '#message' ).text(data);
+        }
+     })
+}
+  btnE1.addEventListener('click',postBookmark);
+
+
+//Bookmark function
+
       // Toggle sidebar on hamburger click
     var navbarHamburger = document.querySelector('.navbar-hamburger');
     var sidebar = document.querySelector('.sidebar');
