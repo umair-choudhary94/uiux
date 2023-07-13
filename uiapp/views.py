@@ -160,6 +160,11 @@ def subscription(request):
     context = {'user': user, 'post': post, 'profile': profile}
     return render(request,"uiapp/subscription.html",context)
 
+
+def signup(request):
+    context = {}
+    return render(request, 'signup.html', context)
+
 def wallet(request):
     return render(request,"uiapp/wallet.html")
 

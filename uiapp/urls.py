@@ -2,7 +2,7 @@ from django.conf.urls import url
 from django.urls import path
 from . import views
 urlpatterns = [
-    path("",views.index),
+    path("",views.signup),
     path("create-new-post/", views.new_post),
     path("bookmark/<int:post_id>/", views.isbookmark, name="bookmark"),
     path("like/<int:post_id>/", views.islike,name="like"),
