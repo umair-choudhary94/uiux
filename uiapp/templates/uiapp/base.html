@@ -173,7 +173,7 @@
                       </a>
                     </li>
                     <li>
-                      <a href="{% url 'blocked-user' %}" class="nav-link">
+                      <a href="{% url 'blockedusers' %}" class="nav-link">
                         <i class="fas fa-circle-xmark me-2"></i>Blocked User
                       </a>
                     </li>
@@ -278,7 +278,7 @@
                       </a>
                     </li>
                     <li>
-                      <a href="{% url 'blocked-user' %}" class="nav-link">
+                      <a href="{% url 'blockedusers' %}" class="nav-link">
                         <i class="fas fa-circle-xmark me-2"></i>Blocked User
                       </a>
                     </li>
@@ -398,10 +398,16 @@
     <script src="{% static 'js/chat.js' %}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script type="text/javascript">
+  function blockUser(){
+  alert("ehllllooo")
+
+  }
 
   const btnE1 = document.querySelector('.bookmark');
-  function postBookmark(){
+  btnE1.addEventListener('click',postBookmark);
 
+  function postBookmark(){
+    alert("hellooo");
     $.ajax(
     {
         type:"POST",
@@ -420,7 +426,6 @@
         }
      })
 }
-  btnE1.addEventListener('click',postBookmark);
 
 
 //Bookmark function

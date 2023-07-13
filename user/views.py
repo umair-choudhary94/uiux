@@ -34,8 +34,8 @@ def index(request):
     for row in cursor.fetchall():
         row_dict = dict(zip(col_names, row))
         post.append(row_dict)
-    user = request.user
-    context = {'user':user,'post':post, "sex": sex}
+    user = request.user.id
+    context = {'user_id':user,'post':post, "sex": sex}
     return render(request,"uiapp/home.html",context)
 
 
@@ -235,7 +235,7 @@ class ResetUserPassword(View):
 
 
 @login_required(login_url='/login')
-def userProfile(request):
+def my_profile(request):
     sex = SEX_CHOICES
     user = request.user
     profile = Profile.objects.filter(id = user.id).first()
@@ -244,6 +244,23 @@ def userProfile(request):
     return render(request, 'myprofile.html', context)
     # return render(request, 'users/user_profile.html', context)
 
+@login_required(login_url='/login')
+def user_profile(request,user_id):
+    profile = []
+    cursor = connection.cursor()
+    query = "SELECT c.id, c.first_name, c.username, c.date_joined, d.profilepic,d.coverpic, d.about,d.sex, d.location,d.ethnicity,d.created_at, " \
+            "s.description, s.post_picture, p.is_bookmark, p.is_like,p.post_id,p.user_id "\
+            "FROM user_user c LEFT JOIN user_profile d ON c.id = d.user_id LEFT JOIN uiapp_post s ON c.id = s.user_id LEFT JOIN uiapp_likebookmarkpost p "\
+            "ON s.id = p.post_id WHERE c.id = " + str(user_id)
+    cursor.execute(query)
+    col_names = [col[0] for col in cursor.description]
+    for row in cursor.fetchall():
+        row_dict = dict(zip(col_names, row))
+        profile.append(row_dict)
+    user = User.objects.filter(id=user_id).first()
+    user_profile = Profile.objects.filter(user_id = user_id).first()
+    context = {'profile':profile, 'user':user, 'user_profile':user_profile}
+    return render(request, 'user_profile.html', context)
 @login_required(login_url='/login')
 def edit_profile(request):
     sex = SEX_CHOICES
@@ -263,13 +280,15 @@ def edit_profile(request):
             profile.location = data.get('location')
             profile.ethnicity = data.get('ethnicity')
             if data.get('is_free') == 'option1':
-                profile.is_free = True
-            else:
-                profile.is_free = False
+                if profile.is_free == True:
+                    profile.is_free = False
+                else:
+                    profile.is_free = True
             if data.get('is_premium') == 'option2':
-                profile.is_premium = True
-            else:
-                profile.is_premium = False
+                if profile.is_premium == True:
+                    profile.is_premium = False
+                else:
+                    profile.is_premium = True
             profile.save()
         else:
             profileModel = Profile()
@@ -280,16 +299,12 @@ def edit_profile(request):
             profileModel.location = data.get('location')
             profileModel.ethnicity = data.get('ethnicity')
             if data.get('is_free') == 'option1':
-                profile.is_free = True
-            else:
-                profile.is_free = False
+                profileModel.is_free = True
             if data.get('is_premium') == 'option2':
-                profile.is_premium = True
-            else:
-                profile.is_premium = False
+                profileModel.is_premium = True
             profileModel.user_id = id
             profileModel.save()
-
+        profile = Profile.objects.filter(user_id=id).first()
         context = {'user': user, 'profile': profile, "sex": sex}
         return render(request, 'myprofile.html',context)
     context = {'user': user, 'profile': profile, "sex": sex}

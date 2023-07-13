@@ -8,6 +8,7 @@ class Post(models.Model):
     is_premium = models.BooleanField(default=False)
     post_picture = models.ImageField(default='avatar.jpg', upload_to='post_pictures/', null=True, blank=True)
     user_id = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True,null=True)
 
 class LikeBookmarkPost(models.Model):
     id = models.AutoField(primary_key = True)

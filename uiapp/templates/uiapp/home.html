@@ -22,13 +22,17 @@
         <div class="post-header">
             <div class="row">
                 <div class="col-1">
+                    <a href="{% url 'userprofile' items.id %}">
                     <img class="user-icon" src="/media/{{items.profilepic}}" style="height:40px;width:40px"  alt="User Icon">
+                        </a>
                 </div>
                 <div class="col-md-8 col-6 ">
+                    <a href="{% url 'userprofile' items.id %}">
+
                     <p >{{items.first_name}}
                         <span class="d-block" style="font-size:12px;">{{items.date_joined}}</span>
                     </p>
-                    
+                    </a>
                     
                 </div>
                 <div class="col-md-2 col-5">
@@ -37,7 +41,8 @@
                             10k+ Subscribers 
                         </div>
                         <button class="sub-btn btn btn-sm">Subscribed</button>
-                    
+                    <a href="{% url 'blockuser' items.id %}" class="sub-btn btn btn-sm"><i class="fa fa-ban" aria-hidden="true"></i></a>
+
                 </div>
             </div>
             <p>
@@ -51,8 +56,8 @@
             <div class="post-footer">
                 <div class="row">
                     <div class="col-6">
-                        {% if items.is_like %}
-                        <a href="{% url 'like' items.id %}" style="font-wight:bolder; font-size:14px">
+                       {% if items.is_like and items.user_id == user_id  %}
+                        <a href="{% url 'like' items.id %}" style="font-wight:bold">
                         <i class="fa-solid fs-4 me-2 text-danger fa-heart"></i>
                         </a>
                         {% else %}
@@ -74,11 +79,10 @@
                        <span class="i-text">5 Likes</span>
                         <span class="i-text">4 Comments</span>
 
-                        {% if items.is_bookmark %}
-<!--                           <span class="bookmark" id="{{items.id}}"> <i class="fa-solid fa-bookmark"> </i></span>-->
-                        <span><a style="color:blue" href="{% url 'bookmark' items.id %}"> <i class="fa-solid fa-bookmark"></i></a></span>
+                        {% if items.is_bookmark and items.user_id == user_id %}
+                        <span class="bookmark"><a style="color:blue"> <i class="fa-solid fa-bookmark"></i></a></span>
                         {% else %}
-                        <span><a style="color:black" href="{% url 'bookmark' items.id %}"> <i  class="fa-solid fa-bookmark"></i></a></span>
+                        <span class="bookmark"><a style="color:black"> <i  class="fa-solid fa-bookmark"></i></a></span>
                         {% endif %}
 
                     </div>

@@ -12,7 +12,7 @@ def index(request):
     sex = SEX_CHOICES
     post = []
     cursor = connection.cursor()
-    query = "SELECT c.id, c.first_name, c.username, c.date_joined, d.profilepic, s.description, s.post_picture, p.is_bookmark, p.is_like,p.post_id,p.user_id "\
+    query = "SELECT c.id, c.first_name, c.username, c.date_joined, d.profilepic, s.description, s.post_picture,s.created_at, p.is_bookmark, p.is_like,p.post_id,p.user_id "\
             "FROM user_user c LEFT JOIN user_profile d ON c.id = d.user_id LEFT JOIN uiapp_post s ON c.id = s.user_id LEFT JOIN uiapp_likebookmarkpost p "\
             "ON s.id = p.post_id;"
     cursor.execute(query)
@@ -20,8 +20,8 @@ def index(request):
     for row in cursor.fetchall():
         row_dict = dict(zip(col_names, row))
         post.append(row_dict)
-    user = request.user
-    context = {'user':user,'post':post, "sex": sex}
+    user = request.user.id
+    context = {'user_id':user,'post':post, "sex": sex}
     return render(request,"uiapp/home.html",context)
 
 @login_required(login_url='/login')
@@ -34,14 +34,20 @@ def new_post(request):
         post.is_free = 'True'
         post.is_premium = 'False'
         post.post_picture = request.FILES.get('post_picture')
-        post.is_bookmark = False
-        post.is_like = False
-        post.comment = ''
         post.user_id = user.id
         post.save()
-        profile = Profile.objects.filter(id=user.id)
-        post = Post.objects.filter(user_id=request.user.id)
-        context = {'user':user,'post':post,'profile':profile}
+        post = []
+        cursor = connection.cursor()
+        query = "SELECT c.id, c.first_name, c.username, c.date_joined, d.profilepic,d.coverpic, d.about,d.sex, d.location,d.ethnicity,d.created_at, " \
+                "s.description, s.post_picture, p.is_bookmark, p.is_like,p.post_id,p.user_id " \
+                "FROM user_user c LEFT JOIN user_profile d ON c.id = d.user_id LEFT JOIN uiapp_post s ON c.id = s.user_id LEFT JOIN uiapp_likebookmarkpost p " \
+                "ON s.id = p.post_id WHERE c.id = " + str(user.id)
+        cursor.execute(query)
+        col_names = [col[0] for col in cursor.description]
+        for row in cursor.fetchall():
+            row_dict = dict(zip(col_names, row))
+            post.append(row_dict)
+        context = {'user_id': user, 'post': post}
         return render(request,"uiapp/home.html",context)
     return render(request,"uiapp/newpost.html")
 
@@ -109,7 +115,8 @@ def bookmarks(request):
     for row in cursor.fetchall():
         row_dict = dict(zip(col_names, row))
         post.append(row_dict)
-    context = {'user':user, 'profile': profile,'post':post, "sex": sex}
+    user_id = request.user.id
+    context = {'user':user, 'profile': profile,'post':post, "sex": sex, 'user_id':user_id}
     return render(request,"uiapp/bookmarks.html",context)
 @login_required(login_url='/login')
 def likedpost(request):

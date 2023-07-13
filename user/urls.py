@@ -7,8 +7,10 @@ from .views import RequestPasswordResetEmail, ResetUserPassword
 
 urlpatterns = [
     path('', views.index, name='home'),
-    path('profile/', views.userProfile, name='profile'),
+    path('profile/', views.my_profile, name='profile'),
     path('editprofile', views.edit_profile, name='editprofile'),
+    path('userprofile/<int:user_id>/', views.user_profile, name='userprofile'),
+
     path('signup/', views.signup, name='signup'),
     path('creator_register/', views.creator_signup,  name='creator_signup'),
     path('register/', views.viewer_signup,  name='viewer_signup'),

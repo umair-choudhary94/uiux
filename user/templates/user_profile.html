@@ -1,53 +1,213 @@
-{% extends 'base.html' %}
-{% block title %} User Profile{% endblock title %}
-{% block content %}
-        {% include 'partials/center.html' %}
-        <!-- Middle section starts  -->
-        <div class="grid col-span-2 gap-4">
-          <section
-            id="default-sidebar"
-            class="z-40 h-auto max-w-full transition-transform -translate-x-full sm:translate-x-0"
-            aria-label="Sidebar"
-          >
-            <div
-              class="h-auto px-3 py-4 space-y-2 overflow-y-auto text-gray-300 bg-gray-800 dark:bg-gray-800"
-            >
-              <div>
-                <!-- Tailwind card starts  -->
-                <div
-                  class="font-sans leading-tight h-auto max-w-full bg-grey-lighter"
-                >
-                  <div class="mx-auto overflow-hidden">
-                    <div
-                      class="bg-cover h-36"
-                      style="
-                        background-image: url('{{user.profile.placeholder.url}}');
-                      "
-                    ></div>
-                    <div class=" px-4">
-                      <div class="text-center sm:text-left sm:flex mb-4">
-                        <img
-                          class="h-24 w-24 rounded-full border-4 border-white -mt-12 mr-4"
-                          src="{{user.profile.avatar.url}}"
-                          alt=""
-                        />
-                      </div>
+{% extends 'uiapp/base.html' %} {% block content %}
+<div class="myprofile">
+  <section class="h-100 gradient-custom-2">
+    <div class="container mt-4 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col">
+
+                <div class="card shadow-0">
+                    <div class="rounded-top text-white d-flex flex-row" style="background-color: #131212; height:200px;">
+                        <img src="/media/{{user_profile.coverpic}}" alt="Image description" style="position: absolute;width:100%; height:35%; margin-top:0px !important" class="img-fluid img-thumbnail mt-5 mb-2">
+                        <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
+                            <img
+                            src="/media/{{user_profile.profilepic}}"
+                            alt="Generic placeholder image"
+                            class="img-fluid img-thumbnail mt-5 mb-2"
+                            style="width: 150px; border-radius: 50%; z-index: 1;"
+                            />
+                        </div>
                     </div>
-                  </div>
+                    <!--  left side icons  -->
+                    <div class="p-2 text-black">
+                        <div class="d-flex justify-content-end text-center py-1">
+                            <div>
+                                <a href="#" class="nav-link">
+                                    <i class="fa-solid fa-user-plus me-1"></i>
+                                </a>
+                            </div>
+                            <div class="px-2">
+                                <a href="{% url 'editprofile' %}" class="nav-link">
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                </a>
+                            </div>
+                            <div class="px-2">
+                                <a href="#" class="nav-link">
+                                    <i class="fa-solid fa-gift"></i>
+                                </a>
+                            </div>
+                            <div class="px-2">
+                                <a href="#" class="nav-link">
+                                    <i class="fa-solid fa-message"></i>
+                                </a>
+                            </div>
+                            <div class="px-2">
+                                <a href="#" class="nav-link">
+                                    <i class="far fa-bookmark me-2"></i>
+                                </a>
+                            </div>
+                            <div>
+                            <a href="#" class="nav-link">
+                                <i class="fa-solid fa-arrow-up-from-bracket me-2"></i>
+                            </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body p-4 mt-3 text-black">
+                         <!-- model info  -->
+                        <div class="row mb-3">
+                            <div class="col-10">
+                                <div class="mb-3">
+                                    <h5 style="font-weight: bold; line-height: 5px">
+                                    {{user.first_name}}
+                                    </h5>
+                                    <p class="mb-1" style="font-weight: bold;font-size: 14px;">@{{user.username}}</p>
+                                    <div>
+                                        <p class="font-italic mb-1" style="font-size: 15px; line-height: 15px;">
+                                            {{user_profile.about}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col-4 d-flex i-text">
+                                        <i class="fa-solid fa-venus mt-1 me-1"></i><p>{{user_profile.sex}}</p>
+                                    </div>
+                                    <div class="col-4 d-flex i-text">
+                                        <i class="fa-solid fa-location-dot mt-1 me-1"></i><p >{{user.date_joined}}</p>
+                                    </div>
+                                    <div class="col-4 d-flex px-3 i-text">
+                                        <i class="fa-solid fa-person mt-1 me-1 ms-4"></i><p>{{user_profile.ethnicity}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- buttons -->
+                        <div class="row mb-3">
+                            <div class="col-md-4 col-6">
+                                <button class="btn shadow-0 " id="buton">Subscribe</button>
+                            </div>
+                            <div class="col-md-3 col-6 " style="margin-left:-50px;">
+                                <button class="btn shadow-0 px-4 mx-1 " id="buton">Tip</button>
+                            </div>
+                        </div>
+                        <hr>
+
+                        <!-- content button -->
+                        <div class="d-flex justify-content-center align-items-center  mt-4 mb-4">
+                            <div class=" d-flex i-text " style="margin-right: 50px;" id="content">
+                                <i class="fa-solid fa-file-lines mt-1 me-2"></i>
+                                <p class="mb-0"><a href="#!" class="nav-link">Recently Shared</a></p>
+                            
+
+                            </div>
+                            <div class=" d-flex i-text " style="margin-right: 10px;" id="content">
+                                <i class="fa-regular fa-image mt-1 me-2"></i>
+                                <p class="mb-0"><a href="#!" class="nav-link">All Contect</a></p>
+
+                            </div>
+                        
+                        </div>
+
+                        <!-- content show  -->
+                        
+                        
+                    </div>
                 </div>
-                <!-- Tailwind card ends  -->
-                <div class="border-b px-3">
-                  <h3>{{user.first_name}} {{user.last_name}}</h3>
-                  <h3>@{{user.username}}</h3>
-                  <p class="mt-2">{{user.profile.about}}</p>
-                  <div class="flex space-x-10 mb-2">
-                    <p><span class="font-bold">Joined:</span> {{user.profile.created}}</p>
-                    <p><span class="font-bold">Sexuality:</span> {{user.profile.sex}}</p>
-                  </div>
-                </div>
-              </div>
+
+
+
             </div>
-          </section>
         </div>
-        <!-- Middle section ends  -->
-{% endblock %}
+    </div>
+  </section>
+ 
+</div>
+<div class="row">
+    <div class="col-12 ">
+
+
+{% for items in profile %}
+<div class="mt-2">
+    <div class="post-card">
+        <div class="post-header">
+            <div class="row">
+                <div class="col-1">
+                    <img class="user-icon" src="/media/{{items.profilepic}}" style="height:40px;width:40px"  alt="User Icon">
+                </div>
+                <div class="col-md-8 col-6 ">
+                    <p >{{items.first_name}}
+                        <span class="d-block" style="font-size:12px;">{{items.created_at}}</span>
+                    </p>
+
+
+                </div>
+                <div class="col-md-2 col-5">
+
+                        <div style="font-size:9px;">
+                            10k+ Subscribers
+                        </div>
+                        <button class="sub-btn btn btn-sm">Subscribed</button>
+
+                </div>
+            </div>
+            <p>
+                {{items.description}}
+            </p>
+
+            <div class="post-img">
+                <img class="user-icon" src="/media/{{ items.post_picture }}" alt="image">
+            </div>
+
+
+            <div class="post-footer">
+                <div class="row">
+                    <div class="col-6">
+                        {% if items.is_like and items.user_id == user_id  %}
+                        <a href="{% url 'like' items.id %}" style="font-wight:bold">
+                        <i class="fa-solid fs-4 me-2 text-danger fa-heart"></i>
+                        </a>
+                        {% else %}
+                        <a href="{% url 'like' items.id %}" style="font-wight:bold">
+                        <i class="fa-solid fs-4 me-2 text-danger fa-heart"></i>
+                        </a>
+                        {% endif %}
+
+                        <a href="#">
+                        <i class="fa-regular me-2 fa-comment fs-4"></i>
+                        </a>
+
+                        <a href="#">
+                            <i class="fa-solid fa-hand-holding-medical fs-4"></i> <span class="i-text">Send</span>
+                        </a>
+
+                    </div>
+                    <div class="col-6 text-center">
+                       <span class="i-text">5 Likes</span>
+                        <span class="i-text">4 Comments</span>
+
+                        {% if items.is_bookmark and items.user_id == user_id %}
+                        <span><a href="{% url 'bookmark' items.id %}"> <i class="fa-solid fa-bookmark"></i></a></span>
+                        {% else %}
+                        <span><a style="color:black" href="{% url 'bookmark' items.id %}"> <i  class="fa-solid fa-bookmark"></i></a></span>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </div>
+
+
+
+</div>
+{% endfor %}
+
+    </div>
+</div>
+
+{% endblock content %}
