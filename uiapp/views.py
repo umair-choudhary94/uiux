@@ -12,9 +12,15 @@ def index(request):
     sex = SEX_CHOICES
     post = []
     cursor = connection.cursor()
-    query = "SELECT c.id, c.first_name, c.username, c.date_joined, d.profilepic, s.description, s.post_picture,s.created_at, p.is_bookmark, p.is_like,p.post_id,p.user_id "\
-            "FROM user_user c LEFT JOIN user_profile d ON c.id = d.user_id LEFT JOIN uiapp_post s ON c.id = s.user_id LEFT JOIN uiapp_likebookmarkpost p "\
-            "ON s.id = p.post_id;"
+
+    query = "SELECT u.id, u.first_name, u.username, u.date_joined, pro.profilepic, po.id AS current_post_id, po.description, po.post_picture,po.created_at," \
+            "lb.is_bookmark, lb.is_like, lb.post_id, lb.user_id " \
+            "FROM user_user u " \
+            "FULL JOIN user_profile pro ON u.id = pro.user_id " \
+            "FULL JOIN user_subscribeblockuser sb ON pro.user_id = sb.user_id " \
+            "FULL JOIN uiapp_post po ON pro.user_id = po.user_id " \
+            "FULL JOIN uiapp_likebookmarkpost lb ON po.id = lb.post_id "\
+            "ORDER BY u.id;"
     cursor.execute(query)
     col_names = [col[0] for col in cursor.description]
     for row in cursor.fetchall():
@@ -38,10 +44,12 @@ def new_post(request):
         post.save()
         post = []
         cursor = connection.cursor()
-        query = "SELECT c.id, c.first_name, c.username, c.date_joined, d.profilepic,d.coverpic, d.about,d.sex, d.location,d.ethnicity,d.created_at, " \
-                "s.description, s.post_picture, p.is_bookmark, p.is_like,p.post_id,p.user_id " \
-                "FROM user_user c LEFT JOIN user_profile d ON c.id = d.user_id LEFT JOIN uiapp_post s ON c.id = s.user_id LEFT JOIN uiapp_likebookmarkpost p " \
-                "ON s.id = p.post_id WHERE c.id = " + str(user.id)
+        query = "SELECT u.id, u.first_name, u.username, u.date_joined, pro.profilepic,po.id AS current_post_id, po.description, po.post_picture,po.created_at," \
+                "lb.is_bookmark, lb.is_like, lb.post_id, lb.user_id " \
+                "FROM user_user u " \
+                "INNER JOIN user_profile pro ON u.id = pro.user_id " \
+                "INNER JOIN uiapp_post po ON pro.user_id = po.user_id " \
+                "INNER JOIN uiapp_likebookmarkpost lb ON po.user_id = lb.user_id WHERE u.id = " + str(user.id)
         cursor.execute(query)
         col_names = [col[0] for col in cursor.description]
         for row in cursor.fetchall():
@@ -52,9 +60,11 @@ def new_post(request):
     return render(request,"uiapp/newpost.html")
 
 @login_required(login_url='/login')
-def isbookmark(request, post_id):
+def isbookmark(request):
+    current_post_id = request.POST.get('post_id')
+    print(current_post_id)
     id = request.user.id
-    post = LikeBookmarkPost.objects.filter(id=post_id, user_id=id).first()
+    post = LikeBookmarkPost.objects.filter(post_id=current_post_id, user_id=id).first()
     if post:
         if post.is_bookmark is True:
             post.is_bookmark = False
@@ -64,24 +74,26 @@ def isbookmark(request, post_id):
             post.save()
     else:
         postModel = LikeBookmarkPost()
-        postModel.post_id = post_id
+        postModel.post_id = current_post_id
         postModel.user_id = id
         postModel.is_bookmark = True
         postModel.is_like = False
         postModel.save()
     profile = Profile.objects.filter(user_id=id)
     user = request.user
-    post = Post.objects.filter()
-    bookmarks = LikeBookmarkPost.objects.filter()
+    post = Post.objects.filter(id=current_post_id)
+    bookmarks = LikeBookmarkPost.objects.filter(post_id = post.id)
     context = {'user': user, 'post': post, 'profile': profile,'bookmarks':bookmarks}
     return render(request, 'uiapp/home.html', context)
 
 @login_required(login_url='/login')
-def islike(request,post_id):
+def islike(request):
+    current_post_id = request.POST.get('post_id')
+    print(current_post_id)
     id = request.user.id
-    post = LikeBookmarkPost.objects.filter(id=post_id, user_id=id).first()
+    post = LikeBookmarkPost.objects.filter(post_id=current_post_id, user_id=id).first()
     if post:
-        if post.is_like =='True':
+        if post.is_like is True:
             post.is_like = False
             post.save()
         else:
@@ -89,7 +101,7 @@ def islike(request,post_id):
             post.save()
     else:
         postModel = LikeBookmarkPost()
-        postModel.post_id = post_id
+        postModel.post_id = current_post_id
         postModel.user_id = id
         postModel.is_bookmark = False
         postModel.is_like = True
@@ -107,9 +119,12 @@ def bookmarks(request):
     profile = Profile.objects.filter(id = user.id).first()
     post = []
     cursor = connection.cursor()
-    query = "SELECT c.id, c.first_name, c.username, c.date_joined, s.description, s.post_picture, p.is_bookmark, p.is_like,p.post_id,p.user_id "\
-            "FROM user_user c LEFT JOIN uiapp_post s ON c.id = s.user_id LEFT JOIN uiapp_likebookmarkpost p "\
-            "ON s.id = p.post_id WHERE p.is_bookmark = True AND c.id = " + str(request.user.id)
+    query = "SELECT u.id, u.first_name, u.username, u.date_joined, pro.profilepic,po.id AS current_post_id, po.description, po.post_picture,po.created_at," \
+            "lb.is_bookmark, lb.is_like, lb.post_id, lb.user_id " \
+            "FROM user_user u " \
+            "INNER JOIN user_profile pro ON u.id = pro.user_id " \
+            "INNER JOIN uiapp_post po ON pro.user_id = po.user_id " \
+            "INNER JOIN uiapp_likebookmarkpost lb ON po.id = lb.post_id WHERE lb.is_bookmark ='1' AND lb.user_id = " + str(user.id)
     cursor.execute(query)
     col_names = [col[0] for col in cursor.description]
     for row in cursor.fetchall():
@@ -125,15 +140,20 @@ def likedpost(request):
     profile = Profile.objects.filter(id = user.id).first()
     liked_posts = []
     cursor = connection.cursor()
-    query = "SELECT c.id, c.first_name, c.username, c.date_joined, d.profilepic, s.description, s.post_picture, p.is_bookmark, p.is_like,p.post_id,p.user_id "\
-            "FROM user_user c LEFT JOIN user_profile d ON c.id = d.user_id LEFT JOIN uiapp_post s ON c.id = s.user_id LEFT JOIN uiapp_likebookmarkpost p "\
-            "ON s.id = p.post_id WHERE p.is_like = True AND c.id = " + str(request.user.id)
+
+    query = "SELECT u.id, u.first_name, u.username, u.date_joined, pro.profilepic,po.id AS current_post_id, po.description, po.post_picture,po.created_at," \
+            "lb.is_bookmark, lb.is_like, lb.post_id, lb.user_id " \
+            "FROM user_user u " \
+            "INNER JOIN user_profile pro ON u.id = pro.user_id " \
+            "INNER JOIN uiapp_post po ON pro.user_id = po.user_id " \
+            "INNER JOIN uiapp_likebookmarkpost lb ON po.id = lb.post_id WHERE lb.is_like ='1' AND lb.user_id = " + str(user.id)
+
     cursor.execute(query)
     col_names = [col[0] for col in cursor.description]
     for row in cursor.fetchall():
         row_dict = dict(zip(col_names, row))
         liked_posts.append(row_dict)
-    context = {'user':user, 'profile': profile,'liked_posts':liked_posts, "sex": sex}
+    context = {'user':user, 'profile': profile,'liked_posts':liked_posts, "sex": sex, 'user_id':user.id}
     return render(request,"uiapp/likedpost.html", context)
 
 def notifications(request):

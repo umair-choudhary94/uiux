@@ -398,37 +398,49 @@
     <script src="{% static 'js/chat.js' %}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script type="text/javascript">
-  function blockUser(){
-  alert("ehllllooo")
 
-  }
-
-  const btnE1 = document.querySelector('.bookmark');
-  btnE1.addEventListener('click',postBookmark);
-
-  function postBookmark(){
-    alert("hellooo");
-    $.ajax(
-    {
+$(document).ready(function(){
+  $(".myBookmark").click(function(){
+    var post_id = $(this).attr('id')
+  $.ajax({
         type:"POST",
-        url: {% url 'bookmark' user.id %},
+        url: "bookmark/",
         data:{
-                 post_id: 1,
+                 post_id: post_id,
                  csrfmiddlewaretoken: '{{ csrf_token }}' ,
         },
+  success: (data) => {
+    console.log(data);
+  },
+  error: (error) => {
+    console.log(error);
+  }
+});
+  });
 
-        success: function( data )
-        {
-            alert("hellooo");
+//Like Funciton
 
-            $( '#like'+ catid ).remove();
-            $( '#message' ).text(data);
-        }
-     })
-}
+    $(".myLike").click(function(){
+    var post_id = $(this).attr('id')
+  $.ajax({
+        type:"POST",
+        url: "like/",
+        data:{
+                 post_id: post_id,
+                 csrfmiddlewaretoken: '{{ csrf_token }}' ,
+        },
+  success: (data) => {
+    console.log(data);
+  },
+  error: (error) => {
+    console.log(error);
+  }
+});
+  });
 
+});
 
-//Bookmark function
+//Bookmark and Like function
 
       // Toggle sidebar on hamburger click
     var navbarHamburger = document.querySelector('.navbar-hamburger');

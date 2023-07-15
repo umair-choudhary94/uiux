@@ -2,10 +2,10 @@ from django.conf.urls import url
 from django.urls import path
 from . import views
 urlpatterns = [
-    path("",views.signup),
+    path("",views.index),
     path("create-new-post/", views.new_post),
-    path("bookmark/<int:post_id>/", views.isbookmark, name="bookmark"),
-    path("like/<int:post_id>/", views.islike,name="like"),
+    path("bookmark/", views.isbookmark, name="bookmark"),
+    path("like/", views.islike,name="like"),
     path("bookmarks/",views.bookmarks),
     path("likedpost/",views.likedpost),
     path("notifications/",views.notifications),

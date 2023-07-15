@@ -25,4 +25,5 @@ stripe==5.0.0
 tzdata 
 urllib3 
 validate_email
-whitenoise 
+whitenoise
+psycopg2==2.9.3
