@@ -17,3 +17,10 @@ class LikeBookmarkPost(models.Model):
     comment = models.TextField()
     post_id = models.IntegerField()
     user_id = models.IntegerField()
+
+class Comments(models.Model):
+    id = models.AutoField(primary_key = True)
+    comment_body = models.TextField()
+    user = models.IntegerField()
+    post = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)

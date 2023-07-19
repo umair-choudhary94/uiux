@@ -26,16 +26,35 @@ def index(request):
     sex = SEX_CHOICES
     post = []
     cursor = connection.cursor()
-    query = "SELECT c.id, c.first_name, c.username, c.date_joined, d.profilepic, s.description, s.post_picture, p.is_bookmark, p.is_like,p.post_id,p.user_id "\
-            "FROM user_user c LEFT JOIN user_profile d ON c.id = d.user_id LEFT JOIN uiapp_post s ON c.id = s.user_id LEFT JOIN uiapp_likebookmarkpost p "\
-            "ON s.id = p.post_id;"
+
+    query = "SELECT u.id, u.first_name, u.username, u.date_joined, pro.profilepic, po.id AS current_post_id, po.description, po.post_picture,po.created_at," \
+            "lb.is_bookmark, lb.is_like, lb.post_id, lb.user_id " \
+            "FROM user_user u " \
+            "FULL JOIN user_profile pro ON u.id = pro.user_id " \
+            "FULL JOIN user_subscribeblockuser sb ON pro.user_id = sb.user_id " \
+            "FULL JOIN uiapp_post po ON pro.user_id = po.user_id " \
+            "FULL JOIN uiapp_likebookmarkpost lb ON po.id = lb.post_id "\
+            "ORDER BY po.id;"
     cursor.execute(query)
     col_names = [col[0] for col in cursor.description]
     for row in cursor.fetchall():
         row_dict = dict(zip(col_names, row))
         post.append(row_dict)
     user = request.user.id
-    context = {'user_id':user,'post':post, "sex": sex}
+    comments = []
+    cm_cursor = connection.cursor()
+    cm_query = "SELECT u.id, u.first_name, u.username, u.date_joined, pro.profilepic, po.id AS post_id, po.description, po.post_picture,po.created_at," \
+               "cm.comment_body, cm.post, cm.user " \
+               "FROM user_user u " \
+               "FULL JOIN user_profile pro ON u.id = pro.user_id " \
+               "FULL JOIN uiapp_post po ON pro.user_id = po.user_id FULL JOIN uiapp_comments cm ON po.user_id = cm.user " \
+               "ORDER BY cm.id;"
+    cm_cursor.execute(cm_query)
+    cm_col_names = [col[0] for col in cm_cursor.description]
+    for row in cm_cursor.fetchall():
+        row_dict = dict(zip(cm_col_names, row))
+        comments.append(row_dict)
+    context = {'user_id': user, 'post': post, "comments": comments}
     return render(request,"uiapp/home.html",context)
 
 

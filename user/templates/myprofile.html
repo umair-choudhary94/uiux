@@ -159,14 +159,15 @@
             <div class="post-footer">
                 <div class="row">
                     <div class="col-6">
-                        {% if items.is_like %}
-                        <a href="{% url 'like' items.id %}" style="font-wight:bold">
-                        <i class="fa-solid fs-4 me-2 text-danger fa-heart"></i>
-                        </a>
+                    {% if items.is_like and items.user_id == user_id  %}
+                        <span style="cursor: pointer;" class="myLike" id="{{items.current_post_id}}">
+                        <i class="fa-solid fs-4 me-2 text-danger fa-heart" ></i>
+                        </span>
                         {% else %}
-                        <a href="{% url 'like' items.id %}" style="font-wight:bold">
-                        <i class="fa-solid fs-4 me-2 text-danger fa-heart"></i>
-                        </a>
+                        <span style="cursor: pointer;" class="myLike" id="{{items.current_post_id}}">
+                            <i class="fa fa-heart-o" aria-hidden="true" style="font-size:23px !important"></i>
+
+                        </span>
                         {% endif %}
 
                         <a href="#">
@@ -182,10 +183,10 @@
                        <span class="i-text">5 Likes</span>
                         <span class="i-text">4 Comments</span>
 
-                        {% if items.is_bookmark %}
-                        <span><a href="{% url 'bookmark' items.id %}"> <i class="fa-solid fa-bookmark"></i></a></span>
+                        {% if items.is_bookmark and items.user_id == user_id %}
+                        <span style="cursor: pointer;" class="myBookmark" id="{{items.current_post_id}}"><i class="fa-solid fa-bookmark" style="font-size:20px"></i></span>
                         {% else %}
-                        <span><a style="color:black" href="{% url 'bookmark' items.id %}"> <i  class="fa-solid fa-bookmark"></i></a></span>
+                        <span style="cursor: pointer;" class="myBookmark" id="{{items.current_post_id}}"><i class="fa fa-bookmark-o" style="font-size:20px"></i></span>
                         {% endif %}
 
                     </div>

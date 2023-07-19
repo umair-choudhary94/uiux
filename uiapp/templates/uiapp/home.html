@@ -19,8 +19,11 @@
 {% for items in post %}
 <div class="mt-2">
     <div class="post-card">
+
         <div class="post-header">
             <div class="row">
+
+
                 <div class="col-1">
                     <a href="{% url 'userprofile' items.id %}">
                     <img class="user-icon" src="/media/{{items.profilepic}}" style="height:40px;width:40px"  alt="User Icon">
@@ -35,6 +38,8 @@
                     </a>
                     
                 </div>
+
+
                 <div class="col-md-2 col-5">
                 
                         <div style="font-size:9px;">
@@ -57,11 +62,11 @@
                 <div class="row">
                     <div class="col-6">
                        {% if items.is_like and items.user_id == user_id  %}
-                        <span class="myLike" id="{{items.current_post_id}}">
+                        <span style="cursor: pointer;" class="myLike" id="{{items.current_post_id}}">
                         <i class="fa-solid fs-4 me-2 text-danger fa-heart" ></i>
                         </span>
                         {% else %}
-                        <span class="myLike" id="{{items.current_post_id}}">
+                        <span style="cursor: pointer;" class="myLike" id="{{items.current_post_id}}">
                             <i class="fa fa-heart-o" aria-hidden="true" style="font-size:23px !important"></i>
 
                         </span>
@@ -81,18 +86,62 @@
                         <span class="i-text">4 Comments</span>
 
                         {% if items.is_bookmark and items.user_id == user_id %}
-                        <span class="myBookmark" id="{{items.current_post_id}}"><i class="fa-solid fa-bookmark" style="font-size:20px"></i></span>
+                        <span style="cursor: pointer;" class="myBookmark" id="{{items.current_post_id}}"><i class="fa-solid fa-bookmark" style="font-size:20px"></i></span>
                         {% else %}
-                        <span class="myBookmark" id="{{items.current_post_id}}"><i class="fa fa-bookmark-o" style="font-size:20px"></i></span>
+                        <span style="cursor: pointer;" class="myBookmark" id="{{items.current_post_id}}"><i class="fa fa-bookmark-o" style="font-size:20px"></i></span>
                         {% endif %}
 
                     </div>
                 </div>
             </div>
 
+            <div class="col-11" style="overflow-x:scroll;overflow-x:visible;width: 100%;">
+                <div class="card shadow-0 border" id="faq" style="border-style:none !important;">
+                    <ul class="list-group list-group-light" style="list-style-type: none;">
+                        {% for data in comments %}
+                        {% if items.current_post_id == data.post %}
+                        <li style=" margin-left: 2rem;padding: 10px 10px 10px 0px;">
+                            <p>
+                                <a href="{% url 'userprofile' data.user %}">
+                                <img class="user-icon" src="/media/{{data.profilepic}}" style="height:40px;width:40px"  alt="User Icon">
+                                </a>
+                                <a href="{% url 'userprofile' data.user %}">
+                                    {{data.first_name}}
+                                </a>
+                                {{data.comment_body}}
+                                <span class="d-block" style="font-size:12px;align:right;margin-left: 41px;">{{data.created_at}}</span>
+                            </p>
+
+                        </li>
+
+                        {% endif %}
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+            </div>
 
 
         </div>
+        <form method="post" enctype="multipart/form-data" action="{% url 'comment' %}" style="margin-top: -40px;width:100%">
+        {% csrf_token %}
+        <div class="csupport-footer mt-5">
+            <div class="row mt-12 ">
+                <div class="col-10">
+
+                    <div class="form-outline mb-4" style="border:none; border-style:none">
+                        <textarea class="form-control"  name="comment_body"  id="comment_body" rows="1"></textarea>
+                        <input name="post_id" type="text" id="post_id" value="{{ items.current_post_id }}" hidden="True" />
+
+                        <label class="form-label" for="">Enter your comment here....</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <button class="btn btn-primary shadow-0 mb-5" type="submit" name="submit" id="submit">comment</button>
+        </form>
+
     </div>
 
     

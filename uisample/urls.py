@@ -21,7 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("",include("uiapp.urls")),
     path("user/", include("user.urls")),
-    # path("payments/", include("payments.urls")),
+    path("payments/", include("payments.urls")),
     # path("favorites/", include("favorites.urls")),
     path("support/", include("support.urls")),
 ]

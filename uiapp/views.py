@@ -20,14 +20,27 @@ def index(request):
             "FULL JOIN user_subscribeblockuser sb ON pro.user_id = sb.user_id " \
             "FULL JOIN uiapp_post po ON pro.user_id = po.user_id " \
             "FULL JOIN uiapp_likebookmarkpost lb ON po.id = lb.post_id "\
-            "ORDER BY u.id;"
+            "ORDER BY po.id;"
     cursor.execute(query)
     col_names = [col[0] for col in cursor.description]
     for row in cursor.fetchall():
         row_dict = dict(zip(col_names, row))
         post.append(row_dict)
     user = request.user.id
-    context = {'user_id':user,'post':post, "sex": sex}
+    comments = []
+    cm_cursor = connection.cursor()
+    cm_query = "SELECT u.id, u.first_name, u.username, u.date_joined, pro.profilepic, po.id AS post_id, po.description, po.post_picture,po.created_at," \
+               "cm.comment_body, cm.post, cm.user " \
+               "FROM user_user u " \
+               "FULL JOIN user_profile pro ON u.id = pro.user_id " \
+               "FULL JOIN uiapp_post po ON pro.user_id = po.user_id FULL JOIN uiapp_comments cm ON po.user_id = cm.user " \
+               "ORDER BY cm.id;"
+    cm_cursor.execute(cm_query)
+    cm_col_names = [col[0] for col in cm_cursor.description]
+    for row in cm_cursor.fetchall():
+        row_dict = dict(zip(cm_col_names, row))
+        comments.append(row_dict)
+    context = {'user_id': user, 'post': post, "comments": comments}
     return render(request,"uiapp/home.html",context)
 
 @login_required(login_url='/login')
@@ -79,11 +92,24 @@ def isbookmark(request):
         postModel.is_bookmark = True
         postModel.is_like = False
         postModel.save()
-    profile = Profile.objects.filter(user_id=id)
-    user = request.user
-    post = Post.objects.filter(id=current_post_id)
-    bookmarks = LikeBookmarkPost.objects.filter(post_id = post.id)
-    context = {'user': user, 'post': post, 'profile': profile,'bookmarks':bookmarks}
+    post = []
+    cursor = connection.cursor()
+
+    query = "SELECT u.id, u.first_name, u.username, u.date_joined, pro.profilepic, po.id AS current_post_id, po.description, po.post_picture,po.created_at," \
+            "lb.is_bookmark, lb.is_like, lb.post_id, lb.user_id " \
+            "FROM user_user u " \
+            "FULL JOIN user_profile pro ON u.id = pro.user_id " \
+            "FULL JOIN user_subscribeblockuser sb ON pro.user_id = sb.user_id " \
+            "FULL JOIN uiapp_post po ON pro.user_id = po.user_id " \
+            "FULL JOIN uiapp_likebookmarkpost lb ON po.id = lb.post_id "\
+            "ORDER BY po.id;"
+    cursor.execute(query)
+    col_names = [col[0] for col in cursor.description]
+    for row in cursor.fetchall():
+        row_dict = dict(zip(col_names, row))
+        post.append(row_dict)
+    user = request.user.id
+    context = {'user_id':user,'post':post}
     return render(request, 'uiapp/home.html', context)
 
 @login_required(login_url='/login')
@@ -156,52 +182,56 @@ def likedpost(request):
     context = {'user':user, 'profile': profile,'liked_posts':liked_posts, "sex": sex, 'user_id':user.id}
     return render(request,"uiapp/likedpost.html", context)
 
+@login_required(login_url='/login')
+def comments(request):
+    if request.method == 'POST':
+        data = request.POST
+        commentModel = Comments()
+        commentModel.comment_body = data.get('comment_body')
+        commentModel.user = request.user.id
+        commentModel.post = data.get('post_id')
+        commentModel.save()
+        sex = SEX_CHOICES
+        post = []
+        cursor = connection.cursor()
+
+        query = "SELECT u.id, u.first_name, u.username, u.date_joined, pro.profilepic, po.id AS current_post_id, po.description, po.post_picture,po.created_at," \
+                "lb.is_bookmark, lb.is_like, lb.post_id, po.user_id " \
+                "FROM user_user u " \
+                "FULL JOIN user_profile pro ON u.id = pro.user_id " \
+                "FULL JOIN user_subscribeblockuser sb ON pro.user_id = sb.user_id " \
+                "FULL JOIN uiapp_post po ON pro.user_id = po.user_id " \
+                "FULL JOIN uiapp_likebookmarkpost lb ON po.id = lb.post_id " \
+                "ORDER BY po.id;"
+        cursor.execute(query)
+        col_names = [col[0] for col in cursor.description]
+        for row in cursor.fetchall():
+            row_dict = dict(zip(col_names, row))
+            post.append(row_dict)
+        user_id = request.user.id
+
+        comments = []
+        cm_cursor = connection.cursor()
+        cm_query = "SELECT u.id, u.first_name, u.username, u.date_joined, pro.profilepic, po.id AS current_post_id, po.description, po.post_picture,po.created_at," \
+                    "cm.comment_body " \
+                    "FROM user_user u " \
+                    "FULL JOIN user_profile pro ON u.id = pro.user_id " \
+                    "FULL JOIN uiapp_post po ON pro.user_id = po.user_id FULL JOIN uiapp_comments cm ON po.id = cm.post " \
+                    "ORDER BY po.id;"
+        cm_cursor.execute(cm_query)
+        cm_col_names = [col[0] for col in cm_cursor.description]
+        for row in cm_cursor.fetchall():
+            row_dict = dict(zip(cm_col_names, row))
+            comments.append(row_dict)
+        context = {'user_id': user_id,'post': post, "comments": comments}
+        return render(request,"uiapp/home.html",context)
 def notifications(request):
     return render(request,"uiapp/notifications.html")
-def subscription(request):
-    id = request.user.id
-    user = SubscribeBlockUser.objects.filter(user_id=id).first()
-    if user:
-        if user.is_subscribed == 'True':
-            user.is_subscribed = False
-            user.save()
-        else:
-            user.is_subscribed = True
-            user.save()
-    else:
-        userModel = SubscribeBlockUser()
-        userModel.user_id = id
-        userModel.is_subscribed = True
-        userModel.is_blocked = False
-        userModel.save()
-    profile = Profile.objects.filter(user_id=id)
-    user = request.user
-    post = Post.objects.filter(user_id=request.user.id)
-    context = {'user': user, 'post': post, 'profile': profile}
-    return render(request,"uiapp/subscription.html",context)
 
 
 def signup(request):
     context = {}
     return render(request, 'signup.html', context)
-
-def wallet(request):
-    return render(request,"uiapp/wallet.html")
-
-def withdraw(request):
-    return render(request,"uiapp/withdraw.html")
-
-def payment_history(request):
-    return render(request,"uiapp/paymenthistory.html")
-
-def income(request):
-    return render(request,"uiapp/income.html")
-
-def payment_information1(request):
-    return render(request,"uiapp/paymentinfo1.html")
-
-def payment_information2(request):
-    return render(request,"uiapp/paymentinfo2.html")
 
 def myprofile(request):
     return render(request,"uiapp/myprofile.html")

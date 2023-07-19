@@ -73,7 +73,7 @@
         <p class="mt-5 mb-2">Add payment method</p>
         <div class="row">
             <div class="col-4">
-                <a href="/payment-information-card" class="nav-link" id="link">
+                <a href="{% url 'payment-information-card' %}" class="nav-link" id="link">
                     <div class="input-group">
                         <div id="search-autocomplete" class="form-outline">
                             <input type="search" id="form1" class="form-control py-2" placeholder="Card"/>
@@ -86,7 +86,7 @@
             </div>
 
             <div class="col-4">
-                <a href="/payment-information-paypal" class="nav-link" id="link">
+                <a href="{% url 'payment-information-paypal' %}" class="nav-link" id="link">
                     <div class="input-group">
                         <div id="search-autocomplete" class="form-outline">
                             <input type="search" id="form1" class="form-control py-2" placeholder="Paypal" />

@@ -95,17 +95,17 @@
           
           <ul>
             <li>
-              <a href="/bookmarks" class="nav-link">
+              <a href="{% url 'bookmarks' %}" class="nav-link">
                 <i class="far fa-bookmark me-2"></i>Bookmarks
               </a>
             </li>
             <li>
-              <a href="/likedpost" class="nav-link">
+              <a href="{% url 'likedpost' %}" class="nav-link">
                 <i class="far fa-heart me-2"></i>Liked Posts
               </a>
             </li>
             <li>
-              <a href="/notifications" class="nav-link">
+              <a href="{% url 'notifications' %}" class="nav-link">
                 <i class="far fa-bell me-2"></i>Notification
               </a>
             </li>
@@ -117,33 +117,33 @@
           <h5>
             Payments
           </h5>
-          <ul>
-            <li>
-              <a href="/payment-information-card" class="nav-link">
-                <i class="far fa-credit-card me-2"></i>Payments Information
-              </a>
-            </li>
-            <li>
-              <a href="/subscription" class="nav-link">
-                <i class="fas fa-tag me-2"></i>Subscriptions
-              </a>
-            </li>
-            <li>
-              <a href="/wallet" class="nav-link">
-                <i class="fas fa-wallet me-2"></i>Wallet
-              </a>
-            </li>
-            <li>
-              <a href="/income" class="nav-link">
-                <i class="fa-solid fa-comment-dollar me-2"></i>Income
-              </a>
-            </li>
-            <li>
-              <a href="/payment-history" class="nav-link">
-                <i class="far fa-clipboard me-2"></i>Payment History
-              </a>
-            </li>
-          </ul>
+                  <ul>
+                    <li>
+                      <a href="{% url 'payment-information-card' %}" class="nav-link">
+                        <i class="far fa-credit-card me-2"></i>Payments Information
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'subscription' %}" class="nav-link">
+                        <i class="fas fa-tag me-2"></i>Subscriptions
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'wallet' %}" class="nav-link">
+                        <i class="fas fa-wallet me-2"></i>Wallet
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'income' %}" class="nav-link">
+                        <i class="fa-solid fa-comment-dollar me-2"></i>Income
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'payment-history' %}" class="nav-link">
+                        <i class="far fa-clipboard me-2"></i>Payment History
+                      </a>
+                    </li>
+                  </ul>
         </li>
         <hr>
         <li>
@@ -198,24 +198,25 @@
                     Favorites
                   </h5>
                   
-                  <ul>
-                    <li>
-                      <a href="/bookmarks" class="nav-link">
-                        <i class="far fa-bookmark me-2"></i>Bookmarks
-                      </a>
-                    </li>
-                    <li>
-                      <a href="/likedpost" class="nav-link">
-                        <i class="far fa-heart me-2"></i>Liked Posts
-                      </a>
-                    </li>
-                    <li>
-                      <a href="/notifications" class="nav-link">
-                        <i class="far fa-bell me-2"></i>Notification
-                      </a>
-                    </li>
-                    
-                  </ul>
+
+                <ul>
+                  <li>
+                    <a href="{% url 'bookmarks' %}" class="nav-link">
+                      <i class="far fa-bookmark me-2"></i>Bookmarks
+                    </a>
+                  </li>
+                  <li>
+                    <a href="{% url 'likedpost' %}" class="nav-link">
+                      <i class="far fa-heart me-2"></i>Liked Posts
+                    </a>
+                  </li>
+                  <li>
+                    <a href="{% url 'notifications' %}" class="nav-link">
+                      <i class="far fa-bell me-2"></i>Notification
+                    </a>
+                  </li>
+
+                </ul>
                 </li>
                 <hr>
                 <li>
@@ -224,27 +225,27 @@
                   </h5>
                   <ul>
                     <li>
-                      <a href="/payment-information-card" class="nav-link">
+                      <a href="{% url 'payment-information-card' %}" class="nav-link">
                         <i class="far fa-credit-card me-2"></i>Payments Information
                       </a>
                     </li>
                     <li>
-                      <a href="/subscription" class="nav-link">
+                      <a href="{% url 'subscription' %}" class="nav-link">
                         <i class="fas fa-tag me-2"></i>Subscriptions
                       </a>
                     </li>
                     <li>
-                      <a href="/wallet" class="nav-link">
+                      <a href="{% url 'wallet' %}" class="nav-link">
                         <i class="fas fa-wallet me-2"></i>Wallet
                       </a>
                     </li>
                     <li>
-                      <a href="/income" class="nav-link">
+                      <a href="{% url 'income' %}" class="nav-link">
                         <i class="fa-solid fa-comment-dollar me-2"></i>Income
                       </a>
                     </li>
                     <li>
-                      <a href="/payment-history" class="nav-link">
+                      <a href="{% url 'payment-history' %}" class="nav-link">
                         <i class="far fa-clipboard me-2"></i>Payment History
                       </a>
                     </li>
@@ -409,9 +410,9 @@ $(document).ready(function(){
                  post_id: post_id,
                  csrfmiddlewaretoken: '{{ csrf_token }}' ,
         },
-  success: (data) => {
-    console.log(data);
-  },
+    success : function(response){
+      console.log("Updated Successfully!");
+    },
   error: (error) => {
     console.log(error);
   }
@@ -430,7 +431,7 @@ $(document).ready(function(){
                  csrfmiddlewaretoken: '{{ csrf_token }}' ,
         },
   success: (data) => {
-    console.log(data);
+    console.log("Updated Successfullly!");
   },
   error: (error) => {
     console.log(error);
@@ -440,7 +441,29 @@ $(document).ready(function(){
 
 });
 
-//Bookmark and Like function
+
+//Comment Funciton
+
+    $(".myComment").click(function(){
+    var post_id = $(this).attr('id')
+  $.ajax({
+        type:"POST",
+        url: "like/",
+        data:{
+                 post_id: post_id,
+                 csrfmiddlewaretoken: '{{ csrf_token }}' ,
+        },
+  success: (data) => {
+    console.log("Updated Successfullly!");
+  },
+  error: (error) => {
+    console.log(error);
+  }
+});
+  });
+
+});
+//Bookmark, Like, and Comment function
 
       // Toggle sidebar on hamburger click
     var navbarHamburger = document.querySelector('.navbar-hamburger');
