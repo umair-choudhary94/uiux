@@ -43,18 +43,20 @@ def index(request):
     user = request.user.id
     comments = []
     cm_cursor = connection.cursor()
-    cm_query = "SELECT u.id, u.first_name, u.username, u.date_joined, pro.profilepic, po.id AS post_id, po.description, po.post_picture,po.created_at," \
+    cm_query = "SELECT u.id, u.first_name, u.username, u.date_joined,pro.profilepic," \
                "cm.comment_body, cm.post, cm.user " \
                "FROM user_user u " \
-               "FULL JOIN user_profile pro ON u.id = pro.user_id " \
-               "FULL JOIN uiapp_post po ON pro.user_id = po.user_id FULL JOIN uiapp_comments cm ON po.user_id = cm.user " \
-               "ORDER BY cm.id;"
+               "FULL JOIN user_profile pro ON u.id = pro.user_id "\
+               "RIGHT JOIN uiapp_comments cm ON u.id = cm.user;"
+
     cm_cursor.execute(cm_query)
     cm_col_names = [col[0] for col in cm_cursor.description]
     for row in cm_cursor.fetchall():
         row_dict = dict(zip(cm_col_names, row))
         comments.append(row_dict)
-    context = {'user_id': user, 'post': post, "comments": comments}
+    profilepic = Profile.objects.filter(id=user).first()
+    notification_count = Notifications.objects.filter(is_read=False, user_id = user).count()
+    context = {'user_id': user, 'post': post, "comments": comments, 'profilepic': profilepic.profilepic,'notification_count': notification_count}
     return render(request,"uiapp/home.html",context)
 
 
@@ -259,7 +261,21 @@ def my_profile(request):
     user = request.user
     profile = Profile.objects.filter(id = user.id).first()
     post = Post.objects.filter(user_id = user.id)
-    context = {'user':user, 'profile': profile,'post':post, "sex": sex}
+    comments = []
+    cm_cursor = connection.cursor()
+    cm_query = "SELECT u.id, u.first_name, u.username, u.date_joined,pro.profilepic," \
+               "cm.comment_body, cm.post, cm.user " \
+               "FROM user_user u " \
+               "FULL JOIN user_profile pro ON u.id = pro.user_id "\
+               "RIGHT JOIN uiapp_comments cm ON u.id = cm.user;"
+
+    cm_cursor.execute(cm_query)
+    cm_col_names = [col[0] for col in cm_cursor.description]
+    for row in cm_cursor.fetchall():
+        row_dict = dict(zip(cm_col_names, row))
+        comments.append(row_dict)
+    notification_count = Notifications.objects.filter(is_read=False, user_id = user.id).count()
+    context = {'user':user, 'profile': profile,'post':post, "sex": sex, 'profilepic': profile.profilepic,'comments': comments,'notification_count': notification_count}
     return render(request, 'myprofile.html', context)
     # return render(request, 'users/user_profile.html', context)
 
@@ -268,7 +284,7 @@ def user_profile(request,user_id):
     profile = []
     cursor = connection.cursor()
     query = "SELECT c.id, c.first_name, c.username, c.date_joined, d.profilepic,d.coverpic, d.about,d.sex, d.location,d.ethnicity,d.created_at, " \
-            "s.description, s.post_picture, p.is_bookmark, p.is_like,p.post_id,p.user_id "\
+            "s.description,s.id AS current_post_id, s.post_picture, p.is_bookmark, p.is_like,p.post_id,p.user_id "\
             "FROM user_user c LEFT JOIN user_profile d ON c.id = d.user_id LEFT JOIN uiapp_post s ON c.id = s.user_id LEFT JOIN uiapp_likebookmarkpost p "\
             "ON s.id = p.post_id WHERE c.id = " + str(user_id)
     cursor.execute(query)
@@ -278,7 +294,22 @@ def user_profile(request,user_id):
         profile.append(row_dict)
     user = User.objects.filter(id=user_id).first()
     user_profile = Profile.objects.filter(user_id = user_id).first()
-    context = {'profile':profile, 'user':user, 'user_profile':user_profile}
+    profilepic = Profile.objects.filter(id=request.user.id).first()
+    comments = []
+    cm_cursor = connection.cursor()
+    cm_query = "SELECT u.id, u.first_name, u.username, u.date_joined,pro.profilepic," \
+               "cm.comment_body, cm.post, cm.user " \
+               "FROM user_user u " \
+               "FULL JOIN user_profile pro ON u.id = pro.user_id "\
+               "RIGHT JOIN uiapp_comments cm ON u.id = cm.user;"
+
+    cm_cursor.execute(cm_query)
+    cm_col_names = [col[0] for col in cm_cursor.description]
+    for row in cm_cursor.fetchall():
+        row_dict = dict(zip(cm_col_names, row))
+        comments.append(row_dict)
+    notification_count = Notifications.objects.filter(is_read=False, user_id = request.user.id).count()
+    context = {'profile':profile, 'user':user, 'user_profile':user_profile, 'profilepic': profilepic.profilepic,'comments':comments,'notification_count': notification_count}
     return render(request, 'user_profile.html', context)
 @login_required(login_url='/login')
 def edit_profile(request):
@@ -326,6 +357,8 @@ def edit_profile(request):
         profile = Profile.objects.filter(user_id=id).first()
         context = {'user': user, 'profile': profile, "sex": sex}
         return render(request, 'myprofile.html',context)
-    context = {'user': user, 'profile': profile, "sex": sex}
+    profilepic = Profile.objects.filter(id=id).first()
+    notification_count = Notifications.objects.filter(is_read=False, user_id = user.id).count()
+    context = {'user': user, 'profile': profile, "sex": sex, 'profilepic': profilepic.profilepic,'notification_count': notification_count}
     return render(request, 'editprofile.html', context)
     # return render(request, 'users/edit-profile.html', context)

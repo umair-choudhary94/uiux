@@ -1,3 +1,4 @@
+from allauth.socialaccount.providers import stripe
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import *
@@ -11,7 +12,28 @@ def credits(request):
     return render(request,"wallet.html")
 
 def payments(request):
-    return render(request,"paymentinfo1.html.html")
+    dataDict = dict(request.data)
+    price = dataDict['price'][0]
+    product_name = dataDict['uiux'][0]
+    try:
+      checkout_session = stripe.paymnets.Session.create(
+        line_items =[{
+        'price_data' :{
+          'currency' : 'usd',
+            'product_data': {
+              'name': product_name,
+            },
+          'unit_amount': price
+            },
+            'quantity' : 1
+          }],
+            mode= 'payment',
+            success_url= 'payment-information-card/',
+            cancel_url= 'payment-information-paypal/',
+            )
+      return render(request,"paymentinfo1.html",checkout_session)
+    except Exception as e:
+        return e
 def wallet(request):
     return render(request,"wallet.html")
 

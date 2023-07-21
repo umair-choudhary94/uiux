@@ -66,8 +66,9 @@
           id="dropdownMenuButton2"
           data-mdb-toggle="dropdown"
           aria-expanded="false"
+
         >
-        <i class="fas fa-user-alt text-white "></i>
+        <img style="height:40px; width:40px;border-radius: 50%;" alt="Avatar" src="/media/{{profilepic}}">
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
           <li><a class="dropdown-item" href="{% url 'profile' %}"> <i class="fas fa-user-alt pe-2"></i>My Profile</a></li>
@@ -107,7 +108,14 @@
             <li>
               <a href="{% url 'notifications' %}" class="nav-link">
                 <i class="far fa-bell me-2"></i>Notification
+                {% if notification_count > 0 %}
+                <sup style="color: green">{{notification_count}}</sup>
+                {% else %}
+                <sup style="color:red">{{notification_count}}</sup>
+                {% endif %}
+
               </a>
+
             </li>
             
           </ul>
@@ -213,7 +221,12 @@
                   <li>
                     <a href="{% url 'notifications' %}" class="nav-link">
                       <i class="far fa-bell me-2"></i>Notification
+
+                    {% if notification_count > 0 %}
+                    <sup style="color: red;">{{notification_count}}</sup>
+                    {% endif %}
                     </a>
+
                   </li>
 
                 </ul>
@@ -401,8 +414,13 @@
     <script type="text/javascript">
 
 $(document).ready(function(){
+
+
+
+
   $(".myBookmark").click(function(){
     var post_id = $(this).attr('id')
+
   $.ajax({
         type:"POST",
         url: "bookmark/",
@@ -439,16 +457,34 @@ $(document).ready(function(){
 });
   });
 
-});
 
+//Notification Funciton
+
+    $(".myNotification").click(function(){
+    var notification_id = $(this).attr('id')
+  $.ajax({
+        type:"POST",
+        url: {% url 'readnotification' %},
+        data:{
+                 notification_id: notification_id,
+                 csrfmiddlewaretoken: '{{ csrf_token }}' ,
+        },
+  success: (data) => {
+    console.log("Updated Successfullly!");
+  },
+  error: (error) => {
+    console.log(error);
+  }
+  });
+ });
 
 //Comment Funciton
 
-    $(".myComment").click(function(){
+    $(".comment").click(function(){
     var post_id = $(this).attr('id')
   $.ajax({
         type:"POST",
-        url: "like/",
+        url: {% url 'comment' %},
         data:{
                  post_id: post_id,
                  csrfmiddlewaretoken: '{{ csrf_token }}' ,
@@ -459,10 +495,8 @@ $(document).ready(function(){
   error: (error) => {
     console.log(error);
   }
-});
   });
-
-});
+ });
 //Bookmark, Like, and Comment function
 
       // Toggle sidebar on hamburger click
@@ -485,10 +519,10 @@ $(document).ready(function(){
         sidebar.classList.remove('show');
     }
     });
-    
-   
-    
-    
+
+
+
+});
     </script>
 </body>
 </html>

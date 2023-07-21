@@ -95,6 +95,8 @@
                 </div>
             </div>
 
+
+
             <div class="col-11" style="overflow-x:scroll;overflow-x:visible;width: 100%;">
                 <div class="card shadow-0 border" id="faq" style="border-style:none !important;">
                     <ul class="list-group list-group-light" style="list-style-type: none;">
@@ -109,7 +111,7 @@
                                     {{data.first_name}}
                                 </a>
                                 {{data.comment_body}}
-                                <span class="d-block" style="font-size:12px;align:right;margin-left: 41px;">{{data.created_at}}</span>
+                                <span class="d-block" style="font-size:12px;align:right;margin-left: 41px;">{{data.date_joined}}</span>
                             </p>
 
                         </li>
@@ -121,6 +123,8 @@
 
                 </div>
             </div>
+
+
 
 
         </div>
@@ -139,8 +143,11 @@
                 </div>
             </div>
         </div>
-            <button class="btn btn-primary shadow-0 mb-5" type="submit" name="submit" id="submit">comment</button>
+            <button class="btn btn-primary shadow-0 mb-5" type="submit" name="myComment" id="{{items.current_post_id}}">comment</button>
         </form>
+
+
+
 
     </div>
 

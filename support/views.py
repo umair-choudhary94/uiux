@@ -23,11 +23,15 @@ def customer_support(request):
     customer_support = CustormerSupport.objects.filter(id = user.id)
     profile = Profile.objects.filter(id = user.id).first()
     post = Post.objects.filter(user_id = user.id)
-    context = {'user':user, 'profile': profile,'post':post,'customer_support':customer_support}
+    notification_count = Notifications.objects.filter(is_read=False, user_id = user.id).count()
+    context = {'user':user, 'profile': profile,'post':post,'customer_support':customer_support,'profilepic': profile.profilepic,'notification_count': notification_count}
     return render(request,"customersupport.html", context)
 @login_required(login_url='/login')
 def terms_condition(request):
-    return render(request,"terms.html")
+    profile = Profile.objects.filter(id = request.user.id).first()
+    notification_count = Notifications.objects.filter(is_read=False, user_id = request.user.id).count()
+    context = {'profilepic': profile.profilepic,'notification_count': notification_count}
+    return render(request,"terms.html",context)
 @login_required(login_url='/login')
 def block_user(request, user_id):
     id = request.user.id
@@ -58,7 +62,9 @@ def block_user(request, user_id):
             blocked_users.append(row_dict)
         context = {'user_id':id,'blocked_users':blocked_users}
         return render(request,"blockeduser.html",context)
-    context = {'user_id':id,'blocked_users':blocked_users}
+    profile = Profile.objects.filter(id = request.user.id).first()
+    notification_count = Notifications.objects.filter(is_read=False, user_id = request.user.id).count()
+    context = {'user_id':id,'blocked_users':blocked_users,'profilepic': profile.profilepic,'notification_count': notification_count}
     return render(request,"blockeduser.html",context)
 
 @login_required(login_url='/login')
@@ -66,6 +72,9 @@ def blocked_user(request):
     id = request.user.id
     blocked_users = []
     user = SubscribeBlockUser.objects.filter(user_id=id).first()
+    profile = Profile.objects.filter(id = request.user.id).first()
+    notification_count = Notifications.objects.filter(is_read=False, user_id = id).count()
+
     if user:
         cursor = connection.cursor()
         query = "SELECT c.id, c.first_name, c.username, c.date_joined, d.profilepic "\
@@ -76,9 +85,9 @@ def blocked_user(request):
         for row in cursor.fetchall():
             row_dict = dict(zip(col_names, row))
             blocked_users.append(row_dict)
-        context = {'user_id':id,'blocked_users':blocked_users}
+        context = {'user_id':id,'blocked_users':blocked_users,'profilepic': profile.profilepic,'notification_count': notification_count}
         return render(request,"blockeduser.html",context)
-    context = {'user_id': id, 'blocked_users': blocked_users}
+    context = {'user_id': id, 'blocked_users': blocked_users,'profilepic': profile.profilepic,'notification_count': notification_count}
     return render(request, "blockeduser.html", context)
 
 
@@ -100,5 +109,7 @@ def unblocked_user(request, user_id):
     for row in cursor.fetchall():
         row_dict = dict(zip(col_names, row))
         blocked_users.append(row_dict)
-    context = {'user_id': id, 'blocked_users': blocked_users}
+    profile = Profile.objects.filter(id = request.user.id).first()
+    notification_count = Notifications.objects.filter(is_read=False, user_id = request.user.id).count()
+    context = {'user_id': id, 'blocked_users': blocked_users,'profilepic': profile.profilepic,'notification_count': notification_count}
     return render(request,"blockeduser.html",context)

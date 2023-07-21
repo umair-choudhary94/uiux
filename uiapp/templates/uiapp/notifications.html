@@ -11,25 +11,25 @@
         </div>
     </div>
 
-    
+    {% for items in notifications %}
     <div class="row notification-body">
         <div class="col-6">
             <div class="card noti-card shadow-0 ">
                 <div class="row">
                     <div class="col-md-3 col-2">
                         <div class="noti-img mt-5">
-                            <img src="https://source.unsplash.com/user/erondu/120x105" alt="user_profile">
+                            <img src="/media/{{items.profilepic}}" alt="user_profile">
                         </div>
                     </div>
                     <div class="col-md-9 col-10">
                         <div class="card-body">
-                            <h5 class="card-title"> BrownSuger</h5>
+                            <h5 class="card-title"> {{items.first_name}}</h5>
                             <p class="card-text">
-                              @BrownSuger_ko
+                              @{{items.username}}
                             </p>
-                            <p class="i-text">Hey,this is a message!</p>
+                            <p style="cursor: pointer;" class="myNotification" id="{{items.notification_id}}">{{items.notification_body}}</p>
                             <p >
-                              <small class="text-muted">2 days before</small>
+                              <small class="text-muted">{{items.created_at}}</small>
                             </p>
                         </div>
                     </div>
@@ -38,84 +38,8 @@
         </div>
     </div>
     <hr>
-    <div class="row notification-body">
-        <div class="col-6">
-            <div class="card noti-card shadow-0 ">
-                <div class="row">
-                    <div class="col-md-3 col-2">
-                        <div class="noti-img mt-5">
-                            <img src="https://source.unsplash.com/user/erondu/120x105" alt="user_profile">
-                        </div>
-                    </div>
-                    <div class="col-md-9 col-10">
-                        <div class="card-body">
-                            <h5 class="card-title"> BrownSuger</h5>
-                            <p class="card-text">
-                              @BrownSuger_ko
-                            </p>
-                            <p class="i-text">Hey,this is a message!</p>
-                            <p >
-                              <small class="text-muted">2 days before</small>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <hr>
-    <div class="row notification-body">
-        <div class="col-6">
-            <div class="card noti-card shadow-0 ">
-                <div class="row">
-                    <div class="col-md-3 col-2">
-                        <div class="noti-img mt-5">
-                            <img src="https://source.unsplash.com/user/erondu/120x105" alt="user_profile">
-                        </div>
-                    </div>
-                    <div class="col-md-9 col-10">
-                        <div class="card-body">
-                            <h5 class="card-title"> BrownSuger</h5>
-                            <p class="card-text">
-                              @BrownSuger_ko
-                            </p>
-                            <p class="i-text">Hey,this is a message!</p>
-                            <p >
-                              <small class="text-muted">2 days before</small>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <hr>
-    <div class="row notification-body">
-        <div class="col-6">
-            <div class="card noti-card shadow-0 ">
-                <div class="row">
-                    <div class="col-md-3 col-2">
-                        <div class="noti-img mt-5">
-                            <img src="https://source.unsplash.com/user/erondu/120x105" alt="user_profile">
-                        </div>
-                    </div>
-                    <div class="col-md-9 col-10">
-                        <div class="card-body">
-                            <h5 class="card-title"> BrownSuger</h5>
-                            <p class="card-text">
-                              @BrownSuger_ko
-                            </p>
-                            <p class="i-text">Hey,this is a message!</p>
-                            <p >
-                              <small class="text-muted">2 days before</small>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <hr>
+    {% endfor %}
+
     
 </div>  
 

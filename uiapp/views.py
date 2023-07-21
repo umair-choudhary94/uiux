@@ -29,18 +29,19 @@ def index(request):
     user = request.user.id
     comments = []
     cm_cursor = connection.cursor()
-    cm_query = "SELECT u.id, u.first_name, u.username, u.date_joined, pro.profilepic, po.id AS post_id, po.description, po.post_picture,po.created_at," \
+    cm_query = "SELECT u.id, u.first_name, u.username, u.date_joined,pro.profilepic," \
                "cm.comment_body, cm.post, cm.user " \
                "FROM user_user u " \
-               "FULL JOIN user_profile pro ON u.id = pro.user_id " \
-               "FULL JOIN uiapp_post po ON pro.user_id = po.user_id FULL JOIN uiapp_comments cm ON po.user_id = cm.user " \
-               "ORDER BY cm.id;"
+               "FULL JOIN user_profile pro ON u.id = pro.user_id "\
+               "RIGHT JOIN uiapp_comments cm ON u.id = cm.user;"
     cm_cursor.execute(cm_query)
     cm_col_names = [col[0] for col in cm_cursor.description]
     for row in cm_cursor.fetchall():
         row_dict = dict(zip(cm_col_names, row))
         comments.append(row_dict)
-    context = {'user_id': user, 'post': post, "comments": comments}
+    profilepic = Profile.objects.filter(id=user).first()
+    notification_count = Notifications.objects.filter(is_read = False, user_id = user).count()
+    context = {'user_id': user, 'post': post, "comments": comments, 'profilepic': profilepic.profilepic,'notification_count':notification_count}
     return render(request,"uiapp/home.html",context)
 
 @login_required(login_url='/login')
@@ -68,14 +69,15 @@ def new_post(request):
         for row in cursor.fetchall():
             row_dict = dict(zip(col_names, row))
             post.append(row_dict)
-        context = {'user_id': user, 'post': post}
+        profilepic = Profile.objects.filter(id=user.id).first()
+        notification_count = Notifications.objects.filter(is_read=False, user_id = user.id).count()
+        context = {'user_id': user, 'post': post, 'profilepic': profilepic.profilepic,'notification_count':notification_count}
         return render(request,"uiapp/home.html",context)
     return render(request,"uiapp/newpost.html")
 
 @login_required(login_url='/login')
 def isbookmark(request):
     current_post_id = request.POST.get('post_id')
-    print(current_post_id)
     id = request.user.id
     post = LikeBookmarkPost.objects.filter(post_id=current_post_id, user_id=id).first()
     if post:
@@ -85,6 +87,11 @@ def isbookmark(request):
         else:
             post.is_bookmark = True
             post.save()
+            notificationModel = Notifications()
+            notificationModel.notification_body = str(request.user.username) + "has liked your post."
+            notificationModel.user_id = id
+            notificationModel.post_id = current_post_id
+            notificationModel.save()
     else:
         postModel = LikeBookmarkPost()
         postModel.post_id = current_post_id
@@ -92,6 +99,7 @@ def isbookmark(request):
         postModel.is_bookmark = True
         postModel.is_like = False
         postModel.save()
+
     post = []
     cursor = connection.cursor()
 
@@ -109,7 +117,9 @@ def isbookmark(request):
         row_dict = dict(zip(col_names, row))
         post.append(row_dict)
     user = request.user.id
-    context = {'user_id':user,'post':post}
+    profilepic = Profile.objects.filter(id=user).first()
+    notification_count = Notifications.objects.filter(is_read=False, user_id = user).count()
+    context = {'user_id':user,'post':post, 'profilepic': profilepic.profilepic,'notification_count': notification_count}
     return render(request, 'uiapp/home.html', context)
 
 @login_required(login_url='/login')
@@ -125,6 +135,11 @@ def islike(request):
         else:
             post.is_like = True
             post.save()
+            notificationModel = Notifications()
+            notificationModel.notification_body = str(request.user.username) + "has liked your post."
+            notificationModel.user_id = id
+            notificationModel.post_id = current_post_id
+            notificationModel.save()
     else:
         postModel = LikeBookmarkPost()
         postModel.post_id = current_post_id
@@ -132,10 +147,16 @@ def islike(request):
         postModel.is_bookmark = False
         postModel.is_like = True
         postModel.save()
+        notificationModel = Notifications()
+        notificationModel.notification_body = str(request.user.username) + "has liked your post."
+        notificationModel.user_id = id
+        notificationModel.post_id = current_post_id
+        notificationModel.save()
     profile = Profile.objects.filter(user_id=id)
     user = request.user
     post = Post.objects.filter(user_id=request.user.id)
-    context = {'user': user, 'post': post, 'profile': profile}
+    notification_count = Notifications.objects.filter(is_read=False, user_id = user.id).count()
+    context = {'user': user, 'post': post, 'profile': profile, 'profilepic':profile.profilepic,'notification_count': notification_count}
     return render(request, 'uiapp/home.html', context)
 
 @login_required(login_url='/login')
@@ -157,7 +178,9 @@ def bookmarks(request):
         row_dict = dict(zip(col_names, row))
         post.append(row_dict)
     user_id = request.user.id
-    context = {'user':user, 'profile': profile,'post':post, "sex": sex, 'user_id':user_id}
+    profilepic = Profile.objects.filter(id=user_id).first()
+    notification_count = Notifications.objects.filter(is_read=False, user_id = user.id).count()
+    context = {'user':user, 'profile': profile,'post':post, "sex": sex, 'user_id':user_id, 'profilepic': profilepic.profilepic,'notification_count': notification_count}
     return render(request,"uiapp/bookmarks.html",context)
 @login_required(login_url='/login')
 def likedpost(request):
@@ -179,11 +202,14 @@ def likedpost(request):
     for row in cursor.fetchall():
         row_dict = dict(zip(col_names, row))
         liked_posts.append(row_dict)
-    context = {'user':user, 'profile': profile,'liked_posts':liked_posts, "sex": sex, 'user_id':user.id}
+    profilepic = Profile.objects.filter(id=user.id).first()
+    notification_count = Notifications.objects.filter(is_read=False, user_id = user.id).count()
+    context = {'user':user, 'profile': profile,'liked_posts':liked_posts, "sex": sex, 'user_id':user.id, 'profilepic': profilepic.profilepic,'notification_count': notification_count}
     return render(request,"uiapp/likedpost.html", context)
 
 @login_required(login_url='/login')
 def comments(request):
+    current_post_id = request.POST.get('post_id')
     if request.method == 'POST':
         data = request.POST
         commentModel = Comments()
@@ -191,6 +217,11 @@ def comments(request):
         commentModel.user = request.user.id
         commentModel.post = data.get('post_id')
         commentModel.save()
+        notificationModel = Notifications()
+        notificationModel.notification_body = str(request.user.username) + "has commented on your post."
+        notificationModel.user_id = request.user.id
+        notificationModel.post_id = current_post_id
+        notificationModel.save()
         sex = SEX_CHOICES
         post = []
         cursor = connection.cursor()
@@ -198,10 +229,10 @@ def comments(request):
         query = "SELECT u.id, u.first_name, u.username, u.date_joined, pro.profilepic, po.id AS current_post_id, po.description, po.post_picture,po.created_at," \
                 "lb.is_bookmark, lb.is_like, lb.post_id, po.user_id " \
                 "FROM user_user u " \
-                "FULL JOIN user_profile pro ON u.id = pro.user_id " \
-                "FULL JOIN user_subscribeblockuser sb ON pro.user_id = sb.user_id " \
-                "FULL JOIN uiapp_post po ON pro.user_id = po.user_id " \
-                "FULL JOIN uiapp_likebookmarkpost lb ON po.id = lb.post_id " \
+                "INNER JOIN user_profile pro ON u.id = pro.user_id " \
+                "INNER JOIN user_subscribeblockuser sb ON pro.user_id = sb.user_id " \
+                "INNER JOIN uiapp_post po ON pro.user_id = po.user_id " \
+                "INNER JOIN uiapp_likebookmarkpost lb ON po.id = lb.post_id " \
                 "ORDER BY po.id;"
         cursor.execute(query)
         col_names = [col[0] for col in cursor.description]
@@ -212,22 +243,73 @@ def comments(request):
 
         comments = []
         cm_cursor = connection.cursor()
-        cm_query = "SELECT u.id, u.first_name, u.username, u.date_joined, pro.profilepic, po.id AS current_post_id, po.description, po.post_picture,po.created_at," \
-                    "cm.comment_body " \
-                    "FROM user_user u " \
-                    "FULL JOIN user_profile pro ON u.id = pro.user_id " \
-                    "FULL JOIN uiapp_post po ON pro.user_id = po.user_id FULL JOIN uiapp_comments cm ON po.id = cm.post " \
-                    "ORDER BY po.id;"
+        cm_query = "SELECT u.id, u.first_name, u.username, u.date_joined,pro.profilepic," \
+                   "cm.comment_body, cm.post, cm.user " \
+                   "FROM user_user u " \
+                   "FULL JOIN user_profile pro ON u.id = pro.user_id " \
+                   "RIGHT JOIN uiapp_comments cm ON u.id = cm.user;"
         cm_cursor.execute(cm_query)
         cm_col_names = [col[0] for col in cm_cursor.description]
         for row in cm_cursor.fetchall():
             row_dict = dict(zip(cm_col_names, row))
             comments.append(row_dict)
-        context = {'user_id': user_id,'post': post, "comments": comments}
+        profilepic = Profile.objects.filter(id=user_id).first()
+        notification_count = Notifications.objects.filter(is_read=False, user_id = user_id).count()
+        context = {'user_id': user_id,'post': post, "comments": comments,'profilepic': profilepic.profilepic, 'notification_count': notification_count}
         return render(request,"uiapp/home.html",context)
 def notifications(request):
-    return render(request,"uiapp/notifications.html")
+    sex = SEX_CHOICES
+    user = User.objects.filter(id=request.user.id).first()
+    profile = Profile.objects.filter(id = user.id).first()
+    notifications = []
+    cursor = connection.cursor()
 
+    query = "SELECT u.id, u.first_name, u.username, u.date_joined, pro.profilepic," \
+            "nt.notification_body,nt.id AS notification_id, nt.user_id, nt.post_id " \
+            "FROM user_user u " \
+            "FULL JOIN user_profile pro ON u.id = pro.user_id " \
+            "RIGHT JOIN uiapp_notifications nt ON u.id = nt.user_id WHERE nt.is_read ='0' AND u.id = " + str(user.id)
+
+    cursor.execute(query)
+    col_names = [col[0] for col in cursor.description]
+    for row in cursor.fetchall():
+        row_dict = dict(zip(col_names, row))
+        notifications.append(row_dict)
+    profilepic = Profile.objects.filter(id=user.id).first()
+    notification_count = Notifications.objects.filter(is_read=False, user_id = user.id).count()
+    context = {'user':user, 'profile': profile,'notifications':notifications, "sex": sex, 'user_id':user.id, 'profilepic': profilepic.profilepic,'notification_count': notification_count}
+    return render(request,"uiapp/notifications.html",context)
+
+def read_notification(request):
+    if request.method == 'POST':
+        id =  request.POST.get('notification_id')
+        notifcation = Notifications.objects.filter(id=id).first()
+        if notifcation is not None:
+            notifcation.is_read = True
+            notifcation.save()
+        sex = SEX_CHOICES
+        user = User.objects.filter(id=request.user.id).first()
+        profile = Profile.objects.filter(id=user.id).first()
+        notifications = []
+        cursor = connection.cursor()
+
+        query = "SELECT u.id, u.first_name, u.username, u.date_joined, pro.profilepic," \
+                "nt.notification_body,nt.id AS notification_id, nt.user_id, nt.post_id " \
+                "FROM user_user u " \
+                "FULL JOIN user_profile pro ON u.id = pro.user_id " \
+                "RIGHT JOIN uiapp_notifications nt ON u.id = nt.user_id WHERE nt.is_read ='0' AND u.id = " + str(
+            user.id)
+
+        cursor.execute(query)
+        col_names = [col[0] for col in cursor.description]
+        for row in cursor.fetchall():
+            row_dict = dict(zip(col_names, row))
+            notifications.append(row_dict)
+        profilepic = Profile.objects.filter(id=user.id).first()
+        notification_count = Notifications.objects.filter(is_read=False, user_id=user.id).count()
+        context = {'user': user, 'profile': profile, 'notifications': notifications, "sex": sex, 'user_id': user.id,
+                   'profilepic': profilepic.profilepic, 'notification_count': notification_count}
+        return render(request, "uiapp/notifications.html", context)
 
 def signup(request):
     context = {}

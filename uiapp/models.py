@@ -24,3 +24,12 @@ class Comments(models.Model):
     user = models.IntegerField()
     post = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class Notifications(models.Model):
+    id = models.AutoField(primary_key = True)
+    notification_body = models.TextField()
+    user_id = models.IntegerField()
+    post_id = models.IntegerField()
+    is_read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
