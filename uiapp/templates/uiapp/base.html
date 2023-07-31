@@ -273,8 +273,11 @@
                         <i class="far fa-user me-2"></i>Profile
                       </a>
                     </li>
-                    <li><i class="fa-solid fa-building-columns me-2"></i>Bank Details</li>
-                    
+                    <li>
+
+                      <a href="{% url 'accountdetail' %}" class="nav-link">
+                      <i class="fa-solid fa-building-columns me-2"></i>Bank Details</li>
+                    </a>
                   </ul>
                 </li>
                 <hr>
@@ -410,6 +413,7 @@
     src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.js"
     ></script>
     <script src="{% static 'js/chat.js' %}"></script>
+  <script src="https://js.stripe.com/v3/"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script type="text/javascript">
 

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import *
 from user.models import *
+from payments.models import *
 from django.db import connection
 # Create your views here.
 
@@ -315,6 +316,13 @@ def signup(request):
     context = {}
     return render(request, 'signup.html', context)
 
+def account_detail(request):
+    profilepic = Profile.objects.filter(id=request.user.id).first()
+    notification_count = Notifications.objects.filter(is_read=False, user_id=request.user.id).count()
+    accountDetail = PaymentInformation.objects.filter(user_id=request.user.id).first()
+    context = {'user': request.user, 'user_id': request.user.id, 'accountDetail': accountDetail,
+               'profilepic': profilepic.profilepic, 'notification_count': notification_count}
+    return render(request, 'uiapp/accountdetail.html', context)
 def myprofile(request):
     return render(request,"uiapp/myprofile.html")
 

@@ -11,6 +11,7 @@ urlpatterns = [
     path("notifications/",views.notifications, name="notifications"),
     path("readnotification/",views.read_notification, name="readnotification"),
     path("profile/", views.myprofile),
+    path("accountdetail/", views.account_detail, name= "accountdetail"),
     path("edit-profile/", views.edit_profile),
     path('comment/', views.comments, name='comment'),
     path("chat/", views.chat),
