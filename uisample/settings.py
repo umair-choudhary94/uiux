@@ -111,11 +111,11 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'uiuxdb',
+        'NAME': 'railway',
         'USER': 'postgres',
-        'PASSWORD': 'abc123**',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'PASSWORD': '0e169lGY17olfiFF60nT',
+        'HOST': 'containers-us-west-182.railway.app',
+        'PORT': '5818',
     }
 }
 # DATABASES = {
