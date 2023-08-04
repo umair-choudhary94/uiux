@@ -14,12 +14,10 @@ def index(request):
     post = []
     cursor = connection.cursor()
 
-    query = "SELECT u.id, u.first_name, u.username, u.date_joined,u.is_creator, pro.profilepic, po.id AS current_post_id, po.description, po.post_picture,po.created_at," \
-            "lb.is_bookmark, lk.is_like, lb.post_id, lb.user_id " \
+    query = "SELECT u.id, u.first_name, u.username, u.date_joined,u.is_creator, pro.profilepic, po.id AS current_post_id, po.description, po.post_picture,po.created_at " \
             "FROM user_user u " \
             "FULL JOIN user_profile pro ON u.id = pro.user_id " \
             "FULL JOIN uiapp_post po ON pro.user_id = po.user_id " \
-            "LEFT JOIN uiapp_bookmarkpost lb ON po.id = lb.post_id FULL JOIN uiapp_likepost lk ON po.id = lk.post_id " \
             "ORDER BY po.id;"
     cursor.execute(query)
     col_names = [col[0] for col in cursor.description]
@@ -39,9 +37,36 @@ def index(request):
     for row in cm_cursor.fetchall():
         row_dict = dict(zip(cm_col_names, row))
         comments.append(row_dict)
+
+    bookmarks = []
+    cm_cursor = connection.cursor()
+    cm_query = "SELECT u.id, u.first_name, u.username, u.date_joined,po.id AS current_post_id, po.description, po.post_picture,po.created_at, " \
+               "lb.is_bookmark, lb.post_id, lb.user_id " \
+               "FROM user_user u " \
+               "FULL JOIN uiapp_post po ON u.id = po.user_id " \
+               "INNER JOIN uiapp_bookmarkpost lb ON po.id = lb.post_id WHERE lb.user_id ="+str(request.user.id)
+    cm_cursor.execute(cm_query)
+    cm_col_names = [col[0] for col in cm_cursor.description]
+    for row in cm_cursor.fetchall():
+        row_dict = dict(zip(cm_col_names, row))
+        bookmarks.append(row_dict)
+
+
+    likes = []
+    cm_cursor = connection.cursor()
+    cm_query = "SELECT u.id, u.first_name, u.username, u.date_joined,po.id AS current_post_id, po.description, po.post_picture,po.created_at, " \
+               "lk.is_like, lk.post_id, lk.user_id " \
+               "FROM user_user u " \
+               "FULL JOIN uiapp_post po ON u.id = po.user_id " \
+               "INNER JOIN uiapp_likepost lk ON po.id = lk.post_id WHERE lk.user_id ="+str(request.user.id)
+    cm_cursor.execute(cm_query)
+    cm_col_names = [col[0] for col in cm_cursor.description]
+    for row in cm_cursor.fetchall():
+        row_dict = dict(zip(cm_col_names, row))
+        likes.append(row_dict)
     profilepic = Profile.objects.filter(id=user.id).first()
     notification_count = Notifications.objects.filter(is_read = False, user_id = user.id).count()
-    context = {'user_id': user.id,'user':user, 'post': post, "comments": comments, 'profilepic': profilepic.profilepic,'notification_count':notification_count}
+    context = {'user_id': user.id,'user':user, 'post': post, "comments": comments,"bookmarks": bookmarks,"likes": likes, 'profilepic': profilepic.profilepic,'notification_count':notification_count}
     return render(request,"uiapp/home.html",context)
 
 @login_required(login_url='/login')

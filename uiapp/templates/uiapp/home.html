@@ -62,7 +62,8 @@
             <div class="post-footer">
                 <div class="row">
                     <div class="col-6">
-                       {% if items.is_like and items.user_id == user_id  %}
+                        {% for data in likes %}
+                        {% if items.current_post_id == data.post_id and data.user_id == user_id  %}
                         <span style="cursor: pointer;" class="myLike" id="{{items.current_post_id}}">
                         <i class="fa-solid fs-4 me-2 text-danger fa-heart" ></i>
                         </span>
@@ -72,6 +73,7 @@
 
                         </span>
                         {% endif %}
+                        {% endfor %}
 
                         <a href="#">
                         <i class="fa-regular me-2 fa-comment fs-4"></i>
@@ -85,12 +87,13 @@
                     <div class="col-6 text-center">
                        <span class="i-text">5 Likes</span>
                         <span class="i-text">4 Comments</span>
-
-                        {% if items.is_bookmark and items.user_id == user_id %}
+                       {% for data in bookmarks %}
+                        {% if items.current_post_id == data.post_id and data.user_id == user_id %}
                         <span style="cursor: pointer;" class="myBookmark" id="{{items.current_post_id}}"><i class="fa-solid fa-bookmark" style="font-size:20px"></i></span>
                         {% else %}
                         <span style="cursor: pointer;" class="myBookmark" id="{{items.current_post_id}}"><i class="fa fa-bookmark-o" style="font-size:20px"></i></span>
                         {% endif %}
+                        {% endfor %}
 
                     </div>
                 </div>

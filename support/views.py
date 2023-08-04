@@ -36,7 +36,7 @@ def terms_condition(request):
 def block_user(request, user_id):
     id = request.user.id
     blocked_users = []
-    user = SubscribeBlockUser.objects.filter(blocked_user_id=user_id).first()
+    user = BlockUser.objects.filter(blocked_user_id=user_id).first()
     if user:
         if user.is_blocked == True:
             user.is_blocked = False
@@ -45,7 +45,7 @@ def block_user(request, user_id):
             user.is_blocked = True
             user.save()
     else:
-        userModel = SubscribeBlockUser()
+        userModel = BlockUser()
         userModel.user_id = id
         userModel.is_subscribed = False
         userModel.is_blocked = True
@@ -53,7 +53,7 @@ def block_user(request, user_id):
         userModel.save()
         cursor = connection.cursor()
         query = "SELECT c.id, c.first_name, c.username, c.date_joined, d.profilepic "\
-                "FROM user_user c LEFT JOIN user_profile d ON c.id = d.user_id LEFT JOIN user_subscribeblockuser s ON c.id = s.user_id" \
+                "FROM user_user c LEFT JOIN user_profile d ON c.id = d.user_id LEFT JOIN user_blockuser s ON c.id = s.user_id" \
                 " WHERE s.is_blocked=True AND c.id = " + str(id)
         cursor.execute(query)
         col_names = [col[0] for col in cursor.description]
@@ -71,14 +71,14 @@ def block_user(request, user_id):
 def blocked_user(request):
     id = request.user.id
     blocked_users = []
-    user = SubscribeBlockUser.objects.filter(user_id=id).first()
+    user = BlockUser.objects.filter(user_id=id).first()
     profile = Profile.objects.filter(id = request.user.id).first()
     notification_count = Notifications.objects.filter(is_read=False, user_id = id).count()
 
     if user:
         cursor = connection.cursor()
         query = "SELECT c.id, c.first_name, c.username, c.date_joined, d.profilepic "\
-                "FROM user_user c LEFT JOIN user_profile d ON c.id = d.user_id LEFT JOIN user_subscribeblockuser s ON c.id = s.user_id " \
+                "FROM user_user c LEFT JOIN user_profile d ON c.id = d.user_id LEFT JOIN user_blockuser s ON c.id = s.user_id " \
                 "WHERE s.is_blocked= True AND s.user_id = "+ str(id);
         cursor.execute(query)
         col_names = [col[0] for col in cursor.description]
@@ -93,7 +93,7 @@ def blocked_user(request):
 
 @login_required(login_url='/login')
 def unblocked_user(request, user_id):
-    user = SubscribeBlockUser.objects.filter(user_id=user_id,is_blocked = True).first()
+    user = BlockUser.objects.filter(user_id=user_id,is_blocked = True).first()
     if user:
         if user.is_blocked == True:
             user.is_blocked = False
@@ -102,7 +102,7 @@ def unblocked_user(request, user_id):
     blocked_users = []
     cursor = connection.cursor()
     query = "SELECT c.id, c.first_name, c.username, c.date_joined, d.profilepic " \
-            "FROM user_user c LEFT JOIN user_profile d ON c.id = d.user_id LEFT JOIN user_subscribeblockuser s ON c.id = s.user_id " \
+            "FROM user_user c LEFT JOIN user_profile d ON c.id = d.user_id LEFT JOIN user_blockuser s ON c.id = s.user_id " \
             "WHERE s.is_blocked= True AND s.user_id = " + str(id);
     cursor.execute(query)
     col_names = [col[0] for col in cursor.description]
