@@ -16,8 +16,8 @@ urlpatterns = [
     # path("create-checkout-session/<pk>/", CreateCheckoutSessionView.as_view(), name="create-checkout-session"),
     # path("create-payment-intent/<pk>/", CreateCheckoutSessionView.as_view(), name="create-payment-intent"),
     path("landingpage/", views.PaymentLandingPageView, name="landingpage"),
-    path("checkout/", views.CreateCheckoutSessionView, name="checkout"),
+    path("checkout/<int:creator_id>/", views.CreateCheckoutSessionView, name="checkout"),
     path("cancel/", views.CancelView, name="cancel"),
-    path("success/", views.SuccessView, name="success"),
-
+    path("success/<int:creator_id>/", views.SuccessView, name="success"),
+    path('services/', views.ServicesPageView, name='services'),
 ]

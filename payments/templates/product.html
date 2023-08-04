@@ -1,0 +1,54 @@
+
+{% extends 'uiapp/base.html' %}
+{% block content %}
+<div class="card-deck">
+  <div class="card">
+      <h1>Add Service Information</h1>
+    <div class="card-body">
+      <div class="card-text">
+    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+        <div class="row mt-4 ">
+        <div class="col-4 name" >
+                <p >Service Name</p>
+                <div class="input-group rounded">
+                    <input type="search" id="product_name" name="product_name" class="form-control search rounded py-4" placeholder="product name"
+                           style="border: 1px solid rgb(27, 27, 27);" value="product name" />
+                </div>
+        </div>
+
+        <div class="col-4 name">
+                <p>Service Description</p>
+                <div class="input-group rounded">
+                    <input type="search" id="product_desc" name="product_desc" class="form-control search rounded py-4" placeholder="product name" style="border: 1px solid rgb(27, 27, 27);"
+                           value="product name"/>
+                </div>
+        </div>
+        </div>
+        <div class="row mt-4 ">
+            <div class="col-4 name">
+                <p>Service Price</p>
+                <div class="input-group rounded">
+                    <input type="search" id="product_price" name="product_price" class="form-control search rounded py-4" placeholder="service price" style="border: 1px solid rgb(27, 27, 27);"
+                           value="service name"/>
+                </div>
+        </div>
+
+            <div class="col-4 name">
+                <p>Currency</p>
+                <div class="input-group rounded">
+                    <input type="search" id="currency" name="currency" class="form-control search rounded py-4" placeholder="currency" style="border: 1px solid rgb(27, 27, 27);"
+                           value="currency"/>
+                </div>
+        </div>
+
+        </div>
+    <button type="submit"  class="btn btn-primary shadow-0 mb-5" id="submit" name="submit">Submit</button>
+    <a href="#"  class="btn btn-primary shadow-0 mb-5" id="butonn">Cancel</a>
+
+    </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %} 

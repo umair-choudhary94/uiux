@@ -14,35 +14,34 @@ def index(request):
     post = []
     cursor = connection.cursor()
 
-    query = "SELECT u.id, u.first_name, u.username, u.date_joined, pro.profilepic, po.id AS current_post_id, po.description, po.post_picture,po.created_at," \
-            "lb.is_bookmark, lb.is_like, lb.post_id, lb.user_id " \
+    query = "SELECT u.id, u.first_name, u.username, u.date_joined,u.is_creator, pro.profilepic, po.id AS current_post_id, po.description, po.post_picture,po.created_at," \
+            "lb.is_bookmark, lk.is_like, lb.post_id, lb.user_id " \
             "FROM user_user u " \
             "FULL JOIN user_profile pro ON u.id = pro.user_id " \
-            "FULL JOIN user_subscribeblockuser sb ON pro.user_id = sb.user_id " \
             "FULL JOIN uiapp_post po ON pro.user_id = po.user_id " \
-            "FULL JOIN uiapp_likebookmarkpost lb ON po.id = lb.post_id "\
+            "LEFT JOIN uiapp_bookmarkpost lb ON po.id = lb.post_id FULL JOIN uiapp_likepost lk ON po.id = lk.post_id " \
             "ORDER BY po.id;"
     cursor.execute(query)
     col_names = [col[0] for col in cursor.description]
     for row in cursor.fetchall():
         row_dict = dict(zip(col_names, row))
         post.append(row_dict)
-    user = request.user.id
+    user = request.user
     comments = []
     cm_cursor = connection.cursor()
     cm_query = "SELECT u.id, u.first_name, u.username, u.date_joined,pro.profilepic," \
                "cm.comment_body, cm.post, cm.user " \
                "FROM user_user u " \
-               "FULL JOIN user_profile pro ON u.id = pro.user_id "\
+               "FULL JOIN user_profile pro ON u.id = pro.user_id " \
                "RIGHT JOIN uiapp_comments cm ON u.id = cm.user;"
     cm_cursor.execute(cm_query)
     cm_col_names = [col[0] for col in cm_cursor.description]
     for row in cm_cursor.fetchall():
         row_dict = dict(zip(cm_col_names, row))
         comments.append(row_dict)
-    profilepic = Profile.objects.filter(id=user).first()
-    notification_count = Notifications.objects.filter(is_read = False, user_id = user).count()
-    context = {'user_id': user, 'post': post, "comments": comments, 'profilepic': profilepic.profilepic,'notification_count':notification_count}
+    profilepic = Profile.objects.filter(id=user.id).first()
+    notification_count = Notifications.objects.filter(is_read = False, user_id = user.id).count()
+    context = {'user_id': user.id,'user':user, 'post': post, "comments": comments, 'profilepic': profilepic.profilepic,'notification_count':notification_count}
     return render(request,"uiapp/home.html",context)
 
 @login_required(login_url='/login')
@@ -72,7 +71,7 @@ def new_post(request):
             post.append(row_dict)
         profilepic = Profile.objects.filter(id=user.id).first()
         notification_count = Notifications.objects.filter(is_read=False, user_id = user.id).count()
-        context = {'user_id': user, 'post': post, 'profilepic': profilepic.profilepic,'notification_count':notification_count}
+        context = {'user_id': user,'user':request.user, 'post': post, 'profilepic': profilepic.profilepic,'notification_count':notification_count}
         return render(request,"uiapp/home.html",context)
     return render(request,"uiapp/newpost.html")
 
@@ -80,7 +79,7 @@ def new_post(request):
 def isbookmark(request):
     current_post_id = request.POST.get('post_id')
     id = request.user.id
-    post = LikeBookmarkPost.objects.filter(post_id=current_post_id, user_id=id).first()
+    post = BookmarkPost.objects.filter(post_id=current_post_id, user_id=id).first()
     if post:
         if post.is_bookmark is True:
             post.is_bookmark = False
@@ -94,23 +93,21 @@ def isbookmark(request):
             notificationModel.post_id = current_post_id
             notificationModel.save()
     else:
-        postModel = LikeBookmarkPost()
+        postModel = BookmarkPost()
         postModel.post_id = current_post_id
         postModel.user_id = id
         postModel.is_bookmark = True
-        postModel.is_like = False
         postModel.save()
 
     post = []
     cursor = connection.cursor()
 
     query = "SELECT u.id, u.first_name, u.username, u.date_joined, pro.profilepic, po.id AS current_post_id, po.description, po.post_picture,po.created_at," \
-            "lb.is_bookmark, lb.is_like, lb.post_id, lb.user_id " \
+            "lb.is_bookmark, lb.post_id, lb.user_id " \
             "FROM user_user u " \
             "FULL JOIN user_profile pro ON u.id = pro.user_id " \
-            "FULL JOIN user_subscribeblockuser sb ON pro.user_id = sb.user_id " \
             "FULL JOIN uiapp_post po ON pro.user_id = po.user_id " \
-            "FULL JOIN uiapp_likebookmarkpost lb ON po.id = lb.post_id "\
+            "FULL JOIN uiapp_bookmarkpost lb ON po.id = lb.post_id "\
             "ORDER BY po.id;"
     cursor.execute(query)
     col_names = [col[0] for col in cursor.description]
@@ -120,7 +117,7 @@ def isbookmark(request):
     user = request.user.id
     profilepic = Profile.objects.filter(id=user).first()
     notification_count = Notifications.objects.filter(is_read=False, user_id = user).count()
-    context = {'user_id':user,'post':post, 'profilepic': profilepic.profilepic,'notification_count': notification_count}
+    context = {'user_id':user,'user':request.user,'post':post, 'profilepic': profilepic.profilepic,'notification_count': notification_count}
     return render(request, 'uiapp/home.html', context)
 
 @login_required(login_url='/login')
@@ -128,7 +125,7 @@ def islike(request):
     current_post_id = request.POST.get('post_id')
     print(current_post_id)
     id = request.user.id
-    post = LikeBookmarkPost.objects.filter(post_id=current_post_id, user_id=id).first()
+    post = LikePost.objects.filter(post_id=current_post_id, user_id=id).first()
     if post:
         if post.is_like is True:
             post.is_like = False
@@ -142,10 +139,9 @@ def islike(request):
             notificationModel.post_id = current_post_id
             notificationModel.save()
     else:
-        postModel = LikeBookmarkPost()
+        postModel = LikePost()
         postModel.post_id = current_post_id
         postModel.user_id = id
-        postModel.is_bookmark = False
         postModel.is_like = True
         postModel.save()
         notificationModel = Notifications()
@@ -156,8 +152,9 @@ def islike(request):
     profile = Profile.objects.filter(user_id=id)
     user = request.user
     post = Post.objects.filter(user_id=request.user.id)
+    profilepic = Profile.objects.filter(id=user.id).first()
     notification_count = Notifications.objects.filter(is_read=False, user_id = user.id).count()
-    context = {'user': user, 'post': post, 'profile': profile, 'profilepic':profile.profilepic,'notification_count': notification_count}
+    context = {'user': user, 'post': post, 'profile': profile, 'profilepic':profilepic.profilepic,'notification_count': notification_count}
     return render(request, 'uiapp/home.html', context)
 
 @login_required(login_url='/login')
@@ -168,11 +165,11 @@ def bookmarks(request):
     post = []
     cursor = connection.cursor()
     query = "SELECT u.id, u.first_name, u.username, u.date_joined, pro.profilepic,po.id AS current_post_id, po.description, po.post_picture,po.created_at," \
-            "lb.is_bookmark, lb.is_like, lb.post_id, lb.user_id " \
+            "lb.is_bookmark, lb.post_id, lb.user_id " \
             "FROM user_user u " \
             "INNER JOIN user_profile pro ON u.id = pro.user_id " \
             "INNER JOIN uiapp_post po ON pro.user_id = po.user_id " \
-            "INNER JOIN uiapp_likebookmarkpost lb ON po.id = lb.post_id WHERE lb.is_bookmark ='1' AND lb.user_id = " + str(user.id)
+            "INNER JOIN uiapp_bookmarkpost lb ON po.id = lb.post_id WHERE lb.is_bookmark ='1' AND lb.user_id = " + str(user.id)
     cursor.execute(query)
     col_names = [col[0] for col in cursor.description]
     for row in cursor.fetchall():
@@ -192,11 +189,11 @@ def likedpost(request):
     cursor = connection.cursor()
 
     query = "SELECT u.id, u.first_name, u.username, u.date_joined, pro.profilepic,po.id AS current_post_id, po.description, po.post_picture,po.created_at," \
-            "lb.is_bookmark, lb.is_like, lb.post_id, lb.user_id " \
+            "lb.is_like, lb.post_id, lb.user_id " \
             "FROM user_user u " \
             "INNER JOIN user_profile pro ON u.id = pro.user_id " \
             "INNER JOIN uiapp_post po ON pro.user_id = po.user_id " \
-            "INNER JOIN uiapp_likebookmarkpost lb ON po.id = lb.post_id WHERE lb.is_like ='1' AND lb.user_id = " + str(user.id)
+            "INNER JOIN uiapp_likepost lb ON po.id = lb.post_id WHERE lb.is_like ='1' AND lb.user_id = " + str(user.id)
 
     cursor.execute(query)
     col_names = [col[0] for col in cursor.description]
@@ -231,9 +228,8 @@ def comments(request):
                 "lb.is_bookmark, lb.is_like, lb.post_id, po.user_id " \
                 "FROM user_user u " \
                 "INNER JOIN user_profile pro ON u.id = pro.user_id " \
-                "INNER JOIN user_subscribeblockuser sb ON pro.user_id = sb.user_id " \
                 "INNER JOIN uiapp_post po ON pro.user_id = po.user_id " \
-                "INNER JOIN uiapp_likebookmarkpost lb ON po.id = lb.post_id " \
+                "INNER JOIN uiapp_bookmarkpost lb ON po.id = lb.post_id " \
                 "ORDER BY po.id;"
         cursor.execute(query)
         col_names = [col[0] for col in cursor.description]
@@ -256,7 +252,7 @@ def comments(request):
             comments.append(row_dict)
         profilepic = Profile.objects.filter(id=user_id).first()
         notification_count = Notifications.objects.filter(is_read=False, user_id = user_id).count()
-        context = {'user_id': user_id,'post': post, "comments": comments,'profilepic': profilepic.profilepic, 'notification_count': notification_count}
+        context = {'user_id': user_id,'user':request.user,'post': post, "comments": comments,'profilepic': profilepic.profilepic, 'notification_count': notification_count}
         return render(request,"uiapp/home.html",context)
 def notifications(request):
     sex = SEX_CHOICES
@@ -328,5 +324,3 @@ def myprofile(request):
 
 def edit_profile(request):
     return render(request,"uiapp/editprofile.html")
-def chat(request):
-    return render(request,"uiapp/chat.html")

@@ -38,6 +38,81 @@
     <link rel="stylesheet" href="{% static 'css/editprofile.css' %}">
     <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
     <link rel="stylesheet" href="{% static 'css/chat.css' %}">
+
+  <style>
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
+
+/* Button used to open the chat form - fixed at the bottom of the page */
+.open-button {
+  background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 23px;
+  right: 28px;
+  width: 280px;
+}
+
+/* The popup chat - hidden by default */
+.chat-popup {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  right: 15px;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+}
+
+/* Add styles to the form container */
+.form-container {
+  max-width: 300px;
+  padding: 10px;
+  background-color: white;
+}
+
+/* Full-width textarea */
+.form-container textarea {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+  resize: none;
+  min-height: 200px;
+}
+
+/* When the textarea gets focus, do something */
+.form-container textarea:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Set a style for the submit/send button */
+.form-container .btn {
+  background-color: #04AA6D;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:10px;
+  opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: red;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
+}
+</style>
 </head>
 <body>
   <nav class="navbarr" id="navbarr">
@@ -137,6 +212,11 @@
                       </a>
                     </li>
                     <li>
+                      <a href="{% url 'services' %}" class="nav-link">
+                        <i class="fas fa-tag me-2"></i>Services
+                      </a>
+                    </li>
+                    <li>
                       <a href="{% url 'wallet' %}" class="nav-link">
                         <i class="fas fa-wallet me-2"></i>Wallet
                       </a>
@@ -189,7 +269,9 @@
                   </ul>
         </li>
         <hr>
-        <a href="/create-new-post" class=" sub-btn btn mb-2  mt-3 px-5 button">Create a new post</a>
+        {% if user.is_creator == True%}
+        <a href="/create-new-post"  class=" sub-btn btn mb-2  mt-3 px-5 button">Create a new post</a>
+        {% endif %}
     </ul>
 
         
@@ -245,6 +327,11 @@
                     <li>
                       <a href="{% url 'subscription' %}" class="nav-link">
                         <i class="fas fa-tag me-2"></i>Subscriptions
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'services' %}" class="nav-link">
+                        <i class="fas fa-tag me-2"></i>Services
                       </a>
                     </li>
                     <li>
@@ -403,7 +490,34 @@
       </div>
       
 
-    
+<!--    =================================Chat Box====================================-->
+
+  <button class="open-button sub-btn btn  mt-3 px-5 button" onclick="openForm()">Chat</button>
+
+<div class="chat-popup" id="myForm">
+  <form action="/action_page.php" class="form-container">
+    <h1>Chat</h1>
+
+    <label for="msg"><b>Message</b></label>
+    <textarea placeholder="Type message.." name="msg" required></textarea>
+
+    <button type="submit" class="btn">Send</button>
+    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+  </form>
+</div>
+
+<script>
+function openForm() {
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+</script>
+<!--    =================================Chat Box====================================-->
+
+
         <!-- MDB -->
     <script src="https://use.fontawesome.com/47c6d34241.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -432,8 +546,9 @@ $(document).ready(function(){
                  post_id: post_id,
                  csrfmiddlewaretoken: '{{ csrf_token }}' ,
         },
-    success : function(response){
-      console.log("Updated Successfully!");
+    success : function(data){
+               console.log(data);
+                window.location.href=window.location.href;
     },
   error: (error) => {
     console.log(error);
@@ -453,7 +568,8 @@ $(document).ready(function(){
                  csrfmiddlewaretoken: '{{ csrf_token }}' ,
         },
   success: (data) => {
-    console.log("Updated Successfullly!");
+               console.log(data);
+                window.location.href=window.location.href;
   },
   error: (error) => {
     console.log(error);
@@ -474,7 +590,8 @@ $(document).ready(function(){
                  csrfmiddlewaretoken: '{{ csrf_token }}' ,
         },
   success: (data) => {
-    console.log("Updated Successfullly!");
+               console.log(data);
+                window.location.href=window.location.href;
   },
   error: (error) => {
     console.log(error);

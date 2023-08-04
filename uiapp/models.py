@@ -10,14 +10,17 @@ class Post(models.Model):
     user_id = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True,null=True)
 
-class LikeBookmarkPost(models.Model):
+class BookmarkPost(models.Model):
     id = models.AutoField(primary_key = True)
     is_bookmark = models.BooleanField(default=False)
-    is_like = models.BooleanField(default=False)
-    comment = models.TextField()
     post_id = models.IntegerField()
     user_id = models.IntegerField()
 
+class LikePost(models.Model):
+    id = models.AutoField(primary_key = True)
+    is_like = models.BooleanField(default=False)
+    post_id = models.IntegerField()
+    user_id = models.IntegerField()
 class Comments(models.Model):
     id = models.AutoField(primary_key = True)
     comment_body = models.TextField()

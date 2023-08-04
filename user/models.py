@@ -27,10 +27,8 @@ class Profile(models.Model):
 	user_id = models.IntegerField()
 	created_at = models.DateTimeField(auto_now_add=True)
 
-class SubscribeBlockUser(models.Model):
+class BlockUser(models.Model):
 	id = models.AutoField(primary_key = True)
-	is_subscribed = models.BooleanField(default=False)
 	is_blocked = models.BooleanField(default=False)
-	subscriber_id = models.IntegerField(null=True)
 	blocked_user_id = models.IntegerField(null=True)
 	user_id = models.IntegerField()

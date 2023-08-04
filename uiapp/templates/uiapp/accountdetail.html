@@ -10,12 +10,29 @@
             <div
               class="h-auto px-3 py-4 space-y-2 overflow-y-auto text-gray-300 bg-gray-800 dark:bg-gray-800"
             >
-            <div class="h-20 border border-gray-400 ">
               <div class="px-6">
                 <h2 class="text-2xl font-bold text-gray-300 pt-4">Account Settings</h2>
                 <p class="text-gray-300">Manage your account settings</p>
               </div>
-            </div>
+              <div class="px-6">
+                <h2 class="text-2xl font-bold text-gray-300 pt-4"> Name: {{accountDetail.card_owner_name}}</h2>
+              </div>
+              <div class="px-6">
+                <p class="text-2xl font-bold text-gray-300 pt-4"> Email: {{accountDetail.email}}</p>
+                <p class="text-gray-300">Card Information: {{accountDetail.card_information}}</p>
+              </div>
+              <div class="px-6">
+                <p class="text-2xl font-bold text-gray-300 pt-4"> Card Date: {{accountDetail.card_date}}</p>
+                <p class="text-gray-300">Card CVC: {{accountDetail.card_cvc}}</p>
+              </div>
+
+
+              <div class="px-6">
+                <p class="text-2xl font-bold text-gray-300 pt-4"> Country: {{accountDetail.country}}</p>
+                <p class="text-gray-300">Address: {{accountDetail.address}}</p>
+              </div>
+
+
           </div>
           </section>
         </div>
